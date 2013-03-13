@@ -23,14 +23,21 @@
 		classDiagram.addElement(classes[{$name}]);
 		
 		{var $attributes = isset($class['attributes']) ? $class['attributes'] : array()}
-		{foreach $attributes as $attr}
-		// classes[{$name}].addAttribute("#"+{$attr->value}+":string='foo'");
-		classes[{$name}].addAttribute({$attr->value});
+		{foreach $attributes as $aName => $attr}
+		{if is_int($aName)}
+		classes[{$name}].addAttribute({$attr});
+		{else}
+		classes[{$name}].addAttribute({$aName}+{$attr?': '.$attr:''});
+		{/if}
 		{/foreach}
 
 		{var $operations = isset($class['operations']) ? $class['operations'] : array()}
-		{foreach $operations as $op}
-		classes[{$name}].addOperation({$op->value}+"()");
+		{foreach $operations as $oName => $op}
+		{if is_int($oName)}
+		classes[{$name}].addOperation({$op}+"()");
+		{else}
+		classes[{$name}].addOperation({$oName}+"()"+{$op?': '.$op->value:''});
+		{/if}
 		{/foreach}
 
 		{/foreach}

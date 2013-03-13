@@ -26,14 +26,18 @@ classes:
   Book:
     parent: Publication
     attributes:
-      - name(public, string)
-      - isbn(protected, string)
+      +name: string
+      -isbn: string
+      - ~package
+      - '#protected'
     operations:
-      - getISBN(public, string)
-      - setISBN(public, string, [isbn: string])
+      +getISBN: string(string)
+      +setISBN: Book(isbn: string)
+      - blah
   Author:
     attributes:
-      - name()
+      - name
+      - birthDate
 associations:
   - [Book: *, Author: 1]
 EOT;

@@ -2,22 +2,26 @@
 
 namespace Model;
 
-/**
- * classes:
- *   Publication: []
- *   Book:
- *     parent: Publication
- *     attributes:
- *       - name(public, string)
- *       - isbn(protected, string)
- *     operations:
- *       - getISBN(public, string)
- *       - setISBN(public, string, [isbn: string])
- *   Author:
- *     attributes:
- *       - name()
- * associations:
- *   - [Book: *, Author: *]
+/*
+classes:
+  Publication: []
+  Book:
+    parent: Publication
+    attributes:
+      +name: string
+      -isbn: string
+      - ~package
+      - '#protected'
+    operations:
+      +getISBN: string(string)
+      +setISBN: Book(isbn: string)
+      - blah
+  Author:
+    attributes:
+      - name
+      - birthDate
+associations:
+  - [Book: *, Author: 1]
 */
 
 
