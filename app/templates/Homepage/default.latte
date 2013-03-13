@@ -33,10 +33,12 @@
 
 		{var $operations = isset($class['operations']) ? $class['operations'] : array()}
 		{foreach $operations as $oName => $op}
+		{var params=>isset($op->attributes)?$op->attributes:array()}
+		{foreach $params as $key => $value}{var params[$key]=>is_int($key) ? $value : "$key: $value"}{/foreach}
 		{if is_int($oName)}
-		classes[{$name}].addOperation({$op}+"()");
+		classes[{$name}].addOperation({isset($op->value)?$op->value:$op}+"("+{$params|implode:', '}+")");
 		{else}
-		classes[{$name}].addOperation({$oName}+"()"+{$op?': '.$op->value:''});
+		classes[{$name}].addOperation({$oName}+"("+{$params|implode:', '}+")"+{$op?': '.$op->value:''});
 		{/if}
 		{/foreach}
 
