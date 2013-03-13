@@ -38,7 +38,7 @@
 		{if is_int($oName)}
 		classes[{$name}].addOperation({isset($op->value)?$op->value:$op}+"("+{$params|implode:', '}+")");
 		{else}
-		classes[{$name}].addOperation({$oName}+"("+{$params|implode:', '}+")"+{$op?': '.$op->value:''});
+		classes[{$name}].addOperation({$oName}+"("+{$params|implode:', '}+")"+{$op?': '.(isset($op->value)?$op->value:$op):''});
 		{/if}
 		{/foreach}
 

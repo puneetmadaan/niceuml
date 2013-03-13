@@ -31,9 +31,8 @@ classes:
       - ~package
       - '#protected'
     operations:
-      +getISBN: string(string)
+      +getISBN: string
       +setISBN: Book(isbn: string)
-      - blah
   Author:
     attributes:
       - name
