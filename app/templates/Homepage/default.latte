@@ -1,0 +1,67 @@
+{* This is the welcome page, you can delete it *}
+
+{block content}
+<h3>Proof of concept</h3>
+{control diagramForm}
+<div id="canvas">
+
+</div>
+
+{/block}
+
+{block scripts}
+{include #parent}
+	<script src="http://www.uco.es/~in1rosaj/tools/jsUML2/ejemplos/UDCore.js"></script>
+	<script src="http://www.uco.es/~in1rosaj/tools/jsUML2/ejemplos/UDModules.js"></script>
+	<script>
+	$(function(){
+		var classDiagram = new UMLClassDiagram({ id: 'canvas', width: 500, height: 500 });
+		var classes = {};
+		{foreach $diagram['classes'] as $name => $class}
+		classes[{$name}] = new UMLClass({ x: Math.floor(Math.random()*400), y: Math.floor(Math.random()*400) });
+		classes[{$name}].setName({$name});
+		classDiagram.addElement(classes[{$name}]);
+		
+		{var $attributes = isset($class['attributes']) ? $class['attributes'] : array()}
+		{foreach $attributes as $attr}
+		// classes[{$name}].addAttribute("#"+{$attr->value}+":string='foo'");
+		classes[{$name}].addAttribute({$attr->value});
+		{/foreach}
+
+		{var $operations = isset($class['operations']) ? $class['operations'] : array()}
+		{foreach $operations as $op}
+		classes[{$name}].addOperation({$op->value}+"()");
+		{/foreach}
+
+		{/foreach}
+
+		{foreach $diagram['classes'] as $name => $class}
+		{if !empty($class['parent'])}
+		gen = new UMLGeneralization({ b:classes[{$class['parent']}], a:classes[{$name}] });
+		classDiagram.addElement(gen);
+		{/if}
+		{/foreach}
+
+		{foreach $diagram['associations'] as $assoc}
+		{var ends => array_keys($assoc)}
+		assoc = new UMLAssociation({ a:classes[{$ends[0]}], b:classes[{$ends[1]}] });
+		assoc.setMultiplicityA({=(string) $assoc[$ends[0]]});
+		assoc.setMultiplicityB({=(string) $assoc[$ends[1]]});
+		classDiagram.addElement(assoc);
+		{/foreach}
+
+		classDiagram.draw();
+		classDiagram.interaction(true);
+
+		$('#canvas').on('dblclick', function(){
+			var url = $('canvas').get(0).toDataURL( 'image/png' );
+			window.open( url, '_blank' );
+		});
+	});
+	</script>
+{/block}
+
+{block head}
+{include #parent}
+	<link rel="stylesheet" href="http://www.uco.es/~in1rosaj/tools/jsUML2/ejemplos/css/UDStyle.css" media="screen">
+{/block}
