@@ -1,6 +1,7 @@
 {
 	"name": "niceuml/core",
 	"description": "Text-based UML modelling tool.",
+	"homepage": "https://github.com/redwormik/niceuml",
 	"license": ["GPL-3.0"],
 	"authors": [
 		{
