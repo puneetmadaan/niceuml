@@ -1,6 +1,51 @@
 {
-    "hash": "ef6e0bf04a1c5036af208b25bf7f8308",
+    "hash": "c756f9f6ea4e25c4553ca6e74cc973d9",
     "packages": [
+        {
+            "name": "ndab/ndab",
+            "version": "dev-stable",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hrach/ndab.git",
+                "reference": "ef44b2c23154bfd51421836484226cdbfef9650e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hrach/ndab/zipball/ef44b2c23154bfd51421836484226cdbfef9650e",
+                "reference": "ef44b2c23154bfd51421836484226cdbfef9650e",
+                "shasum": ""
+            },
+            "require": {
+                "nette/nette": ">=2.0.5",
+                "php": ">=5.3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Ndab": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Skrasek",
+                    "email": "jan@skrasek.com",
+                    "homepage": "http://jan.skrasek.com"
+                }
+            ],
+            "description": "Ndab - ORM builded on Nette\\Database.",
+            "homepage": "https://github.com/hrach/ndab",
+            "keywords": [
+                "database",
+                "db",
+                "nette",
+                "orm"
+            ],
+            "time": "2012-09-27 09:24:21"
+        },
         {
             "name": "nette/nette",
             "version": "v2.0.10",
@@ -82,6 +127,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
+        "ndab/ndab": 20,
         "nette/tester": 20
     },
     "platform": {
