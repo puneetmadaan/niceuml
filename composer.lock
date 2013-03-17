@@ -1,51 +1,6 @@
 {
-    "hash": "9d1aec7ede4aebfc9f3637a02734a0ac",
+    "hash": "2d45b7e818457ae8e8307a58abefec96",
     "packages": [
-        {
-            "name": "ndab/ndab",
-            "version": "dev-stable",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hrach/ndab.git",
-                "reference": "ef44b2c23154bfd51421836484226cdbfef9650e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hrach/ndab/zipball/ef44b2c23154bfd51421836484226cdbfef9650e",
-                "reference": "ef44b2c23154bfd51421836484226cdbfef9650e",
-                "shasum": ""
-            },
-            "require": {
-                "nette/nette": ">=2.0.5",
-                "php": ">=5.3.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Ndab": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jan Skrasek",
-                    "email": "jan@skrasek.com",
-                    "homepage": "http://jan.skrasek.com"
-                }
-            ],
-            "description": "Ndab - ORM builded on Nette\\Database.",
-            "homepage": "https://github.com/hrach/ndab",
-            "keywords": [
-                "database",
-                "db",
-                "nette",
-                "orm"
-            ],
-            "time": "2012-09-27 09:24:21"
-        },
         {
             "name": "nette/nette",
             "version": "v2.0.10",
@@ -163,65 +118,12 @@
             "time": "2012-09-04 10:46:08"
         }
     ],
-    "packages-dev": [
-        {
-            "name": "nette/tester",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nette/tester.git",
-                "reference": "523bd9930485c690e50db592034d412f3bf35abe"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nette/tester/zipball/523bd9930485c690e50db592034d412f3bf35abe",
-                "reference": "523bd9930485c690e50db592034d412f3bf35abe",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "bin": [
-                "Tester/tester"
-            ],
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "Tester/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause",
-                "GPL-2.0",
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "David Grudl",
-                    "homepage": "http://davidgrudl.com"
-                },
-                {
-                    "name": "Nette Community",
-                    "homepage": "http://nette.org/contributors"
-                }
-            ],
-            "description": "An easy-to-use PHP Unit Testing framework.",
-            "homepage": "http://nette.org",
-            "keywords": [
-                "nette",
-                "testing",
-                "unit"
-            ],
-            "time": "2013-03-14 02:11:44"
-        }
-    ],
+    "packages-dev": null,
     "aliases": [
 
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "ndab/ndab": 20,
         "nette/tester": 20
     },
     "platform": {
