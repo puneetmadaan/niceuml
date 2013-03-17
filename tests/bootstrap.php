@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../libs/autoload.php';
 
-if (!include __DIR__ . '/../libs/Nette/tester/Tester/bootstrap.php') {
+if (!include __DIR__ . '/../libs/nette/tester/Tester/bootstrap.php') {
 	die('Install Nette Tester using `composer update --dev`');
 }
 
