@@ -1,0 +1,9 @@
+# Modules config file.
+
+parameters:
+	modulesDir: %appDir%
+
+modules:
+
+includes:
+	- ../UserModule/config.neon
