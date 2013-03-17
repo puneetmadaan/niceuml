@@ -1,5 +1,5 @@
 {
-    "hash": "c756f9f6ea4e25c4553ca6e74cc973d9",
+    "hash": "9d1aec7ede4aebfc9f3637a02734a0ac",
     "packages": [
         {
             "name": "ndab/ndab",
@@ -119,9 +119,103 @@
                 "templating"
             ],
             "time": "2013-03-08 15:44:35"
+        },
+        {
+            "name": "vojtech-dobes/extensions-list",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vojtech-dobes/nette-extensions-list.git",
+                "reference": "1.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/vojtech-dobes/nette-extensions-list/zipball/1.0.0",
+                "reference": "1.0.0",
+                "shasum": ""
+            },
+            "require": {
+                "nette/nette": ">=2.0.5"
+            },
+            "type": "nette-addon",
+            "autoload": {
+                "classmap": [
+                    "/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "New BSD"
+            ],
+            "authors": [
+                {
+                    "name": "Vojtěch Dobeš",
+                    "email": "me@vojtechdobes.com"
+                }
+            ],
+            "description": "Enables registration of other extensions in config file (for Nette Framework)",
+            "homepage": "http://github.com/vojtech-dobes/ExtensionsList",
+            "keywords": [
+                "config",
+                "di",
+                "nette"
+            ],
+            "time": "2012-09-04 10:46:08"
         }
     ],
-    "packages-dev": null,
+    "packages-dev": [
+        {
+            "name": "nette/tester",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nette/tester.git",
+                "reference": "523bd9930485c690e50db592034d412f3bf35abe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nette/tester/zipball/523bd9930485c690e50db592034d412f3bf35abe",
+                "reference": "523bd9930485c690e50db592034d412f3bf35abe",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "bin": [
+                "Tester/tester"
+            ],
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "Tester/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause",
+                "GPL-2.0",
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "David Grudl",
+                    "homepage": "http://davidgrudl.com"
+                },
+                {
+                    "name": "Nette Community",
+                    "homepage": "http://nette.org/contributors"
+                }
+            ],
+            "description": "An easy-to-use PHP Unit Testing framework.",
+            "homepage": "http://nette.org",
+            "keywords": [
+                "nette",
+                "testing",
+                "unit"
+            ],
+            "time": "2013-03-14 02:11:44"
+        }
+    ],
     "aliases": [
 
     ],
