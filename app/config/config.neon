@@ -18,6 +18,9 @@ common:
 		session:
 			expiration: 14 days
 
+		container:
+			debugger: true
+
 
 	services:
 		authenticator: Authenticator
@@ -30,6 +33,7 @@ common:
 	includes:
 		- defaults.neon
 		- modules.neon
+		- model.neon
 
 production < common:
 

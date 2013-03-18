@@ -1,0 +1,24 @@
+parameters:
+	model:
+		classes: []
+		defaultClass: Model\Entity
+
+services:
+	model.entityFactory: Model\EntityFactory(%model.classes%, %model.defaultClass%)
+	model.serviceDependencies:
+		class: Model\ServiceDependencies
+		setup:
+			- $tableFactory(@model.tableFactory)
+			- $entityFactory(@model.entityFactory)
+
+factories:
+	model.table: 
+		parameters: [ name ]
+		class: Model\Selection(%name%)
+		setup:
+			- injectEntityFactory
+
+#	model.entity:
+#		parameters: [ name, array data = [] ]
+#		class: Model\Entity
+#		factory: @model.entityFactory::create(%data%, @model.table(%name%))
