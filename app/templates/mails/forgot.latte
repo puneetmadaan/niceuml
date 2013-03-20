@@ -1,0 +1,20 @@
+{layout @layout.latte}
+
+{block content}
+
+<h1 n:block="title">Forgotten password</h1>
+
+<p>Hello,</p>
+<p>
+    you have applied to <a href="{link //:Homepage:default}">{link //:Homepage:default}</a> 
+    account <strong>{$user->login}</strong> to generate a new password.
+</p>
+<p>Your new password: <strong>{$password}</strong></p>
+<p>New password must first be activated. Activate it by clicking on the following link:</p>
+<h3><a href="{link //Forgot: $user->passwordNewCode}">ACTIVATE NEW PASSWORD</a></h3>
+<p>
+    In the event that you were not able to activate the new password, please go to page
+    <a href="{link //Forgot:}">{link //Forgot:}</a> and enter the activation code there:
+</p>
+<p>Activation code: <strong>{$user->passwordNewCode}</strong></p>
+<p>If you have not asked for a new password, please disregard this e-mail.</p>

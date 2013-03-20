@@ -6,6 +6,8 @@
 #
 common:
 	parameters:
+		mails:
+			defaultFrom: redwormik@gmail.com
 
 	php:
 		date.timezone: Europe/Prague
@@ -25,6 +27,7 @@ common:
 	services:
 		routerFactory: RouterFactory
 		router: @routerFactory::createRouter
+		mailFactory: MailFactory( @nette.mailFactory, %appDir%/templates/mails, %mails.defaultFrom% )
 
 
 	factories:

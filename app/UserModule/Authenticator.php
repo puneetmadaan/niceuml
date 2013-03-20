@@ -26,7 +26,7 @@ class Authenticator extends Nette\Object implements Security\IAuthenticator {
 		$user = $this->users->table()->where('login', $login)->fetch();
 
 		if (!$user) {
-			throw new Security\AuthenticationException('The username is incorrect.', self::IDENTITY_NOT_FOUND);
+			throw new Security\AuthenticationException('No user with this e-mail exists.', self::IDENTITY_NOT_FOUND);
 		}
 
 		if (!$user->hasPassword($password)) {
