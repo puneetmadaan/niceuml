@@ -30,7 +30,7 @@ class Selection extends Table\Selection {
 
 
 	protected function createRow(array $row) {
-		return $this->entityFactory->create($row, $this);
+		return $this->entityFactory->create($this, $row);
 	}
 
 

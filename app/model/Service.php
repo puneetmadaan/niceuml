@@ -15,11 +15,15 @@ class Service extends \Nette\Object {
 	/** @var EntityFactory */
 	protected $entityFactory;
 
+	/** @var NewEntityMap */
+	protected $newEntityMap;
+
 
 	public function __construct($tableName, ServiceDependencies $sd) {
 		$this->tableName = $tableName;
 		$this->tableFactory = $sd->tableFactory;
 		$this->entityFactory = $sd->entityFactory;
+		$this->newEntityMap = $sd->newEntityMap;
 	}
 
 
@@ -28,8 +32,13 @@ class Service extends \Nette\Object {
 	}
 
 
-	public function create(array $data = array()) {
-		return $this->table()->insert($data);
+	public function create($data = NULL) {
+		$entity = $this->entityFactory->create($this->tableName);
+		if ($data !== NULL) {
+			foreach ($data as $key => $value)
+				$entity->$key = $value;
+		}
+		return $entity;
 	}
 
 
@@ -38,8 +47,20 @@ class Service extends \Nette\Object {
 	}
 
 
-	public function save(Entity $entity, $data = NULL) {
-		return $entity->update($data);
+	public function save(Entity $entity = NULL, $data = NULL) {
+		if ($entity === NULL)
+			$entity = $this->create();
+
+		if ($data !== NULL) {
+			foreach ($data as $key => $value)
+				$entity->$key = $value;
+		}
+
+		if ($this->isNew($entity))
+			return $this->table()->insert($entity);
+		
+		$entity->update();
+		return $entity;
 	}
 
 
@@ -47,5 +68,9 @@ class Service extends \Nette\Object {
 		return $entity->delete($data);
 	}
 
+
+	protected function isNew(Entity $entity) {
+		return $this->newEntityMap->isNew($entity);
+	}
 
 }

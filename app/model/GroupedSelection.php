@@ -27,7 +27,7 @@ class GroupedSelection extends Table\GroupedSelection {
 
 
 	protected function createRow(array $row) {
-		return $this->refTable->entityFactory->create($row, $this);
+		return $this->refTable->entityFactory->create($this, $row);
 	}
 
 

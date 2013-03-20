@@ -10,6 +10,17 @@ use Nette\ObjectMixin;
 class Entity extends Table\ActiveRow {
 
 
+	protected function getColumn($name) {
+		return parent::__get($name);
+	}
+
+
+	protected function setColumn($name, $value) {
+		parent::__set($name, $value);
+		return $this;
+	}
+
+
 	public function & __get($name) {
 		if (ObjectMixin::has($this, $name) || method_exists($this, $name))
 			return ObjectMixin::get($this, $name);
@@ -20,7 +31,7 @@ class Entity extends Table\ActiveRow {
 	public function __set($name, $value) {
 		if ($name !== '') {
 			$method = 'set'.ucfirst($name);
-			if (method_exists($this, $name)) {
+			if (method_exists($this, $method)) {
 				$this->$method($value);
 				return;
 			}
