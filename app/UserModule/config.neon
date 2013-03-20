@@ -1,0 +1,9 @@
+parameters:
+	model:
+		classes:
+			user: UserModule\User
+
+services:
+	userModule.authenticator: UserModule\Authenticator
+	userModule.authorizator: UserModule\Authorizator
+	userModule.model: UserModule\Model('user')
