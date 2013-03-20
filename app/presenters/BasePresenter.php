@@ -8,7 +8,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 
 	public function createComponentLoginForm() {
 		$form = $this->createForm();
-		$form->addText('login','Login')
+		$form->addText('login','E-mail')
 			->setRequired();
 		$form->addPassword('password','Password')
 			->setRequired();
@@ -35,8 +35,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 			$this->user->logout();
 			$this->flashMessage('You have been logged out.');
 		}
-		if (!$this->ajax)
-			$this->redirect('this');
+		$this->redirect('this');
 	}
 
 	public function createForm() {
