@@ -15,15 +15,11 @@ class Service extends \Nette\Object {
 	/** @var EntityFactory */
 	protected $entityFactory;
 
-	/** @var NewEntityMap */
-	protected $newEntityMap;
-
 
 	public function __construct($tableName, ServiceDependencies $sd) {
 		$this->tableName = $tableName;
 		$this->tableFactory = $sd->tableFactory;
 		$this->entityFactory = $sd->entityFactory;
-		$this->newEntityMap = $sd->newEntityMap;
 	}
 
 
@@ -70,7 +66,7 @@ class Service extends \Nette\Object {
 
 
 	protected function isNew(Entity $entity) {
-		return $this->newEntityMap->isNew($entity);
+		return $entity->getPrimary(FALSE) === NULL;
 	}
 
 }

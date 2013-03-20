@@ -7,7 +7,6 @@ services:
 	model.entityFactory: Model\EntityFactory(%model.classes%, %model.defaultClass%)
 	model.serviceDependencies: Model\ServiceDependencies(@model.tableFactory)
 	model.emptyTableAccessor: Model\EmptyTableAccessor(@model.emptyTableFactory)
-	model.newEntityMap: Model\NewEntityMap
 
 factories:
 	model.table: 
