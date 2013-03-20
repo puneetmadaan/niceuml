@@ -18,5 +18,10 @@ $configurator->createRobotLoader()
 	->register();
 
 $configurator->addConfig(__DIR__ . '/../app/config/config.neon');
-$configurator->addConfig(__DIR__ . '/../app/config/config.local.neon', $configurator::NONE); // none section
+$configurator->addConfig(__DIR__ . '/config.neon', $configurator::NONE); // none section
+
+$configurator->onCompile[] = function ($configurator, $compiler) {
+    $compiler->addExtension('modules', new VojtechDobes\ExtensionsList);
+};
+
 return $configurator->createContainer();
