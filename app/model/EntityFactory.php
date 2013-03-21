@@ -19,7 +19,7 @@ class EntityFactory extends \Nette\Object {
 
 
 	public function create($table, array $data = array()) {
-		if ($table instanceof Selection)
+		if ($table instanceof \Nette\Database\Table\Selection)
 			$name = $table->getName();
 		else {
 			$name = $table;

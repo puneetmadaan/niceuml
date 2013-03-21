@@ -12,7 +12,7 @@ class Selection extends Table\Selection {
 
 
 	public function getEntityFactory() {
-		return $entityFactory;
+		return $this->entityFactory;
 	}
 
 
