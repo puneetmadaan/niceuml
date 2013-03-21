@@ -15,7 +15,7 @@ class SelectionMixin {
 	}
 
 
-	public static function collect($_this, $key, $preserveKeys = FALSE) {
+	public static function collect($_this, $item, $preserveKeys = FALSE) {
 		$result = array();
 
 		if (is_array($item) || $item instanceof \Closure || $item instanceof \Nette\Callback)
