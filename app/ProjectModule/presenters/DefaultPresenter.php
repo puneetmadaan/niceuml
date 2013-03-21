@@ -10,8 +10,15 @@ class DefaultPresenter extends \BasePresenter {
 	protected $projects;
 	protected $project;
 
+	protected $users;
+
 	public function injectProjects(Model $projects) {
 		$this->projects = $projects;
+	}
+
+
+	public function injectUsers(\UserModule\Model $users) {
+		$this->users = $users;
 	}
 
 
@@ -56,11 +63,16 @@ class DefaultPresenter extends \BasePresenter {
 			->setRequired();
 
 
+		$users = $this->users->table()->where('id != ?', $this->user->id)->fetchPairs('id', 'fullName');
+		$form->addMultiSelect('users', 'Users', $users);
+
+
 		$form->addSubmit('send');
 		$form->onSuccess[] = $this->projectFormSucceeded;
 
 		if ($this->project) {
 			$form->defaults = $this->project;
+			$form['users']->defaultValue = $this->project->related('user_project')->collect('user_id');
 		}
 		return $form;
 	}
@@ -70,6 +82,9 @@ class DefaultPresenter extends \BasePresenter {
 		$values = $form->values;
 		if (!$this->project)
 			$values->user_id = $this->user->id;
+
+		$users = $values->users;
+		unset($values->users);
 		
 		$project = $this->projects->save($this->project, $values);
 		
@@ -77,6 +92,15 @@ class DefaultPresenter extends \BasePresenter {
 			$project->related('user_project')->insert(array(
 				'user_id' => $this->user->id,
 			));
+		else
+			$project->related('user_project')->where('user_id != ? ', $this->user->id)
+				->delete();
+
+		foreach ($users as $u) {
+			$project->related('user_project')->insert(array(
+				'user_id' => $u,
+			));
+		}
 
 		$this->flashMessage('Project saved.');
 		$this->redirect('edit', $project->id);
