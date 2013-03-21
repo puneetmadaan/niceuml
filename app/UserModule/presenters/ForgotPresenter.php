@@ -19,6 +19,12 @@ class ForgotPresenter extends \BasePresenter {
 	}
 
 
+	public function startup() {
+		parent::startup();
+		if ($this->user->loggedIn)
+			$this->redirect('Default:');
+	}
+
 
 	public function actionDefault($code = NULL) {
 		if ($code !== NULL)
@@ -42,7 +48,11 @@ class ForgotPresenter extends \BasePresenter {
 			$form['login']->addError('No user with this e-mail exists.');
 			return;
 		}
-		$password = $user->resetPassword();
+		
+		do {
+			$password = $user->resetPassword();
+		} while ($this->users->table()->where('passwordNewCode', $user->passwordNewCode)->fetch());
+
 		$this->users->save($user);
 
 		$this->mailFactory->create('forgot', $this->createTemplate(), array( 'user' => $user, 'password' => $password ))
