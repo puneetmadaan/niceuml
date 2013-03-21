@@ -6,7 +6,7 @@ use Nette;
 use Nette\Security;
 
 /**
- * ACL-based authorizing. Wrapper to Nette\Permission. Works with Ndab Entities.
+ * ACL-based authorizing. Wrapper to Nette\Permission. Works with entities.
  * 
  * @author Jakub Červenka
  */
@@ -30,7 +30,11 @@ class Authorizator extends Nette\Object implements Security\IAuthorizator {
         $acl->addRole('user','authenticated');
         $acl->addRole('admin','authenticated');
 
-		$acl->allow('user');
+        $acl->addResource('project');
+
+		$acl->allow('user', 'project', $acl::ALL, $this->checkProjectUser);
+		
+		$acl->allow('admin');
 
 		$this->acl = $acl;
 	}
@@ -55,6 +59,14 @@ class Authorizator extends Nette\Object implements Security\IAuthorizator {
 			$resource = new EntityResource($resource);
 		}
 		return $this->acl->isAllowed($role, $resource, $privilege);
+	}
+
+
+	public function checkProjectUser($acl) {
+		if (!$acl->queriedResource instanceof EntityResource)
+			return TRUE;
+		$project = $acl->queriedResource->entity;
+		return (bool) $project->related('user_project')->where('user_id', $this->user->id)->fetch();
 	}
 
 }

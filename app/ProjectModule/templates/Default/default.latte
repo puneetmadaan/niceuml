@@ -1,0 +1,15 @@
+
+{block content}
+
+<h1>Projects</h1>
+
+<a n:href="new">New project</a>
+
+<table>
+	<tr><th>#</th><th>Name</th></tr>
+	<tr n:foreach="$projects as $p">
+		<td>{$p->id}</td>
+		<td>{$p->name}</td>
+		<td><a n:href="edit $p->id">Edit</a></td>
+	</tr>
+</table>
