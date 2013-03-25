@@ -61,7 +61,7 @@ class Service extends \Nette\Object {
 
 
 	public function delete(Entity $entity) {
-		return $entity->delete($data);
+		return $entity->delete();
 	}
 
 
