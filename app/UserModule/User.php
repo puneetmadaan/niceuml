@@ -57,7 +57,7 @@ class User extends Entity {
     public function createIdentity() {
         $data = $this->toArray();
         unset($data['password']);
-        return new Identity($this->id, 'user', $data);
+        return new Identity($this->id, $this->role, $data);
     }
 
 
