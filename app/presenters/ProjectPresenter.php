@@ -1,23 +1,20 @@
 <?php
 
 
-namespace ProjectModule;
 
-
-
-class DefaultPresenter extends \BasePresenter {
+class ProjectPresenter extends BasePresenter {
 	
 	protected $projects;
 	protected $project;
 
 	protected $users;
 
-	public function injectProjects(Model $projects) {
+	public function injectProjects(Model\Project $projects) {
 		$this->projects = $projects;
 	}
 
 
-	public function injectUsers(\UserModule\Model $users) {
+	public function injectUsers(UserModule\Model $users) {
 		$this->users = $users;
 	}
 
@@ -80,8 +77,6 @@ class DefaultPresenter extends \BasePresenter {
 
 	public function projectFormSucceeded($form) {
 		$values = $form->values;
-		if (!$this->project)
-			$values->user_id = $this->user->id;
 
 		$users = $values->users;
 		unset($values->users);
@@ -91,6 +86,7 @@ class DefaultPresenter extends \BasePresenter {
 		if (!$this->project)
 			$project->related('user_project')->insert(array(
 				'user_id' => $this->user->id,
+				'role' => 'owner',
 			));
 		else
 			$project->related('user_project')->where('user_id != ? ', $this->user->id)

@@ -1,2 +1,0 @@
-services:
-	projectModule.model: ProjectModule\Model('project')

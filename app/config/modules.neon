@@ -7,4 +7,3 @@ modules:
 
 includes:
 	- ../UserModule/config.neon
-	- ../ProjectModule/config.neon
