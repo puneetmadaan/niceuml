@@ -11,8 +11,8 @@
 
 {block scripts}
 {include #parent}
-	<script src="http://www.uco.es/~in1rosaj/tools/jsUML2/ejemplos/UDCore.js"></script>
-	<script src="http://www.uco.es/~in1rosaj/tools/jsUML2/ejemplos/UDModules.js"></script>
+	<script src="{$basePath}/jsUML2/UDCore.js"></script>
+	<script src="{$basePath}/jsUML2/UDModules.js"></script>
 	<script>
 	$(function(){
 		var classDiagram = new UMLClassDiagram({ id: 'canvas', width: 500, height: 500 });
@@ -72,5 +72,5 @@
 
 {block head}
 {include #parent}
-	<link rel="stylesheet" href="http://www.uco.es/~in1rosaj/tools/jsUML2/ejemplos/css/UDStyle.css" media="screen">
+	<link rel="stylesheet" href="{$basePath}/jsUML2/css/UDStyle.css" media="screen">
 {/block}
