@@ -7,4 +7,5 @@ libs/*
 !.htaccess
 !web.config
 app/config/config.local.neon
+www/jsUML2
 composer.lock
