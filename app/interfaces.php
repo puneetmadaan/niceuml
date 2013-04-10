@@ -29,3 +29,7 @@ interface IInterpreter {
 	public function execute(Command $command);
 
 }
+
+
+class ParsingException extends Nette\InvalidStateException {
+}

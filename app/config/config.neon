@@ -23,6 +23,10 @@ services:
 	router: @routerFactory::createRouter
 	mailFactory: MailFactory( @nette.mailFactory, %appDir%/templates/mails, %mails.defaultFrom% )
 	formFactory: Formfactory( @nette.basicFormFactory )
+	parser:
+		class: ParserList
+	interpreter:
+		class: InterpreterList
 
 factories:
 	bootstrapFormRenderer: Kdyby\BootstrapFormRenderer\BootstrapRenderer
