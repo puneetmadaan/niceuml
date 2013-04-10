@@ -5,8 +5,8 @@ SET FOREIGN_KEY_CHECKS = 0;
 SET NAMES 'utf8';
 
 
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
+DROP TABLE IF EXISTS `user_user`;
+CREATE TABLE `user_user` (
     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `name` varchar(20) NOT NULL,
     `surname` varchar(30) NOT NULL,
@@ -23,14 +23,14 @@ CREATE TABLE `user` (
 );
 
 
-DROP TABLE IF EXISTS `user_project`;
-CREATE TABLE `user_project` (
+DROP TABLE IF EXISTS `user_user_project`;
+CREATE TABLE `user_user_project` (
     `user_id` int(10) unsigned NOT NULL,
     `project_id` int(10) unsigned NOT NULL,
     `role` ENUM('user', 'admin', 'owner') NOT NULL DEFAULT 'user',
     PRIMARY KEY (`user_id`, `project_id`),
-    FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (`user_id`) REFERENCES `user_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`project_id`) REFERENCES `core_project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 
