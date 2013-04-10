@@ -5,6 +5,13 @@
  */
 abstract class BasePresenter extends Nette\Application\UI\Presenter {
 
+	/** @var FormFactory */
+	protected $formFactory;
+
+	public function injectFormFactory(FormFactory $formFactory) {
+		$this->doInject('formFactory', $formFactory);
+	}
+
 
 	public function createComponentLoginForm() {
 		$form = $this->createForm();
@@ -38,8 +45,17 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 		$this->redirect('this');
 	}
 
+
+
+	protected function doInject($name, $dependency) {
+		if ($this->$name !== NULL)
+			throw new \Nette\InvalidStateException("Dependency '$name' has already been set.");
+		$this->$name = $dependency;
+	}
+
+
 	public function createForm() {
-		return new Nette\Application\UI\Form;
+		return $this->formFactory->createForm();
 	}
 
 
