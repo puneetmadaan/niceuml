@@ -7,3 +7,7 @@ services:
 	userModule.authenticator: UserModule\Authenticator
 	userModule.authorizator: UserModule\Authorizator
 	userModule.model: UserModule\Model('user')
+
+	routerFactory:
+		setup:
+			- add( UserModule\RouterFactory() )
