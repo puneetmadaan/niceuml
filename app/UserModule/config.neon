@@ -1,12 +1,12 @@
 parameters:
 	model:
 		classes:
-			user: UserModule\User
+			user_user: UserModule\User
 
 services:
 	userModule.authenticator: UserModule\Authenticator
 	userModule.authorizator: UserModule\Authorizator
-	userModule.model: UserModule\Model('user')
+	userModule.model: UserModule\Model('user_user')
 
 	routerFactory:
 		setup:

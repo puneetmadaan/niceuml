@@ -8,7 +8,7 @@ services:
 	model.serviceDependencies: Model\ServiceDependencies(@model.tableFactory)
 	model.emptyTableAccessor: Model\EmptyTableAccessor(@model.emptyTableFactory)
 
-	model.project: Model\Project('project')
+	model.project: Model\Project('core_project')
 
 factories:
 	model.table: 

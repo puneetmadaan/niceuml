@@ -23,7 +23,9 @@ class EntityResource extends \Nette\Object implements Security\IResource {
 
 
 	public function getResourceId() {
-		return $this->entity->table->name;
+		$name = $this->entity->table->name;
+		$pos = strpos($name, '_');
+		return $pos === FALSE ? $name : substr($name, $pos + 1);
 	}
 
 }
