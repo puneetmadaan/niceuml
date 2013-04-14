@@ -28,17 +28,10 @@
 	<div n:foreach="$flashes as $flash" class="alert alert-{$flash->type}">{$flash->message}</div>
 
 	<ul id="menu">
-		<li n:if="!$user->loggedIn"><a n:href=":User:Default:">Registration</a></li>
-		<li n:if="!$user->loggedIn"><a n:href=":User:Forgot:">Forgotten password</a></li>
 		<li n:if="$user->loggedIn"><a n:href=":Project:">Projects</a></li>
-		<li n:if="$user->loggedIn"><a n:href=":User:Default:">Settings</a></li>
 	</ul>
 
-	{if !$user->loggedIn}
-	{control loginForm}
-	{else}
-	<div><a n:href="logout!">Log out</a></div>
-	{/if}
+	{ifset $presenter['userControl']}{control userControl}{/ifset}
 
 	{include #content}
 

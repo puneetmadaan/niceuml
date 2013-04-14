@@ -1,0 +1,12 @@
+
+	{if !$user->loggedIn}
+	{control loginForm}
+	{else}
+	<div><a n:href="logout!">Log out</a></div>
+	{/if}
+
+	<ul>
+		<li n:if="!$user->loggedIn"><a href="{plink :User:Default:}">Registration</a></li>
+		<li n:if="!$user->loggedIn"><a href="{plink :User:Forgot:}">Forgotten password</a></li>
+		<li n:if="$user->loggedIn"><a href="{plink :User:Default:}">Settings</a></li>
+	</ul>

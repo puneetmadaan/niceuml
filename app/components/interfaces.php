@@ -50,3 +50,7 @@ interface IDiagramElementControlAccessor {
 
 class ParsingException extends Nette\InvalidStateException {
 }
+
+
+interface IUserControl extends Nette\ComponentModel\IComponent {
+}

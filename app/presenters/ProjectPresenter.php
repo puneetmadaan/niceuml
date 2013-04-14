@@ -22,7 +22,7 @@ class ProjectPresenter extends BasePresenter {
 	public function startup() {
 		parent::startup();
 		if (!$this->user->isAllowed('project'))
-			$this->error(NULL, 403);
+			$this->forbidden();
 	}
 
 
@@ -38,7 +38,7 @@ class ProjectPresenter extends BasePresenter {
 		if (!$project)
 			$this->error();
 		if (!$this->user->isAllowed($project))
-			$this->error(NULL, 403);
+			$this->forbidden();
 
 		$this->project = $project;
 	}

@@ -34,7 +34,7 @@ factories:
 		setup:
 			- Kdyby\BootstrapFormRenderer\Latte\FormMacros::install(@self::getCompiler())
 	nette.basicForm:
-		class: Nette\Application\UI\Form
+		class: Nette\Application\UI\Form(NULL, NULL)
 		setup:
 			- $renderer(@bootstrapFormRenderer)
 
