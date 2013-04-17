@@ -6,6 +6,7 @@ libs/*
 !.gitignore
 !.htaccess
 !web.config
+!libs/NiceDAO
 app/config/config.local.neon
 www/jsUML2
 composer.lock
