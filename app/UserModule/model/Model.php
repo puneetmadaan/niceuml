@@ -27,7 +27,7 @@ CREATE TABLE `user` (
 */
 
 
-class Model extends Service {
+class Model extends \NiceDAO\Service {
     
     public function isLoginUnique($login, User $oldUser = NULL) {
         $table = $this->table()->where('login', $login);

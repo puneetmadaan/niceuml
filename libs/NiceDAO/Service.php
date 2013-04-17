@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Model;
+namespace NiceDAO;
 
 
 class Service extends \Nette\Object {

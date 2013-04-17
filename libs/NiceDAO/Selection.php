@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Model;
+namespace NiceDAO;
 
 use Nette\Database\Table;
 

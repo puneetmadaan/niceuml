@@ -1,29 +1,29 @@
 parameters:
 	model:
 		classes: []
-		defaultClass: Model\Entity
+		defaultClass: NiceDAO\Entity
 
 services:
-	model.entityFactory: Model\EntityFactory(%model.classes%, %model.defaultClass%)
-	model.serviceDependencies: Model\ServiceDependencies(@model.tableFactory)
-	model.emptyTableAccessor: Model\EmptyTableAccessor(@model.emptyTableFactory)
+	model.entityFactory: NiceDAO\EntityFactory(%model.classes%, %model.defaultClass%)
+	model.serviceDependencies: NiceDAO\ServiceDependencies(@model.tableFactory)
+	model.emptyTableAccessor: NiceDAO\EmptyTableAccessor(@model.emptyTableFactory)
 
 	model.project: Model\Project('core_project')
 
 factories:
 	model.table: 
 		parameters: [ name ]
-		class: Model\Selection(%name%)
+		class: NiceDAO\Selection(%name%)
 		setup:
 			- injectEntityFactory
 
 	model.emptyTable: 
 		parameters: [ name ]
-		class: Model\EmptySelection(%name%)
+		class: NiceDAO\EmptySelection(%name%)
 		setup:
 			- injectEntityFactory
 
 	model.entity:
 		parameters: [ name, array data = [] ]
-		class: Model\Entity
+		class: NiceDAO\Entity
 		factory: @model.entityFactory::create(%name%, %data%)

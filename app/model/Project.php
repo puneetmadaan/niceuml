@@ -3,6 +3,6 @@
 namespace Model;
 
 
-class Project extends Service {
+class Project extends \NiceDAO\Service {
 
 }
