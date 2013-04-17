@@ -11,7 +11,7 @@ CREATE TABLE `class_class` (
     `id` INT UNSIGNED NOT NULL PRIMARY KEY,
     `abstract` BOOLEAN NOT NULL,
     `static` BOOLEAN NOT NULL,
-    FOREIGN KEY (`id`) REFERENCES `Core_element` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (`id`) REFERENCES `core_element` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 
@@ -23,7 +23,7 @@ CREATE TABLE `class_association` (
     `sourceMultiplicity` VARCHAR (10) NOT NULL,
     `targetRole` VARCHAR (50) NOT NULL,
     `targetMultiplicity` VARCHAR (10) NOT NULL,
-    FOREIGN KEY (`id`) REFERENCES `Core_relation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (`id`) REFERENCES `core_relation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 
@@ -50,7 +50,7 @@ CREATE TABLE `class_attribute_keyword` (
     `keyword_id` INT UNSIGNED NOT NULL,
     PRIMARY KEY (`attribute_id`, `keyword_id`),
     FOREIGN KEY (`attribute_id`) REFERENCES `class_attribute` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (`keyword_id`) REFERENCES `Core_keyword` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+    FOREIGN KEY (`keyword_id`) REFERENCES `core_keyword` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 
@@ -75,7 +75,7 @@ CREATE TABLE `class_operation_keyword` (
     `keyword_id` INT UNSIGNED NOT NULL,
     PRIMARY KEY (`operation_id`, `keyword_id`),
     FOREIGN KEY (`operation_id`) REFERENCES `class_operation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (`keyword_id`) REFERENCES `Core_keyword` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+    FOREIGN KEY (`keyword_id`) REFERENCES `core_keyword` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 
