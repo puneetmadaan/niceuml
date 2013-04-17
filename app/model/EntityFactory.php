@@ -19,14 +19,16 @@ class EntityFactory extends \Nette\Object {
 
 
 	public function create($table, array $data = array()) {
-		if ($table instanceof \Nette\Database\Table\Selection)
+		if ($table instanceof \Nette\Database\Table\Selection) {
 			$name = $table->getName();
+			$class = isset($this->classes[$name]) ? $this->classes[$name] : $this->defaultClass;
+			$entity = new $class($data, $table);
+		}
 		else {
 			$name = $table;
 			$table = $this->emptyTables->get($name);
+			$entity = $table->create($data);
 		}
-		$class = isset($this->classes[$name]) ? $this->classes[$name] : $this->defaultClass;
-		$entity = new $class($data, $table);
 		return $entity;
 	}
 

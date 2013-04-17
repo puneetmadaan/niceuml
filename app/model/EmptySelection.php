@@ -12,6 +12,8 @@ use Nette;
  */
 class EmptySelection extends Selection {
 
+	protected $rows = array();
+
 	public function aggregation($function) {
 		return;
 	}
@@ -27,8 +29,8 @@ class EmptySelection extends Selection {
 	}
 
 
-	public function create() {
-		return $this->rows[] = $this->createRow();
+	public function create($data = array()) {
+		return $this->rows[] = $this->createRow($data);
 	}
 
 	
