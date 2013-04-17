@@ -1,1 +1,10 @@
 # Default config file, settings here are to be rewrited by modules.
+
+routes: # highest priority routes
+	index.php: [ Homepage:default, oneWay ]
+
+
+
+services:
+	authenticator: DefaultAuthenticator
+	authorizator: DefaultAuthorizator

@@ -17,26 +17,31 @@ nette:
 	container:
 		debugger: true
 
+modules:
+	routes: RoutesExtension
+
+routes:
+	- '<projectId [1-9]\d*>/<presenter element|diagram>[/<action=default>][/<id>]'
+	'<presenter>[/<action>][/<id>]': Homepage:default
+
 services:
-	routerFactory:
-		class: RouterListFactory
-	router: @routerFactory::createRouter
 	mailFactory: MailFactory( @nette.mailFactory, %appDir%/templates/mails, %mails.defaultFrom% )
 	formFactory: Formfactory( @nette.basicFormFactory )
+	router: @routes.router
 	parser:
 		class: ParserList
 	interpreter:
 		class: InterpreterList
+	fooFactory: Nette\Callback( @container, createNette__mai )
 
 factories:
-	bootstrapFormRenderer: Kdyby\BootstrapFormRenderer\BootstrapRenderer
 	nette.latte:
 		setup:
 			- Kdyby\BootstrapFormRenderer\Latte\FormMacros::install(@self::getCompiler())
 	nette.basicForm:
-		class: Nette\Application\UI\Form(NULL, NULL)
+		class: Nette\Application\UI\Form
 		setup:
-			- $renderer(@bootstrapFormRenderer)
+			- $renderer( Kdyby\BootstrapFormRenderer\BootstrapRenderer() )
 
 includes:
 	- defaults.neon

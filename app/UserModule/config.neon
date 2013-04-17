@@ -4,11 +4,12 @@ parameters:
 			user_user: UserModule\User
 
 services:
-	userModule.authenticator: UserModule\Authenticator
-	userModule.authorizator: UserModule\Authorizator
+	authenticator: UserModule\Authenticator
+	authorizator: UserModule\Authorizator
 	userModule.model: UserModule\Model('user_user')
-	- UserModule\UserControl
 
-	routerFactory:
-		setup:
-			- add( UserModule\RouterFactory() )
+routes:
+	- UserModule\RouterFactory()
+
+factories:
+	userModule.userControl: UserModule\UserControl
