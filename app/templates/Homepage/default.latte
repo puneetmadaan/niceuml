@@ -1,14 +1,22 @@
-{* This is the welcome page, you can delete it *}
 
 {block content}
-<h3>Proof of concept</h3>
-{control diagramForm}
-<div id="canvas">
+<h1 n:block="title">Welcome!</h1>
 
-</div>
+{if $user->isAllowed('project')}
+	<h2>My projects</h2>
 
-{/block}
+	<p><a n:href="Project:new" class="btn btn-primary">New project</a></p>
 
+	<table class="table">
+		<tbody>
+			<tr n:foreach="$projects as $p">
+				<td><a n:href="Element: projectId => $p->id">{$p->name}</a></td>
+			</tr>
+		</tbody>
+	</table>
+{/if}
+
+{*
 {block scripts}
 {include #parent}
 	<script src="{$basePath}/jsUML2/UDCore.js"></script>
@@ -74,3 +82,5 @@
 {include #parent}
 	<link rel="stylesheet" href="{$basePath}/jsUML2/css/UDStyle.css" media="screen">
 {/block}
+
+*}

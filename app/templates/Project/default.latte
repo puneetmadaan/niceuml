@@ -3,13 +3,17 @@
 
 <h1>Projects</h1>
 
-<a n:href="new">New project</a>
+<p><a n:href="new" class="btn btn-primary">New project</a></p>
 
-<table>
-	<tr><th>#</th><th>Name</th></tr>
-	<tr n:foreach="$projects as $p">
-		<td>{$p->id}</td>
-		<td>{$p->name}</td>
-		<td><a n:href="edit $p->id">Edit</a></td>
-	</tr>
+<table class="table">
+	<thead>
+		<tr><th>#</th><th>Name</th><th></th></tr>
+	</thead>
+	<tbody>
+		<tr n:foreach="$projects as $p">
+			<td>{$p->id}</td>
+			<td><a n:href="Element: projectId => $p->id">{$p->name}</a></td>
+			<td><a n:href="edit $p->id" class="btn btn-small">Edit</a></td>
+		</tr>
+	</tbody>
 </table>
