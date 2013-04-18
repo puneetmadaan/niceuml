@@ -1,0 +1,8 @@
+<div class="navbar">
+    <div class="navbar-inner">
+        <a class="brand" href="{plink :Homepage:}">NiceUML</a>
+        <ul class="nav" n:inner-foreach="$links as $link">
+            <li n:class="$presenter->isLinkCurrent($link['link']) ? active"><a href="{plink $link['link'], (expand) $link['args']}">{$link['label']}</a></li>
+        </ul>
+    </div>
+</div>
