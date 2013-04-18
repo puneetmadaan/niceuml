@@ -1,0 +1,9 @@
+parameters:
+	elementTypes:
+		class_class:
+			label: Class
+			model: @class.model
+
+
+services:
+	class.model: ClassModule\Model('class_class')
