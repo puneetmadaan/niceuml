@@ -2,6 +2,11 @@ parameters:
 	model:
 		classes:
 			user_user: UserModule\User
+	controls:
+		menuLinks:
+			- [ link: ':User:Default:', label: Register, access: usage, accessInverse: TRUE ]
+			- [ link: ':User:Default:', label: User settings, access: usage ]
+			- [ link: 'loginControl-logout!', label: Log out, access: usage ]
 
 services:
 	authenticator: UserModule\Authenticator
@@ -12,4 +17,4 @@ routes:
 	- UserModule\RouterFactory()
 
 factories:
-	userModule.userControl: UserModule\UserControl
+	loginControl: UserModule\LoginControl

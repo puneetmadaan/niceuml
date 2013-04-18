@@ -5,6 +5,7 @@
 # http://nette.org/security-warning
 #
 parameters:
+
 php:
 	date.timezone: Europe/Prague
 	# zlib.output_compression: yes
@@ -32,7 +33,6 @@ services:
 		class: ParserList
 	interpreter:
 		class: InterpreterList
-	fooFactory: Nette\Callback( @container, createNette__mai )
 
 factories:
 	nette.latte:
@@ -42,6 +42,9 @@ factories:
 		class: Nette\Application\UI\Form
 		setup:
 			- $renderer( Kdyby\BootstrapFormRenderer\BootstrapRenderer() )
+	form: @nette.basicForm
+	menuControl:
+		class: MenuControl( %controls.menuLinks% )
 
 includes:
 	- defaults.neon

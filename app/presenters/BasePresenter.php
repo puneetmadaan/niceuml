@@ -5,20 +5,15 @@
  */
 abstract class BasePresenter extends Nette\Application\UI\Presenter {
 
-	/** @var FormFactory */
-	protected $formFactory;
 
-	/** @TODO: lazy ? */
-	public function injectUserControl(IUserControl $userControl = NULL) {
-		if ($userControl !== NULL)
-			$this->addComponent($userControl, 'userControl');
+	public function createComponentMenuControl() {
+		return $this->context->createMenuControl();
 	}
 
 
-	public function injectFormFactory(FormFactory $formFactory) {
-		$this->doInject('formFactory', $formFactory);
+	public function createComponentLoginControl() {
+		return $this->context->createLoginControl();
 	}
-
 
 
 	protected function doInject($name, $dependency) {
@@ -29,7 +24,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 
 
 	public function createForm() {
-		return $this->formFactory->createForm();
+		return $this->context->createForm();
 	}
 
 
@@ -40,6 +35,5 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 		}
 		else $this->error($msg,403);
 	}
-
 
 }

@@ -25,15 +25,17 @@
 <body>
 	<script> document.body.className+=' js' </script>
 
-	<div n:foreach="$flashes as $flash" class="alert alert-{$flash->type}">{$flash->message}</div>
+	<div class="container">
 
-	<ul id="menu">
-		<li n:if="$user->loggedIn"><a n:href=":Project:">Projects</a></li>
-	</ul>
+		{control menuControl}
 
-	{ifset $presenter['userControl']}{control userControl}{/ifset}
+		<div n:foreach="$flashes as $flash" class="alert alert-{$flash->type}">{$flash->message}</div>
 
-	{include #content}
+		{if !$user->isAllowed('usage')}{control loginControl}{/if}
+
+		{include #content}
+
+	</div>
 
 	{block scripts}
 	<script src="{$basePath}/js/jquery.js"></script>

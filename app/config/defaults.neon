@@ -1,5 +1,10 @@
 # Default config file, settings here are to be rewrited by modules.
 
+parameters:
+	controls:
+		menuLinks:
+			- { link: ':Project:', label: 'Projects', access: 'project' }
+
 routes: # highest priority routes
 	index.php: [ Homepage:default, oneWay ]
 
