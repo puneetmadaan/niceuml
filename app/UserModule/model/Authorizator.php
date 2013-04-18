@@ -25,13 +25,15 @@ class Authorizator extends Nette\Object implements Security\IAuthorizator {
 		$this->user = $user;
 		$acl = new Security\Permission;
 		
-        $acl->addRole('guest');
-        $acl->addRole('authenticated');
-        $acl->addRole('user','authenticated');
-        $acl->addRole('admin','authenticated');
+		$acl->addRole('guest');
+		$acl->addRole('authenticated');
+		$acl->addRole('user','authenticated');
+		$acl->addRole('admin','authenticated');
 
-        $acl->addResource('project');
+		$acl->addResource('usage');
+		$acl->allow('user', 'usage');
 
+		$acl->addResource('project');
 		$acl->allow('user', 'project', $acl::ALL, $this->checkProjectUser);
 		
 		$acl->allow('admin');
@@ -55,10 +57,10 @@ class Authorizator extends Nette\Object implements Security\IAuthorizator {
 	 * @return bool
 	 */
 	public function isAllowed($role = self::ALL, $resource = self::ALL, $privilege = self::ALL) {
-		if ($resource instanceof \Model\Entity) {
+		if ($resource instanceof \Model\Entity\Base) {
 			$resource = new EntityResource($resource);
 		}
-		return $this->acl->isAllowed($role, $resource, $privilege);
+		return $this->acl->isAllowed($role, $resource, $privilege);;
 	}
 
 

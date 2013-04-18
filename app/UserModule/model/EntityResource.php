@@ -12,7 +12,7 @@ class EntityResource extends \Nette\Object implements Security\IResource {
 	
 	protected $entity;
 
-	public function __construct(Entity $entity) {
+	public function __construct(Entity\Base $entity) {
 		$this->entity = $entity;
 	}
 

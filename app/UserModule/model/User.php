@@ -12,7 +12,7 @@ use Nette\Security\Identity;
  *
  * @author wormik
  */
-class User extends Entity {
+class User extends Entity\Base {
     
 
     public function setPassword($password) {

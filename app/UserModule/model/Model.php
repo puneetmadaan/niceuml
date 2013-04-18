@@ -3,8 +3,6 @@
 namespace UserModule;
 
 
-use Model\Service;
-
 
 /*
 
@@ -27,7 +25,7 @@ CREATE TABLE `user` (
 */
 
 
-class Model extends \NiceDAO\Service {
+class Model extends \Model\Base {
     
     public function isLoginUnique($login, User $oldUser = NULL) {
         $table = $this->table()->where('login', $login);
