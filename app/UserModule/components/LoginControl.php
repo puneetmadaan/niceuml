@@ -2,11 +2,10 @@
 
 namespace UserModule;
 
-use Nette\Application\UI\Control;
-use Nette\Security\User;
+use Nette\Security;
 use FormFactory;
 
-class UserControl extends Control implements \IUserControl {
+class LoginControl extends \BaseControl implements \IUserControl {
 
 	/** @var Nette\Security\user */
 	protected $user;
@@ -15,7 +14,7 @@ class UserControl extends Control implements \IUserControl {
 	protected $formFactory;
 
 
-	public function __construct(User $user, FormFactory $formFactory) {
+	public function __construct(Security\User $user, FormFactory $formFactory) {
 		$this->user = $user;
 		$this->formFactory = $formFactory;
 	}
@@ -51,12 +50,5 @@ class UserControl extends Control implements \IUserControl {
 			$this->presenter->flashMessage('You have been logged out.');
 		}
 		$this->redirect('this');
-	}
-
-
-	public function render() {
-		$template = $this->createTemplate();
-		$template->setFile( __DIR__ . '/' . 'UserControl.latte' );
-		$template->render();
 	}
 }
