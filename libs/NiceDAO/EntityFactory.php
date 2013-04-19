@@ -1,7 +1,8 @@
 <?php
 
-
 namespace NiceDAO;
+
+use Nette\Database\Table;
 
 
 class EntityFactory extends \Nette\Object {
@@ -11,24 +12,16 @@ class EntityFactory extends \Nette\Object {
 	protected $emptyTables;
 
 
-	public function __construct(array $classes, $defaultClass, EmptyTableAccessor $emptyTables) {
+	public function __construct(array $classes, $defaultClass) {
 		$this->classes = $classes;
 		$this->defaultClass = $defaultClass;
-		$this->emptyTables = $emptyTables;
 	}
 
 
-	public function create($table, array $data = array()) {
-		if ($table instanceof \Nette\Database\Table\Selection) {
-			$name = $table->getName();
-			$class = isset($this->classes[$name]) ? $this->classes[$name] : $this->defaultClass;
-			$entity = new $class($data, $table);
-		}
-		else {
-			$name = $table;
-			$table = $this->emptyTables->get($name);
-			$entity = $table->create($data);
-		}
+	public function create(Table\Selection $table, array $data = array()) {
+		$name = $table->getName();
+		$class = isset($this->classes[$name]) ? $this->classes[$name] : $this->defaultClass;
+		$entity = new $class($data, $table);
 		return $entity;
 	}
 

@@ -1,7 +1,8 @@
 <?php
 
-
 namespace NiceDAO;
+
+use Nette\Database\Connection;
 
 
 class Service extends \Nette\Object {
@@ -9,27 +10,37 @@ class Service extends \Nette\Object {
 	/** @var string */
 	protected $tableName;
 
-	/** @var Nette\Callback($name) */
-	protected $tableFactory;
+	/** @var Connection */
+	protected $connection;
 
 	/** @var EntityFactory */
 	protected $entityFactory;
 
+	/** @var NewEntityTable */
+	protected $newEntityTable;
 
-	public function __construct($tableName, ServiceDependencies $sd) {
+
+	public function __construct($tableName, Connection $connection, EntityFactory $entityFactory) {
 		$this->tableName = $tableName;
-		$this->tableFactory = $sd->tableFactory;
-		$this->entityFactory = $sd->entityFactory;
+		$this->connection = $connection;
+		$this->entityFactory = $entityFactory;
 	}
 
 
 	public function table() {
-		return $this->tableFactory->invoke($this->tableName);
+		return new Selection($this->tableName, $this->connection, $this->entityFactory);
+	}
+
+
+	protected function getNewEntityTable() {
+		if ($this->newEntityTable === NULL)
+			$this->newEntityTable = new NewEntityTable($this->tableName, $this->connection, $this->entityFactory);
+		return $this->newEntityTable;
 	}
 
 
 	public function create($data = NULL) {
-		$entity = $this->entityFactory->create($this->tableName);
+		$entity = $this->getNewEntityTable()->create();
 		if ($data !== NULL) {
 			foreach ($data as $key => $value)
 				$entity->$key = $value;

@@ -5,12 +5,10 @@ namespace NiceDAO;
 use Nette;
 
 
-
 /**
  *	Workaround for creating entities (rows need Selection).
- *
  */
-class EmptySelection extends Selection {
+class NewEntityTable extends Selection {
 
 	protected $rows = array();
 

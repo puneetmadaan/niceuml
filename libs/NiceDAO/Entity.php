@@ -1,6 +1,5 @@
 <?php
 
-
 namespace NiceDAO;
 
 use Nette\Database\Table;
