@@ -1,10 +1,22 @@
 parameters:
 	model:
-		classes: []
+		classes:
+			core_note: Model\Entity\Note
 		defaultClass: Model\Entity\Base
+		inheritanceColumns:
+			core_element: type
+		inheritanceClasses:
+			core_element:
+				note: Model\Entity\Note
 
 services:
-	model.entityFactory: NiceDAO\EntityFactory(%model.classes%, %model.defaultClass%)
+	model.entityFactory:
+		class: Model\InheritanceEntityFactory
+		arguments:
+			- %model.classes%
+			- %model.defaultClass%
+			- %model.inheritanceColumns%
+			- %model.inheritanceClasses%
 
 	model.project: Model\Project('core_project')
 
