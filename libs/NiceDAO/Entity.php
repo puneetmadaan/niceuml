@@ -19,11 +19,17 @@ class Entity extends Table\ActiveRow {
 		return $this;
 	}
 
+	
+	protected function issetColumn($name) {
+		parent::__isset($name);
+		return $this;
+	}
+
 
 	public function & __get($name) {
 		if (ObjectMixin::has($this, $name) || method_exists($this, $name))
 			return ObjectMixin::get($this, $name);
-		return parent::__get($name);
+		return $this->getColumn($name);
 	}
 
 
@@ -35,7 +41,7 @@ class Entity extends Table\ActiveRow {
 				return;
 			}
 		}
-		parent::__set($name, $value);
+		$this->setColumn($name, $value);
 	}
 
 
@@ -44,7 +50,7 @@ class Entity extends Table\ActiveRow {
 			$value = ObjectMixin::get($this, $name);
 			return isset($value);
 		}
-		return  parent::__isset($name);
+		return $this->issetColumn($name);
 	}
 
 }
