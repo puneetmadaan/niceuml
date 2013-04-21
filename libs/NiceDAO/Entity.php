@@ -29,7 +29,8 @@ class Entity extends Table\ActiveRow {
 	public function & __get($name) {
 		if (ObjectMixin::has($this, $name) || method_exists($this, $name))
 			return ObjectMixin::get($this, $name);
-		return $this->getColumn($name);
+		$value = $this->getColumn($name);
+		return $value;
 	}
 
 
