@@ -5,11 +5,10 @@ namespace NiceDAO;
 use Nette\Database\Table;
 
 
-class EntityFactory extends \Nette\Object {
+class ConfigEntityFactory extends \Nette\Object implements IEntityFactory {
 
 	protected $classes;
 	protected $defaultClass;
-	protected $emptyTables;
 
 
 	public function __construct(array $classes, $defaultClass) {
@@ -18,7 +17,7 @@ class EntityFactory extends \Nette\Object {
 	}
 
 
-	public function create(Table\Selection $table, array $data = array()) {
+	public function create(array $data, Table\Selection $table) {
 		$name = $table->getName();
 		$class = isset($this->classes[$name]) ? $this->classes[$name] : $this->defaultClass;
 		$entity = new $class($data, $table);

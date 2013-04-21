@@ -20,7 +20,7 @@ class Service extends \Nette\Object {
 	protected $newEntityTable;
 
 
-	public function __construct($tableName, Connection $connection, EntityFactory $entityFactory) {
+	public function __construct($tableName, Connection $connection, IEntityFactory $entityFactory) {
 		$this->tableName = $tableName;
 		$this->connection = $connection;
 		$this->entityFactory = $entityFactory;

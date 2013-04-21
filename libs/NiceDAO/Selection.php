@@ -15,7 +15,7 @@ class Selection extends Table\Selection {
 	 * @param  \Nette\Database\Connection
 	 * @param  EntityFactory
 	 */
-	public function __construct($table, \Nette\Database\Connection $connection, EntityFactory $entityFactory) {
+	public function __construct($table, \Nette\Database\Connection $connection, IEntityFactory $entityFactory) {
 		parent::__construct($table, $connection);
 		$this->entityFactory = $entityFactory;
 	}
@@ -32,7 +32,7 @@ class Selection extends Table\Selection {
 
 
 	protected function createRow(array $row) {
-		return $this->entityFactory->create($this, $row);
+		return $this->entityFactory->create($row, $this);
 	}
 
 

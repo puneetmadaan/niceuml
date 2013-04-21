@@ -2,11 +2,12 @@
 
 namespace Model;
 
+use NiceDAO\ConfigEntityFactory;
 use Nette\Database\Table;
 use Nette\Utils\Arrays;
 
 
-class InheritanceEntityFactory extends \NiceDAO\EntityFactory {
+class InheritanceEntityFactory extends ConfigEntityFactory {
 
 	protected $inheritanceColumns;
 	protected $inheritanceClasses;
@@ -24,7 +25,7 @@ class InheritanceEntityFactory extends \NiceDAO\EntityFactory {
 	}
 
 
-	public function create(Table\Selection $table, array $data = array()) {
+	public function create(array $data, Table\Selection $table) {
 		$name = $table->getName();
 		if (isset($this->inheritanceColumns[$name])) {
 			$column = $this->inheritanceColumns[$name];
@@ -47,7 +48,7 @@ class InheritanceEntityFactory extends \NiceDAO\EntityFactory {
 					$table->removeAccessColumn($column);
 			}
 		}
-		return parent::create($table, $data);
+		return parent::create($data, $table);
 	}
 
 
