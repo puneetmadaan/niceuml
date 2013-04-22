@@ -20,6 +20,7 @@ nette:
 
 modules:
 	routes: RoutesExtension
+	entity: EntityExtension
 
 routes:
 	- '<projectId [1-9]\d*>/<presenter element|diagram>[/<action=default>][/<id>]'

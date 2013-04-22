@@ -1,22 +1,18 @@
 parameters:
 	model:
-		classes:
-			core_note: Model\Entity\Note
-		defaultClass: Model\Entity\Base
 		inheritanceColumns:
 			core_element: type
-		inheritanceClasses:
-			core_element:
-				note: Model\Entity\Note
 
 services:
-	model.entityFactory:
-		class: Model\InheritanceEntityFactory
-		arguments:
-			- %model.classes%
-			- %model.defaultClass%
-			- %model.inheritanceColumns%
-			- %model.inheritanceClasses%
+	model.entityFactory: Model\InheritanceEntityFactory('entity.', 'default', ..., %model.inheritanceColumns%)
 
 	model.project: Model\Project('core_project')
+
+
+factories:
+
+entity:
+	core_note: Model\Entity\Note
+	core_element.note: Model\Entity\Note
+	default: Model\Entity\Base
 

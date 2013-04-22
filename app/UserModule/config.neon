@@ -18,3 +18,7 @@ routes:
 
 factories:
 	loginControl: UserModule\LoginControl
+
+entity:
+	user_user: UserModule\User
+

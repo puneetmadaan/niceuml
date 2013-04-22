@@ -2,26 +2,22 @@
 
 namespace Model;
 
-use NiceDAO\ConfigEntityFactory;
+use NiceDAO\DIEntityFactory;
 use Nette\Database\Table;
-use Nette\Utils\Arrays;
+use Nette\DI\Container;
 
 
-class InheritanceEntityFactory extends ConfigEntityFactory {
+class InheritanceEntityFactory extends DIEntityFactory {
 
 	protected $inheritanceColumns;
-	protected $inheritanceClasses;
+
 
 	/**
-	 * @param array  $classes             table name => class name
-	 * @param string $defaultClass        default class name
 	 * @param array  $inheritanceColumns  table name => column name
-	 * @param array  $inheritanceClasses   table name => subtype => class name
 	 */
-	public function __construct(array $classes, $defaultClass, array $inheritanceColumns, array $inheritanceClasses) {
-		parent::__construct($classes, $defaultClass);
+	public function __construct($prefix, $default, Container $container, array $inheritanceColumns) {
+		parent::__construct($prefix, $default, $container);
 		$this->inheritanceColumns = $inheritanceColumns;
-		$this->inheritanceClasses = $inheritanceClasses;
 	}
 
 
@@ -33,14 +29,14 @@ class InheritanceEntityFactory extends ConfigEntityFactory {
 			$table->accessColumn($column);
 			if (isset($data[$column])) {
 				$subtype = $data[$column];
-				if (isset($this->inheritanceClasses[$name][$subtype])) {
-					$class = $this->inheritanceClasses[$name][$subtype];
-					return new $class($data, $table);
+				$method = Container::getMethodName($this->prefix . $name . '.' . $subtype, FALSE);
+				if (method_exists($this->container, $method)) {
+					return $this->container->$method($data, $table);
 				}
 			}
 			else {
 				if ($table->dataRefreshed) {
-					$signature = parent::create($table, $data)->getSignature();
+					$signature = parent::create($data, $table)->getSignature();
 					if (isset($table[$signature]))
 						return $table[$signature];
 				}
