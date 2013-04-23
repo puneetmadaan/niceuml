@@ -3,7 +3,7 @@
 namespace UserModule;
 
 use Nette\Security;
-use FormFactory;
+use IFormFactory;
 
 class LoginControl extends \BaseControl implements \IUserControl {
 
@@ -14,14 +14,14 @@ class LoginControl extends \BaseControl implements \IUserControl {
 	protected $formFactory;
 
 
-	public function __construct(Security\User $user, FormFactory $formFactory) {
+	public function __construct(Security\User $user, IFormFactory $formFactory) {
 		$this->user = $user;
 		$this->formFactory = $formFactory;
 	}
 
 
 	public function createComponentLoginForm() {
-		$form = $this->formFactory->createForm();
+		$form = $this->formFactory->create();
 		$form->addText('login','E-mail')
 			->setRequired();
 		$form->addPassword('password','Password')

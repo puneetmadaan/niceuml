@@ -9,15 +9,16 @@ services:
 	model.emptyTableAccessor: NiceDAO\EmptyTableAccessor(@model.emptyTableFactory)
 
 	model.project: Model\Project('core_project')
+	model.element: Model\Element('core_element')
 
 factories:
-	model.table: 
+	model.table:
 		parameters: [ name ]
 		class: NiceDAO\Selection(%name%)
 		setup:
 			- injectEntityFactory
 
-	model.emptyTable: 
+	model.emptyTable:
 		parameters: [ name ]
 		class: NiceDAO\EmptySelection(%name%)
 		setup:

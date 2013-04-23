@@ -1,4 +1,7 @@
-
+{if $user->loggedIn}
+	<p>{$user->identity->name} {$user->identity->surname} logged in</p>
+{else}
 	<h3>Log In</h3>
 	{control loginForm}
 	<a class="btn" href="{plink :User:Forgot:}">Forgotten password</a>
+{/if}

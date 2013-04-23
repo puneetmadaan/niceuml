@@ -9,9 +9,21 @@ parameters:
 			- [ link: 'loginControl-logout!', label: Log out, access: usage ]
 
 services:
-	authenticator: UserModule\Authenticator
-	authorizator: UserModule\Authorizator
+	authenticator:
+		factory: UserModule\Authenticator
+
+	authorizator:
+		factory: UserModule\Authorizator
+
 	userModule.model: UserModule\Model('user_user')
+
+	loginControlFactory:
+		class: ILoginControlFactory
+		factory: UserModule\LoginControlFactory
+
+	projectAccessControlFactory:
+		class: IProjectAccessControlFactory
+		factory: UserModule\ProjectAccessControlFactory
 
 routes:
 	- UserModule\RouterFactory()
