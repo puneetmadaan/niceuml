@@ -57,7 +57,7 @@ final class ProjectPresenter extends BasePresenter {
 	public function renderEdit() {
 		$this->template->new = $this->project === NULL;
 		$this->template->project = $this->project;
-		$this->template->isAccessControl = $this->projectAccessControlFactory !== NULL;
+		$this->template->isAccessControl = $this->project !== NULL && $this->projectAccessControlFactory !== NULL;
 	}
 
 
@@ -72,7 +72,7 @@ final class ProjectPresenter extends BasePresenter {
 	}
 
 
-	public function createComponentProjectForm() {
+	protected function createComponentProjectForm() {
 		$form = $this->createForm();
 
 		$form->addText('name', 'Project name', NULL, 30)
@@ -91,20 +91,14 @@ final class ProjectPresenter extends BasePresenter {
 	public function projectFormSucceeded($form) {
 		$values = $form->values;
 
-		$project = $this->projects->save($this->project, $values);
-
-		if (!$this->project)
-			$project->related('user_project')->insert(array(
-				'user_id' => $this->user->id,
-				'role' => 'owner',
-			));
+		$project = $this->projectModel->save($this->project, $values);
 
 		$this->flashMessage('Project saved.');
 		$this->redirect('edit', $project->id);
 	}
 
 
-	public function createComponentProjectAccessControl() {
+	protected function createComponentProjectAccessControl() {
 		if ($this->projectAccessControlFactory === NULL)
 			throw new Nette\InvalidArgumentException("No factory for component 'accessControl' has been set.");
 		return $this->projectAccessControlFactory->create($this->project);

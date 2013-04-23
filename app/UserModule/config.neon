@@ -22,6 +22,10 @@ services:
 		class: IProjectAccessControlFactory
 		factory: UserModule\ProjectAccessControlFactory
 
+	model.project:
+		setup:
+			- UserModule\NewProjectListener::register(@self)
+
 routes:
 	- UserModule\RouterFactory()
 
