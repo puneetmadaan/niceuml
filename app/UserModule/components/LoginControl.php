@@ -23,13 +23,13 @@ class LoginControl extends BaseControl {
 	}
 
 
-	public function createComponentLoginForm() {
+	protected function createComponentLoginForm() {
 		$form = $this->formFactory->create();
 		$form->addText('login','E-mail')
 			->setRequired();
 		$form->addPassword('password','Password')
 			->setRequired();
-		$form->addSubmit('send');
+		$form->addSubmit('send', 'Log in');
 		$form->onSuccess[] = $this->loginFormSucceeded;
 		return $form;
 	}
