@@ -78,17 +78,11 @@ final class ProjectPresenter extends BasePresenter {
 		$form->addText('name', 'Project name', NULL, 30)
 			->setRequired();
 
-
-		// $users = $this->users->table()->where('id != ?', $this->user->id)->fetchPairs('id', 'fullName');
-		// $form->addMultiSelect('users', 'Users', $users);
-
-
 		$form->addSubmit('send');
 		$form->onSuccess[] = $this->projectFormSucceeded;
 
 		if ($this->project) {
 			$form->defaults = $this->project;
-			// $form['users']->defaultValue = $this->project->related('user_project')->collect('user_id');
 		}
 		return $form;
 	}
@@ -97,9 +91,6 @@ final class ProjectPresenter extends BasePresenter {
 	public function projectFormSucceeded($form) {
 		$values = $form->values;
 
-		// $users = $values->users;
-		// unset($values->users);
-
 		$project = $this->projects->save($this->project, $values);
 
 		if (!$this->project)
@@ -107,15 +98,6 @@ final class ProjectPresenter extends BasePresenter {
 				'user_id' => $this->user->id,
 				'role' => 'owner',
 			));
-		// else
-		// 	$project->related('user_project')->where('user_id != ? ', $this->user->id)
-		// 		->delete();
-
-		// foreach ($users as $u) {
-		// 	$project->related('user_project')->insert(array(
-		// 		'user_id' => $u,
-		// 	));
-		// }
 
 		$this->flashMessage('Project saved.');
 		$this->redirect('edit', $project->id);
