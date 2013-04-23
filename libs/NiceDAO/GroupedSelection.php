@@ -32,8 +32,7 @@ class GroupedSelection extends Table\GroupedSelection {
 
 
 	protected function createSelectionInstance($table = NULL) {
-		$selection = new Selection($table ?: $this->name, $this->connection);
-		return $selection->injectEntityFactory($this->getRefTable($path)->entityFactory);
+		return new Selection($table ?: $this->name, $this->connection, $this->getRefTable($path)->entityFactory);
 	}
 
 
