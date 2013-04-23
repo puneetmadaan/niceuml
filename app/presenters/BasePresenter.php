@@ -35,12 +35,12 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 	}
 
 
-	public function createComponentMenuControl() {
+	protected function createComponentMenuControl() {
 		return $this->menuControlFactory->create();
 	}
 
 
-	public function createComponentLoginControl() {
+	protected function createComponentLoginControl() {
 		if ($this->loginControlFactory === NULL)
 			throw new Nette\InvalidArgumentException("No factory for component 'loginControl' has been set.");
 		return $this->loginControlFactory->create();

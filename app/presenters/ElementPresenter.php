@@ -57,12 +57,12 @@ final class ElementPresenter extends ModellingPresenter {
 	}
 
 
-	public function createComponentNewElementControl() {
+	protected function createComponentNewElementControl() {
 		return $this->newElementControlFactory->create($this->project);
 	}
 
 
-	public function createComponentElementControl() {
+	protected function createComponentElementControl() {
 		if (!$this->element)
 			$this->error();
 		return $this->elementControlFactory->create($this->element);

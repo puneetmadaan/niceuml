@@ -32,7 +32,7 @@ final class ForgotPresenter extends \BasePresenter {
 	}
 
 
-	public function createComponentForgotForm() {
+	protected function createComponentForgotForm() {
 		$form = $this->createForm();
 		$form->addText('login','E-mail')
 			->setRequired();
@@ -64,7 +64,7 @@ final class ForgotPresenter extends \BasePresenter {
 	}
 
 
-	public function createComponentForgotCodeForm() {
+	protected function createComponentForgotCodeForm() {
 		$form = $this->createForm();
 		$form->addText('controlCode','Control code')
 			->setRequired();

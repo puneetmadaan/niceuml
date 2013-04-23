@@ -24,7 +24,7 @@ final class DefaultPresenter extends \BasePresenter {
 	}
 
 
-	public function createComponentUserForm() {
+	protected function createComponentUserForm() {
 		$form = $this->createForm();
 		$users = $this->users;
 		if (!$this->user->loggedIn) {
