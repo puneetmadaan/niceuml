@@ -1,10 +1,10 @@
 <?php
 
-use Nette\Config\Compiler;
-use Nette\Config\CompilerExtension;
-use Nette\Utils\Validators;
-use Nette\Application\Routers\Route;
-use Nette\Utils\Arrays;
+use Nette\Application\Routers\Route,
+	Nette\Config\Compiler,
+	Nette\Config\CompilerExtension,
+	Nette\Utils\Arrays,
+	Nette\Utils\Validators;
 
 
 class RoutesExtension extends CompilerExtension {

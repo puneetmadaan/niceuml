@@ -22,7 +22,7 @@ $configurator->addConfig(__DIR__ . '/config/config.neon', $configurator::NONE);
 $configurator->addConfig(__DIR__ . '/config/config.local.neon', $configurator::NONE); // none section
 
 $configurator->onCompile[] = function ($configurator, $compiler) {
-    $compiler->addExtension('modules', new VojtechDobes\ExtensionsList);
+	$compiler->addExtension('modules', new VojtechDobes\ExtensionsList);
 };
 
 $container = $configurator->createContainer();

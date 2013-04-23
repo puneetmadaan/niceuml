@@ -9,6 +9,7 @@ class Selection extends Table\Selection {
 
 	protected $entityFactory;
 
+
 	/**
 	 * Creates filtered table representation.
 	 * @param  string  database table name

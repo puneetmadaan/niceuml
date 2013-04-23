@@ -1,7 +1,4 @@
 parameters:
-	model:
-		classes:
-			user_user: UserModule\User
 	controls:
 		menuLinks:
 			- [ link: ':User:Default:', label: Register, access: usage, accessInverse: TRUE ]

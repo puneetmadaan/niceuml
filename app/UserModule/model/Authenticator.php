@@ -2,8 +2,9 @@
 
 namespace UserModule;
 
-use Nette;
-use Nette\Security;
+use Nette,
+	Nette\Security;
+
 
 class Authenticator extends Nette\Object implements Security\IAuthenticator {
 

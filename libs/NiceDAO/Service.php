@@ -65,7 +65,7 @@ class Service extends \Nette\Object {
 
 		if ($this->isNew($entity))
 			return $this->table()->insert($entity);
-		
+
 		$entity->update();
 		return $entity;
 	}

@@ -11,6 +11,7 @@ class DIEntityFactory extends \Nette\Object implements IEntityFactory {
 	protected $default;
 	protected $container;
 
+
 	public function __construct($prefix, $default, \Nette\DI\Container $container) {
 		$this->prefix = $prefix;
 		$this->default = $default;

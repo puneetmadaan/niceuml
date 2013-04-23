@@ -1,7 +1,7 @@
 <?php
 
-use Nette\Security\IAuthenticator;
-use Nette\Security\AuthenticationException;
+use Nette\Security\IAuthenticator,
+	Nette\Security\AuthenticationException;
 
 
 class DefaultAuthenticator extends Nette\Object implements IAuthenticator {

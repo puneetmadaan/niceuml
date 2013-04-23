@@ -119,11 +119,4 @@ CREATE TABLE `core_note_relation` (
 );
 
 
--- DROP TABLE IF EXISTS `noteLink`;
--- CREATE TABLE `noteLink` (
--- 	`id` INT UNSIGNED NOT NULL PRIMARY KEY,
--- 	FOREIGN KEY (`id`) REFERENCES `relation` (`id`)  ON DELETE CASCADE ON UPDATE CASCADE
--- );
-
-
 SET FOREIGN_KEY_CHECKS = @OLD_CHECKS;

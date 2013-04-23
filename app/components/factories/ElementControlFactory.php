@@ -12,7 +12,7 @@ class ElementControlFactory implements IElementControlFactory {
 
 
 	public function create(Model\Entity\Element $element) {
-		return $this->container->createNewElementControl($element);
+		return $this->container->createElementControl($element);
 	}
 
 }

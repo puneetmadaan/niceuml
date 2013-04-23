@@ -2,10 +2,13 @@
 
 namespace UserModule;
 
-use Nette\Security;
-use IFormFactory;
+use BaseControl,
+	ILoginControl,
+	IFormFactory,
+	Nette\Security;
 
-class LoginControl extends \BaseControl implements \IUserControl {
+
+class LoginControl extends BaseControl {
 
 	/** @var Nette\Security\user */
 	protected $user;
@@ -36,7 +39,7 @@ class LoginControl extends \BaseControl implements \IUserControl {
 		$values = $form->getValues();
 		try {
 			$this->user->login($values->login, $values->password);
-		} catch (\Nette\Security\AuthenticationException $e) {
+		} catch (Security\AuthenticationException $e) {
 			$form->addError($e->getMessage());
 			return;
 		}
@@ -51,4 +54,5 @@ class LoginControl extends \BaseControl implements \IUserControl {
 		}
 		$this->redirect('this');
 	}
+
 }

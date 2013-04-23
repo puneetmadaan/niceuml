@@ -5,6 +5,7 @@ namespace NiceDAO;
 
 class SelectionMixin {
 
+
 	/**
 	 * Static class - cannot be instantiated.
 	 */

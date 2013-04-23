@@ -1,14 +1,13 @@
 <?php
 
-
 namespace UserModule;
 
 
+final class DefaultPresenter extends \BasePresenter {
 
-class DefaultPresenter extends \BasePresenter {
-	
 	protected $users;
 	protected $userDetail;
+
 
 	public function injectUsers(Model $users) {
 		$this->users = $users;
@@ -23,6 +22,7 @@ class DefaultPresenter extends \BasePresenter {
 			$this->userDetail = $user;
 		}
 	}
+
 
 	public function createComponentUserForm() {
 		$form = $this->createForm();

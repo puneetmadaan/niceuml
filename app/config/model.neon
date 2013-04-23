@@ -14,7 +14,7 @@ factories:
 
 entity:
 	core_note: Model\Entity\Note
-	core_element.note: Model\Entity\Note
 	core_element: Model\Entity\Element
+	core_element.note: Model\Entity\Note
 	core_project: Model\Entity\Project
 	default: Model\Entity\Base

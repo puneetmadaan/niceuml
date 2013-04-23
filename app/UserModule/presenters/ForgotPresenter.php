@@ -3,8 +3,8 @@
 namespace UserModule;
 
 
-class ForgotPresenter extends \BasePresenter {
-	
+final class ForgotPresenter extends \BasePresenter {
+
 	protected $mailFactory = NULL;
 	protected $users;
 
@@ -48,7 +48,7 @@ class ForgotPresenter extends \BasePresenter {
 			$form['login']->addError('No user with this e-mail exists.');
 			return;
 		}
-		
+
 		do {
 			$password = $user->resetPassword();
 		} while ($this->users->table()->where('passwordNewCode', $user->passwordNewCode)->fetch());

@@ -1,8 +1,11 @@
 <?php
 
+namespace Model;
+
+use Nette;
+
 
 class Command extends Nette\Object {
-	
 
 	protected $module;
 	protected $name;
@@ -14,7 +17,6 @@ class Command extends Nette\Object {
 	 * @param string Command name
 	 * @param array Command arguments
 	 */
-
 	public function __construct($module, $name, array $args = array()) {
 		$this->module = $module;
 		$this->name = $name;
@@ -35,6 +37,5 @@ class Command extends Nette\Object {
 	public function getArgs() {
 		return $this->args;
 	}
-	
 
 }

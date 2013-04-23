@@ -2,9 +2,9 @@
 
 namespace Model;
 
-use NiceDAO\DIEntityFactory;
-use Nette\Database\Table;
-use Nette\DI\Container;
+use NiceDAO\DIEntityFactory,
+	Nette\Database\Table,
+	Nette\DI\Container;
 
 
 class InheritanceEntityFactory extends DIEntityFactory {

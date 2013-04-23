@@ -2,8 +2,8 @@
 
 namespace NiceDAO;
 
-use Nette\Database\Table;
-use Nette\ObjectMixin;
+use Nette\Database\Table,
+	Nette\ObjectMixin;
 
 
 class Entity extends Table\ActiveRow {
@@ -19,7 +19,7 @@ class Entity extends Table\ActiveRow {
 		return $this;
 	}
 
-	
+
 	protected function issetColumn($name) {
 		parent::__isset($name);
 		return $this;

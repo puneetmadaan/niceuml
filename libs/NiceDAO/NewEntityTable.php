@@ -12,6 +12,7 @@ class NewEntityTable extends Selection {
 
 	protected $rows = array();
 
+
 	public function aggregation($function) {
 		return;
 	}
@@ -31,14 +32,16 @@ class NewEntityTable extends Selection {
 		return $this->rows[] = $this->createRow($data);
 	}
 
-	
+
 	protected function emptyResultSet() {
 		return;
 	}
 
+
 	public function accessColumn($key, $selectColumn = TRUE){
 		return;
 	}
+
 
 	public function removeAccessColumn($key) {
 		return;
@@ -49,9 +52,11 @@ class NewEntityTable extends Selection {
 		return FALSE;
 	}
 
+
 	public function update($data) {
 		return FALSE;
 	}
+
 
 	public function delete() {
 		return FALSE;

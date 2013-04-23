@@ -2,9 +2,8 @@
 
 namespace Model;
 
-use Nette\Security\User;
-use NiceDAO\Selection;
-
+use NiceDAO\Selection,
+	Nette\Security\User;
 
 
 class Project extends Base {

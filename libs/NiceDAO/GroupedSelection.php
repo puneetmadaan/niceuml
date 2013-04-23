@@ -7,6 +7,7 @@ use Nette\Database\Table;
 
 class GroupedSelection extends Table\GroupedSelection {
 
+
 	/**
 	* Creates filtered and grouped table representation.
 	* @param Selection|GroupedSelection $refTable
@@ -19,7 +20,7 @@ class GroupedSelection extends Table\GroupedSelection {
 		parent::__construct($refTable, $table, $column);
 	}
 
-	
+
 	public function collect($item, $preserveKeys = FALSE) {
 		return SelectionMixin::collect($this, $item, $preserveKeys);
 	}

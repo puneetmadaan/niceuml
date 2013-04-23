@@ -2,8 +2,9 @@
 
 namespace UserModule;
 
-use Nette;
-use Nette\Security;
+use Nette,
+	Nette\Security;
+
 
 /**
  * ACL-based authorizing. Wrapper to Nette\Permission. Works with entities.

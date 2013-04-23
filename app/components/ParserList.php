@@ -1,16 +1,17 @@
 <?php
 
+use Model\Command;
+
 
 class ParserList extends Nette\Object implements IParser {
-	
 
 	protected $parsers = array();
+
 
 	/**
 	 * @param string Module name.
 	 * @param IParser
 	 */
-
 	public function addParser($module, IParser $parser) {
 		if (isset($this->parsers[$module]))
 			throw new Nette\InvalidArgumentException("Parser of module '$module' already set.");
@@ -25,7 +26,7 @@ class ParserList extends Nette\Object implements IParser {
 	 */
 	public function parse($input) {
 		foreach ($this->parsers as $parser) {
-			$command = $parser->parse($input); 
+			$command = $parser->parse($input);
 			if ($command === NULL)
 				continue;
 			if (!$command instanceof Command)
@@ -42,6 +43,5 @@ class ParserList extends Nette\Object implements IParser {
 			throw new Nette\InvalidArgumentException("Unknown command module '$module'.");
 		return $this->parsers[$module]->build($command);
 	}
-
 
 }

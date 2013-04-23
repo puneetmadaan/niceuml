@@ -8,7 +8,8 @@ use NiceDAO\Selection;
 
 
 class Base extends Service {
-	
+
+
 	public function filterAllowed(User $user, Selection $table, $action = NULL) {
 	}
 
