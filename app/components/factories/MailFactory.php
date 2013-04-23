@@ -8,10 +8,10 @@ class MailFactory implements IMailFactory {
 	protected $defaultFrom;
 
 
-	public function __construct(Nette\DI\Container $container, $templateDir, $defaultFrom) {
-		$this->container = $container;
+	public function __construct($templateDir, $defaultFrom, Nette\DI\Container $container) {
 		$this->templateDir = $templateDir;
 		$this->defaultFrom = $defaultFrom;
+		$this->container = $container;
 	}
 
 
