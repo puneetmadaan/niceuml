@@ -6,8 +6,10 @@ parameters:
 services:
 	model.entityFactory: Model\InheritanceEntityFactory('entity.', 'default', ..., %model.inheritanceColumns%)
 
-	model.project: Model\Project('core_project')
-	model.element: Model\Element('core_element')
+	model.project:
+		class: Model\Project('core_project')
+	model.element:
+		class: Model\Element('core_element')
 
 
 factories:
