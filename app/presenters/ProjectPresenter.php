@@ -1,21 +1,26 @@
 <?php
 
 
+final class ProjectPresenter extends BasePresenter {
 
-class ProjectPresenter extends BasePresenter {
-	
-	protected $projects;
+	/** @var Model\Project */
+	protected $projectModel;
+
+	/** @var IProjectAccessControlFactory */
+	protected $projectAccessControlFactory;
+
+	/** @var Model\Entity\Project */
 	protected $project;
 
-	protected $users;
 
-	public function injectProjects(Model\Project $projects) {
-		$this->projects = $projects;
+	public function injectProjectModel(Model\Project $projectModel) {
+		$this->doInject('projectModel', $projectModel);
 	}
 
 
-	public function injectUsers(UserModule\Model $users) {
-		$this->users = $users;
+	public function injectAccessControlFactory(IProjectAccessControlFactory $factory = NULL) {
+		if ($factory !== NULL)
+			$this->doInject('projectAccessControlFactory', $factory);
 	}
 
 
@@ -27,41 +32,55 @@ class ProjectPresenter extends BasePresenter {
 
 
 	public function renderDefault() {
-		$this->template->projects = $this->projects->table()
+		$this->template->projects = $this->projectModel->table()
 			->where('user_project:user_id = ?', $this->user->id);
 	}
 
 
 	public function actionEdit($id) {
-		$project = $this->projects->get($id);
+		$project = $this->projectModel->get($id);
 
 		if (!$project)
 			$this->error();
-		if (!$this->user->isAllowed($project))
+		if (!$this->user->isAllowed($project, 'edit'))
 			$this->forbidden();
 
 		$this->project = $project;
 	}
 
+
 	public function actionNew() {
 		$this->view = 'edit';
 	}
 
+
 	public function renderEdit() {
-		$this->template->new = !$this->project;
+		$this->template->new = $this->project === NULL;
 		$this->template->project = $this->project;
+		$this->template->isAccessControl = $this->projectAccessControlFactory !== NULL;
+	}
+
+
+	public function handleDelete() {
+		if (!$this->project)
+			$this->error();
+		if (!$this->user->isAllowed($this->project, 'delete'))
+			$this->forbidden();
+		$this->project->delete();
+		$this->flashMessage('Project was deleted.');
+		$this->redirect('default');
 	}
 
 
 	public function createComponentProjectForm() {
 		$form = $this->createForm();
-		
+
 		$form->addText('name', 'Project name', NULL, 30)
 			->setRequired();
 
 
-		$users = $this->users->table()->where('id != ?', $this->user->id)->fetchPairs('id', 'fullName');
-		$form->addMultiSelect('users', 'Users', $users);
+		// $users = $this->users->table()->where('id != ?', $this->user->id)->fetchPairs('id', 'fullName');
+		// $form->addMultiSelect('users', 'Users', $users);
 
 
 		$form->addSubmit('send');
@@ -69,7 +88,7 @@ class ProjectPresenter extends BasePresenter {
 
 		if ($this->project) {
 			$form->defaults = $this->project;
-			$form['users']->defaultValue = $this->project->related('user_project')->collect('user_id');
+			// $form['users']->defaultValue = $this->project->related('user_project')->collect('user_id');
 		}
 		return $form;
 	}
@@ -78,28 +97,35 @@ class ProjectPresenter extends BasePresenter {
 	public function projectFormSucceeded($form) {
 		$values = $form->values;
 
-		$users = $values->users;
-		unset($values->users);
-		
+		// $users = $values->users;
+		// unset($values->users);
+
 		$project = $this->projects->save($this->project, $values);
-		
+
 		if (!$this->project)
 			$project->related('user_project')->insert(array(
 				'user_id' => $this->user->id,
 				'role' => 'owner',
 			));
-		else
-			$project->related('user_project')->where('user_id != ? ', $this->user->id)
-				->delete();
+		// else
+		// 	$project->related('user_project')->where('user_id != ? ', $this->user->id)
+		// 		->delete();
 
-		foreach ($users as $u) {
-			$project->related('user_project')->insert(array(
-				'user_id' => $u,
-			));
-		}
+		// foreach ($users as $u) {
+		// 	$project->related('user_project')->insert(array(
+		// 		'user_id' => $u,
+		// 	));
+		// }
 
 		$this->flashMessage('Project saved.');
 		$this->redirect('edit', $project->id);
+	}
+
+
+	public function createComponentProjectAccessControl() {
+		if ($this->projectAccessControlFactory === NULL)
+			throw new Nette\InvalidArgumentException("No factory for component 'accessControl' has been set.");
+		return $this->projectAccessControlFactory->create($this->project);
 	}
 
 }

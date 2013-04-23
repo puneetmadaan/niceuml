@@ -1,85 +1,83 @@
 <?php
 
 
+final class ElementPresenter extends ModellingPresenter {
 
-class ElementPresenter extends ModellingPresenter {
+	/** @var Model\Element */
+	protected $elementModel;
 
+	/** @var INewElementControlFactory */
+	protected $newElementControlFactory;
+
+	/** @var IElementControlFactory */
+	protected $elementControlFactory;
+
+	/** @var Model\EntityElement */
 	protected $element;
+
+
+	public function injectElementModel(Model\Element $elementModel) {
+		$this->doInject('elementModel', $elementModel);
+	}
+
+
+	public function injectElementControlFactories(INewElementControlFactory $new, IElementControlFactory $edit) {
+		$this->doInject('newElementControlFactory', $new);
+		$this->doInject('elementControlFactory', $edit);
+	}
+
 
 	public function actionDefault() {
 	}
 
+
 	public function renderDefault() {
 		$this->template->elements = $this->project->related('element');
 	}
-	
+
 
 	public function actionEdit($id) {
-		$row = $this->project->related('core_element')->get($id);
-		$this->element = $row->related($row->type)->fetch();
+		$this->element = $this->checkElement($id);
 	}
+
 
 	public function renderEdit() {
-
+		$this->template->element = $this->element;
 	}
 
-	public function createComponentNewElementForm() {
-		$form = $this->createForm();
-		$items = array(
-			'note' => 'Note',
-			'class' => 'Class',
-		);
-		$form->addSelect('type', 'Type', $items)
-			->setRequired();
-		$form->addSubmit('send');
-		$form->onSuccess[] = $this->newElementFormSucceeded;
-		return $form;
+
+	public function handleDelete() {
+		if (!$this->element)
+			$this->error();
+		if (!$this->user->isAllowed($this->element, 'delete'))
+			$this->forbidden();
+		$this->element->delete();
+		$this->flashMessage('Element was deleted.');
+		$this->redirect('default');
 	}
 
-	public function newElementFormSucceeded($form) {
-		$values = $form->values;
-		$row = $this->project->related('core_element')->insert($values);
-		if ($values->type === 'note')
-			$row->related('core_note')->insert(NULL);
-		elseif ($values->type === 'class')
-			$row->related('class_class')->insert(NULL);
-		$this->redirect('edit', $row->id);
+
+	public function createComponentNewElementControl() {
+		return $this->newElementControlFactory->create($this->project);
 	}
+
 
 	public function createComponentElementControl() {
-		$form = $this->createForm();
-		$form->addTextarea('source','Source');
-			//->defaultValue = Nette\Utils\Neon::encode( $this->element->toArray() + $this->element->ref('core_element', 'id')->toArray() );
-
-		$form->addSubmit('send');
-		$form->onSuccess[] = $this->elementControlSucceeded;
-		
-		return $form;
-		/*
 		if (!$this->element)
-			return NULL;
-		return $this->context->createElementControl($this->element->type);
-		*/
+			$this->error();
+		return $this->elementControlFactory->create($this->element);
 	}
 
-	public function elementControlSucceeded($form) {
-		try {
-			$source = Nette\Utils\Neon::decode( $form['source']->value );
-		} catch ( Nette\Utils\NeonException $e ) {
-			$form['source']->addError($e->getMessage());
-			return;
-		}
-		if (isset($source['name'])) {
-			$this->element->ref('core_element', 'id')->update(array(
-				'name' => $source['name'],
-			));
-			unset($source['name']);
-		}
-		$this->element->update($source);
-		$this->redirect('this');
+
+	protected function checkElement($id) {
+		if ($id === NULL)
+			$this->error();
+		$element = $this->elementModel->get((int) $id);
+		if (!$element)
+			$this->error();
+		if (!$this->user->isAllowed($element))
+			$this->forbidden();
+		return $element;
 	}
 
-	public function createComponentNewRelationForm() {
-		return $this->context->createNewElementForm();
-	}
 }

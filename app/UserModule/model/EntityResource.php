@@ -9,7 +9,7 @@ use Model\Entity;
 
 
 class EntityResource extends \Nette\Object implements Security\IResource {
-	
+
 	protected $entity;
 
 	public function __construct(Entity\Base $entity) {

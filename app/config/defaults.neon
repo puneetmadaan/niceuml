@@ -5,11 +5,44 @@ parameters:
 		menuLinks:
 			- { link: ':Project:', label: 'Projects', access: 'project' }
 
+
 routes: # highest priority routes
 	index.php: [ Homepage:default, oneWay ]
 
 
-
 services:
-	authenticator: DefaultAuthenticator
-	authorizator: DefaultAuthorizator
+	authenticator:
+		class: Nette\Security\IAuthenticator
+		factory: DefaultAuthenticator
+
+	authorizator:
+		class: Nette\Security\IAuthorizator
+		factory: DefaultAuthorizator
+
+	formFactory:
+		class: IFormFactory
+		factory: FormFactory
+
+	menuControlFactory:
+		class: IMenuControlFactory
+		factory: MenuControlFactory
+
+	projectControlTreeFactory:
+		class: IProjectTreeControlFactory
+		factory: ProjectTreeControlFactory
+
+	sourceControlFactory:
+		class: ISourceControlFactory
+		factory: SourceControlFactory
+
+	consoleControlFactory:
+		class: IConsoleControlFactory
+		factory: ConsoleControlFactory
+
+	elementControlFactory:
+		class: IElementControlFactory
+		factory: ElementControlFactory
+
+	newElementControlFactory:
+		class: INewElementControlFactory
+		factory: NewElementControlFactory

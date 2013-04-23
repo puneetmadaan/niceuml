@@ -31,7 +31,7 @@
 
 		<div n:foreach="$flashes as $flash" class="alert alert-{$flash->type}">{$flash->message}</div>
 
-		{if !$user->isAllowed('usage')}{control loginControl}{/if}
+		{if $isLoginControl}{control loginControl}{/if}
 
 		{include #content}
 

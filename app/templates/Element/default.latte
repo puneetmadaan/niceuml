@@ -1,2 +1,10 @@
 
 {block content}
+
+<table class="table">
+
+	<tr n:foreach="$elements as $e">
+		<td>{$e->id}</td><td>{$e->type}</td><td>{=get_class($e)}</td>
+	</tr>
+
+</table>

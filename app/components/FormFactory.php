@@ -2,7 +2,7 @@
 
 
 
-class FormFactory extends Nette\Object {
+class _FormFactory extends Nette\Object {
 
 
 	protected $formCallback;

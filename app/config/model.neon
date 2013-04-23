@@ -7,6 +7,7 @@ services:
 	model.entityFactory: Model\InheritanceEntityFactory('entity.', 'default', ..., %model.inheritanceColumns%)
 
 	model.project: Model\Project('core_project')
+	model.element: Model\Element('core_element')
 
 
 factories:
@@ -14,5 +15,6 @@ factories:
 entity:
 	core_note: Model\Entity\Note
 	core_element.note: Model\Entity\Note
+	core_element: Model\Entity\Element
+	core_project: Model\Entity\Project
 	default: Model\Entity\Base
-

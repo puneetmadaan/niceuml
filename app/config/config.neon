@@ -29,7 +29,7 @@ routes:
 services:
 	database: @nette.database.default
 	mailFactory: MailFactory( @nette.mailFactory, %appDir%/templates/mails, %mails.defaultFrom% )
-	formFactory: Formfactory( @nette.basicFormFactory )
+
 	router: @routes.router
 	parser:
 		class: ParserList
