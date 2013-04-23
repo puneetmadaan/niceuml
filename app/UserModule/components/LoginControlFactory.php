@@ -14,7 +14,7 @@ class LoginControlFactory implements \ILoginControlFactory {
 
 
 	public function create() {
-		return $this->container->createLoginControl();
+		return $this->container->createUserModule__loginControl();
 	}
 
 }

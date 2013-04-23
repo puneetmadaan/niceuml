@@ -26,7 +26,10 @@ routes:
 	- UserModule\RouterFactory()
 
 factories:
-	loginControl: UserModule\LoginControl
+	userModule.loginControl: UserModule\LoginControl
+	userModule.projectAccessControl:
+		class: UserModule\ProjectAccessControl(%project%)
+		parameters: [ Model\Entity\Project project ]
 
 entity:
 	user_user: UserModule\User

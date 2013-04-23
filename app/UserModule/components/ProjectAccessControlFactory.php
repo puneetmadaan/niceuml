@@ -14,7 +14,7 @@ class ProjectAccessControlFactory implements \IProjectAccessControlFactory {
 
 
 	public function create(\Model\Entity\Project $project) {
-		return $this->container->createProjectAccessControl($project);
+		return $this->container->createUserModule__projectAccessControl($project);
 	}
 
 }
