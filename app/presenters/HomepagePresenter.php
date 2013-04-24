@@ -16,6 +16,7 @@ final class HomepagePresenter extends BasePresenter {
 
 	public function renderDefault() {
 		$projects = $this->projectModel->table();
+		$this->projectModel->filterAllowed($this->user, $projects);
 		$this->template->projects = $projects;
 	}
 

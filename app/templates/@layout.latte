@@ -25,6 +25,8 @@
 <body>
 	<script> document.body.className+=' js' </script>
 
+	{block header}
+
 	<div class="container">
 
 		{control menuControl}
@@ -33,9 +35,15 @@
 
 		{if $isLoginControl}{control loginControl}{/if}
 
+	{/block}
+
 		{include #content}
 
+	{block footer}
+
 	</div>
+
+	{/block}
 
 	{block scripts}
 	<script src="{$basePath}/js/jquery.js"></script>

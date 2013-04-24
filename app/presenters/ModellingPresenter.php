@@ -42,6 +42,7 @@ abstract class ModellingPresenter extends BasePresenter {
 
 	protected function beforeRender() {
 		parent::beforeRender();
+		$this->layout = 'modelling';
 		$this->template->project = $this->project;
 	}
 
@@ -56,7 +57,7 @@ abstract class ModellingPresenter extends BasePresenter {
 	}
 
 
-	protected function createComponentConsole() {
+	protected function createComponentConsoleControl() {
 		return $this->consoleControlFactory->create($this->project);
 	}
 

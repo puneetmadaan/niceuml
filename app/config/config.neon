@@ -31,6 +31,7 @@ services:
 	mailFactory: MailFactory( %appDir%/templates/mails, %mails.defaultFrom% )
 
 	router: @routes.router
+
 	parser:
 		class: ParserList
 	interpreter:
@@ -45,8 +46,21 @@ factories:
 		setup:
 			- $renderer( Kdyby\BootstrapFormRenderer\BootstrapRenderer() )
 	form: @nette.basicForm
+
 	menuControl:
 		class: MenuControl( %controls.menuLinks% )
+
+	projectTreeControl:
+		class: ProjectTreeControl(%project%)
+		parameters: [ Model\Entity\Project project ]
+
+	sourceControl:
+		class: SourceControl(%project%)
+		parameters: [ Model\Entity\Project project ]
+
+	consoleControl:
+		class: ConsoleControl(%project%)
+		parameters: [ Model\Entity\Project project ]
 
 includes:
 	- defaults.neon
