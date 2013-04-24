@@ -3,5 +3,5 @@
 namespace Model\Entity;
 
 
-class Note extends Base {
+class Note extends ElementChild {
 }

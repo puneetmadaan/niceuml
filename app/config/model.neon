@@ -15,8 +15,8 @@ services:
 factories:
 
 entity:
-	core_note: Model\Entity\Note
 	core_element: Model\Entity\Element
-	core_element.note: Model\Entity\Note
+	core_element.note: Model\Entity\Element('core_note')
 	core_project: Model\Entity\Project
+	core_note: Model\Entity\Note
 	default: Model\Entity\Base
