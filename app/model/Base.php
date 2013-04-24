@@ -8,7 +8,7 @@ use NiceDAO\Entity,
 	Nette\Security\User;
 
 
-class Base extends Service {
+class Base extends Service implements IModel {
 
 	/** @var array of function(Entity $entity) */
 	public $onSave = array();
@@ -23,7 +23,7 @@ class Base extends Service {
 	public $onDelete = array();
 
 
-	public function save(Entity $entity = NULL, $data = NULL) {
+	public function save($entity = NULL, $data = NULL) {
 		$new = $entity === NULL || $this->isNew($entity);
 		$entity = parent::save($entity, $data);
 
@@ -37,7 +37,7 @@ class Base extends Service {
 	}
 
 
-	public function delete(Entity $entity) {
+	public function delete($entity) {
 		$return = parent::delete($entity);
 		$this->onDelete($entity);
 		return $return;

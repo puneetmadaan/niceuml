@@ -54,7 +54,10 @@ class Service extends \Nette\Object {
 	}
 
 
-	public function save(Entity $entity = NULL, $data = NULL) {
+	public function save($entity = NULL, $data = NULL) {
+		if (!$entity instanceof Entity)
+			throw new \Nette\InvalidArgumentException;
+
 		if ($entity === NULL)
 			$entity = $this->create();
 
@@ -71,7 +74,10 @@ class Service extends \Nette\Object {
 	}
 
 
-	public function delete(Entity $entity) {
+	public function delete($entity) {
+		if (!$entity instanceof Entity)
+			throw new \Nette\InvalidArgumentException;
+
 		return $entity->delete();
 	}
 
