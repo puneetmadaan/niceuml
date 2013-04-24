@@ -2,6 +2,9 @@
 
 namespace Model;
 
+use Nette\Database\Connection,
+	NiceDAO\IEntityFactory;
+
 
 class BaseChild extends Base {
 
@@ -16,7 +19,7 @@ class BaseChild extends Base {
 	public function create($data = NULL) {
 		$entity = parent::create();
 		if ($entity instanceof Entity\BaseChild)
-			$entity->setParent($parentModel->create());
+			$entity->setParent($this->parentModel->create());
 		if ($data !== NULL) {
 			foreach ($data as $key => $value)
 				$entity->$key = $value;
@@ -25,9 +28,11 @@ class BaseChild extends Base {
 	}
 
 
-	public function save(Entity $entity = NULL, $data = NULL) {
+	public function save($entity = NULL, $data = NULL) {
 		if ($entity === NULL)
 			$entity = $this->create();
+		elseif (!$entity instanceof \NiceDAO\Entity)
+			throw new \Nette\InvalidArgumentException;
 
 		if ($data !== NULL) {
 			foreach ($data as $key => $value)

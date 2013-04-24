@@ -42,7 +42,32 @@ services:
 	elementControlFactory:
 		class: IElementControlFactory
 		factory: ElementControlFactory
+		setup:
+			- addType('note', 'noteControl')
 
 	newElementControlFactory:
 		class: INewElementControlFactory
 		factory: NewElementControlFactory
+
+	relationControlFactory:
+		class: IRelationControlFactory
+		factory: RelationControlFactory
+
+	newRelationControlFactory:
+		class: INewRelationControlFactory
+		factory: NewRelationControlFactory
+
+factories:
+	elementControl:
+		class: ElementControl(%element%, @model.element, @model.relation)
+		parameters: [ Model\Entity\Element element ]
+
+	noteControl:
+		class: NoteControl(%element%, @model.note, @model.relation)
+		parameters: [ Model\Entity\Element element ]
+
+	relationControl:
+		class: RelationControl(%relation%)
+		parameters: [ Model\Entity\Relation relation ]
+
+

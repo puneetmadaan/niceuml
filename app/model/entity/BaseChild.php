@@ -26,7 +26,7 @@ class BaseChild extends Base {
 	public function getParent() {
 		if ($this->parent === NULL) {
 			$parent = $this->ref($this->parentTable, 'id');
-			$this->parent = $parent === NULL ? $parent : FALSE;
+			$this->parent = $parent !== NULL ? $parent : FALSE;
 			if ($this->parent)
 				$parent->setChild($this);
 		}

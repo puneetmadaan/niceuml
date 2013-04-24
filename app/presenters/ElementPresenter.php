@@ -12,11 +12,11 @@ final class ElementPresenter extends ModellingPresenter {
 	/** @var IElementControlFactory */
 	protected $elementControlFactory;
 
-	/** @var Model\EntityElement */
+	/** @var Model\Entity\Element */
 	protected $element;
 
 
-	public function injectElementModel(Model\Element $elementModel) {
+	public function injectModel(Model\Element $elementModel) {
 		$this->doInject('elementModel', $elementModel);
 	}
 
@@ -25,7 +25,6 @@ final class ElementPresenter extends ModellingPresenter {
 		$this->doInject('newElementControlFactory', $new);
 		$this->doInject('elementControlFactory', $edit);
 	}
-
 
 	public function actionDefault() {
 	}
@@ -36,8 +35,10 @@ final class ElementPresenter extends ModellingPresenter {
 	}
 
 
-	public function actionEdit($id) {
+	public function actionEdit($id, $relation = NULL) {
 		$this->element = $this->checkElement($id);
+		if ($relation !== NULL)
+			$this->relation = $this->checkRelation($relation);
 	}
 
 
@@ -46,12 +47,14 @@ final class ElementPresenter extends ModellingPresenter {
 	}
 
 
-	public function handleDelete() {
-		if (!$this->element)
+	public function handleDelete($element = NULL) {
+		if (empty($this->element) === empty($element))
 			$this->error();
-		if (!$this->user->isAllowed($this->element, 'delete'))
+		$element = $this->element ?: $this->checkElement($element);
+
+		if (!$this->user->isAllowed($element, 'delete'))
 			$this->forbidden();
-		$this->element->delete();
+		$element->delete();
 		$this->flashMessage('Element was deleted.');
 		$this->redirect('default');
 	}
@@ -73,7 +76,7 @@ final class ElementPresenter extends ModellingPresenter {
 		if ($id === NULL)
 			$this->error();
 		$element = $this->elementModel->get((int) $id);
-		if (!$element)
+		if (!$element || $element->project_id !== $this->project->id)
 			$this->error();
 		if (!$this->user->isAllowed($element))
 			$this->forbidden();

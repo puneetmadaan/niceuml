@@ -11,4 +11,10 @@ class ProjectTreeControl extends BaseControl {
 		$this->project = $project;
 	}
 
+
+	public function render() {
+		$this->template->project = $this->project;
+		parent::render();
+	}
+
 }

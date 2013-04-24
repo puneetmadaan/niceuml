@@ -1,10 +1,19 @@
 
 {block content}
 
+<h1>Elements</h1>
+
+<p><a n:href="new" class="btn btn-primary">New element</a></p>
+
 <table class="table">
+	<tr><th>#</th><th>Name</th><th>Type</th><th></th></tr>
 
 	<tr n:foreach="$elements as $e">
-		<td>{$e->id}</td><td>{$e->type}</td><td>{=get_class($e)}</td>
+		<td>{$e->id}</td><td><a n:href="edit $e->id">{$e->name}</a></td><td>{$e->type}</td>
+		<td>
+			<a n:href="edit $e->id" class="btn btn-small">Edit</a>
+			<a n:href="delete! $e->id" class="btn btn-small btn-danger">Delete</a>
+		</td>
 	</tr>
 
 </table>

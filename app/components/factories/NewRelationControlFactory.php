@@ -1,7 +1,7 @@
 <?php
 
 
-class NewRelationRControlFactory implements INewRelationControlFactory {
+class NewRelationControlFactory implements INewRelationControlFactory {
 
 	private $container;
 
@@ -11,8 +11,8 @@ class NewRelationRControlFactory implements INewRelationControlFactory {
 	}
 
 
-	public function create(Model\Entity\Project $project) {
-		return $this->container->createNewRelationControl($project);
+	public function create(Model\Entity\Element $element) {
+		return $this->container->createNewRelationControl($element);
 	}
 
 }

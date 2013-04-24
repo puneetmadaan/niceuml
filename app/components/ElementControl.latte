@@ -1,0 +1,28 @@
+{control form}
+
+<a href="{plink delete!}" class="btn btn-danger">Delete</a>
+
+{block relations}
+	<h2>Relations</h2>
+
+	{if empty($relation)}
+	{control newRelationControl}
+	{else}
+	{control relationControl}
+	{/if}
+
+	<table n:block="relationTable" class="table">
+		<tr><th>Name</th><th>To</th><th>Type</th><th></th></tr>
+		<tr n:foreach="$relations as $r">
+			<td>{$r->name}</td>
+			{var end => $r->getOtherEnd($element)}
+			<td><a href="{plink Element:edit $end->id}">{$end->caption}</a></td>
+			<td>{$r->type}</td>
+			<td>
+				<a n:href="this relation => $r->id" class="btn btn-small">Edit</a>
+				<a n:href="deleteRelation! relation => $r->id" class="btn btn-danger btn-small">Delete</a>
+			</td>
+		</tr>
+	</table>
+
+{/block}

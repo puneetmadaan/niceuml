@@ -6,6 +6,12 @@ namespace Model\Entity;
 class Element extends BaseParent {
 
 
+	public function getCaption() {
+		$name = $this->getColumn('name');
+		return ($name ?: "element #" . $this->id) . " (" . $this->type . ")";
+	}
+
+
 	public function setChild(BaseChild $child) {
 		if (!$child instanceof ElementChild)
 			throw new \Nette\InvalidArgumentException;

@@ -13,7 +13,7 @@ class Service extends \Nette\Object {
 	/** @var Connection */
 	protected $connection;
 
-	/** @var EntityFactory */
+	/** @var IEntityFactory */
 	protected $entityFactory;
 
 	/** @var NewEntityTable */
@@ -55,11 +55,10 @@ class Service extends \Nette\Object {
 
 
 	public function save($entity = NULL, $data = NULL) {
-		if (!$entity instanceof Entity)
-			throw new \Nette\InvalidArgumentException;
-
 		if ($entity === NULL)
 			$entity = $this->create();
+		elseif (!$entity instanceof Entity)
+			throw new \Nette\InvalidArgumentException;
 
 		if ($data !== NULL) {
 			foreach ($data as $key => $value)

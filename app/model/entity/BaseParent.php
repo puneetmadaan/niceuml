@@ -28,7 +28,7 @@ class BaseParent extends Base {
 			if ($this->childTable === NULL)
 				throw new \Nette\InvalidStateException;
 			$child = $this->ref($this->childTable, 'id');
-			$this->child = $child === NULL ? $child : FALSE;
+			$this->child = $child !== NULL ? $child : FALSE;
 			if ($this->child)
 				$child->setParent($this);
 		}

@@ -10,6 +10,10 @@ services:
 		class: Model\Project('core_project')
 	model.element:
 		class: Model\Element('core_element')
+	model.relation:
+		class: Model\Relation('core_relation')
+	model.note:
+		class: Model\BaseChild('core_note', ..., ..., @model.element)
 
 
 factories:
@@ -18,5 +22,6 @@ entity:
 	core_element: Model\Entity\Element
 	core_element.note: Model\Entity\Element('core_note')
 	core_project: Model\Entity\Project
+	core_relation: Model\Entity\Relation
 	core_note: Model\Entity\Note
 	default: Model\Entity\Base

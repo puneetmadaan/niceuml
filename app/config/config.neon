@@ -62,6 +62,18 @@ factories:
 		class: ConsoleControl(%project%)
 		parameters: [ Model\Entity\Project project ]
 
+	newElementControl:
+		class: NewElementControl(%project%)
+		parameters: [ Model\Entity\Project project ]
+		setup:
+			- add('note', 'Note', @model.note)
+
+	newRelationControl:
+		class: NewRelationControl(%element%)
+		parameters: [ Model\Entity\Element element ]
+		setup:
+			- add('noteLink', 'Note link', @model.relation, 'note')
+
 includes:
 	- defaults.neon
 	- modules.neon

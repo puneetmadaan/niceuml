@@ -29,6 +29,11 @@ class ElementChild extends BaseChild {
 	}
 
 
+	public function getCaption() {
+		return $this->getParent()->getCaption();
+	}
+
+
 	public function getProject() {
 		return $this->getParent()->project;
 	}

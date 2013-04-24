@@ -4,14 +4,22 @@
 {block header}
 
 {include #parent}
-{control projectTreeControl}
 
+<div class="row-fluid">
+
+	<div class="span3">
+		{control projectTreeControl}
+	</div>
+	<div class="span9">
 {/block}
 
 {block footer}
+	</div>
+</div>
 
 {control sourceControl}
 
 {control consoleControl}
 
+{include #parent}
 {/block}
