@@ -3,31 +3,18 @@
 namespace Model\Entity;
 
 
-class ElementChild extends Base {
-
-	/** @var Element */
-	protected $parent;
+class ElementChild extends BaseChild {
 
 
-	public function getParent() {
-		if ($this->parent === NULL) {
-			$parent = $this->ref('core_element', 'id');
-			$this->parent = $parent === NULL ? $parent : FALSE;
-			if ($this->parent)
-				$parent->setChild($this);
-		}
-		return $this->parent ?: NULL;
+	public function __construct(array $data, \Nette\Database\Table\Selection $table) {
+		parent::__construct($data, $table, 'core_element');
 	}
 
 
-	public function setParent(Element $parent) {
-		if ($this->parent === $parent)
-			return $this;
-		if ($this->parent !== NULL)
-			throw new \Nette\InvalidStateException;
-		$this->parent = $parent;
-		$this->parent->setChild($this);
-		return $this;
+	public function setParent(BaseParent $parent) {
+		if (!$parent instanceof Element)
+			throw new \Nette\InvalidArgumentException;
+		return parent::setParent($parent);
 	}
 
 
@@ -95,8 +82,5 @@ class ElementChild extends Base {
 		$this->getParent()->type = $value;
 		return $this;
 	}
-
-
-
 
 }
