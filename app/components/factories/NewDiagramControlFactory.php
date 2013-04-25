@@ -1,7 +1,7 @@
 <?php
 
 
-class NewDiagramRControlFactory implements INewDiagramControlFactory {
+class NewDiagramControlFactory implements INewDiagramControlFactory {
 
 	private $container;
 

@@ -5,6 +5,7 @@ parameters:
 
 services:
 	model.entityFactory: Model\InheritanceEntityFactory('entity.', 'default', ..., %model.inheritanceColumns%)
+#	model.entityFactory: NiceDAO\DIEntityFactory('entity.', 'default')
 
 	model.project:
 		class: Model\Project('core_project')
@@ -14,6 +15,10 @@ services:
 		class: Model\Relation('core_relation')
 	model.note:
 		class: Model\BaseChild('core_note', ..., ..., @model.element)
+	model.diagram:
+		class: Model\Diagram('core_diagram')
+	model.placement:
+		class: Model\Placement('core_placement')
 
 
 factories:
@@ -23,5 +28,7 @@ entity:
 	core_element.note: Model\Entity\Element('core_note')
 	core_project: Model\Entity\Project
 	core_relation: Model\Entity\Relation
+	core_diagram: Model\Entity\Diagram
+	core_placement: Model\Entity\Placement
 	core_note: Model\Entity\Note
 	default: Model\Entity\Base

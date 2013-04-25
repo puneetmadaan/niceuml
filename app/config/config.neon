@@ -74,6 +74,10 @@ factories:
 		setup:
 			- add('noteLink', 'Note link', @model.relation, 'note')
 
+	newDiagramControl:
+		class: NewDiagramControl(%project%)
+		parameters: [ Model\Entity\Project project ]
+
 includes:
 	- defaults.neon
 	- modules.neon

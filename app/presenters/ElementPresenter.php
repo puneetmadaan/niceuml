@@ -31,7 +31,7 @@ final class ElementPresenter extends ModellingPresenter {
 
 
 	public function renderDefault() {
-		$this->template->elements = $this->project->related('element');
+		$this->template->elements = $this->elementModel->table()->where('project_id', $this->project->id);
 	}
 
 

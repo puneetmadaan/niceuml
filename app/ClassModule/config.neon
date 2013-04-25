@@ -1,0 +1,4 @@
+factories:
+	newDiagramControl:
+		setup:
+			- add('class', 'Class diagram', @model.diagram)

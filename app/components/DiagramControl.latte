@@ -1,0 +1,27 @@
+{control form}
+
+<a href="{plink delete!}" class="btn btn-danger">Delete</a>
+
+{block placements}
+	<h2>Elements</h2>
+
+	{if empty($placement)}
+	{control newPlacementControl}
+	{else}
+	{control placementControl}
+	{/if}
+
+	<table n:block="placementTable" class="table">
+		<tr><th>Element</th><th>x</th><th>y</th><th></th></tr>
+		<tr n:foreach="$placements as $p">
+			<td><a href="{plink Element:edit $p->element_id}">{$p->element->caption}</a></td>
+			<td>{$p->posX}</td>
+			<td>{$p->posY}</td>
+			<td>
+				<a n:href="this placement => $p->element_id" class="btn btn-small">Edit</a>
+				<a n:href="deletePlacement! placement => $p->element_id" class="btn btn-danger btn-small">Delete</a>
+			</td>
+		</tr>
+	</table>
+
+{/block}

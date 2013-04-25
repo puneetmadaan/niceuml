@@ -1,0 +1,19 @@
+
+{block content}
+
+<h1>Diagrams</h1>
+
+<p><a n:href="new" class="btn btn-primary">New diagram</a></p>
+
+<table class="table">
+	<tr><th>#</th><th>Name</th><th>Type</th><th></th></tr>
+
+	<tr n:foreach="$diagrams as $d">
+		<td>{$d->id}</td><td><a n:href="edit $d->id">{$d->name}</a></td><td>{$d->type}</td>
+		<td>
+			<a n:href="edit $d->id" class="btn btn-small">Edit</a>
+			<a n:href="delete! $d->id" class="btn btn-small btn-danger">Delete</a>
+		</td>
+	</tr>
+
+</table>

@@ -1,6 +1,14 @@
 <h3>{$project->name} <a href="{plink :Homepage:}" class="btn btn-small">change</a></h3>
 
-<h4><a href="{plink :Element:}">Elements</a></h4>
+<h4><a href="{plink :Element:}">Elements</a> <a href="{plink :Element:new}" class="btn btn-mini">new</a></h4>
+
+<ul n:inner-foreach="$elements as $e">
+	<li><a href="{plink :Element:edit $e->id}">{$e->caption}</a></li>
+</ul>
 
 
-<h4><a href="{plink :Diagram:}">Diagrams</a></h4>
+<h4><a href="{plink :Diagram:}">Diagrams</a> <a href="{plink :Diagram:new}" class="btn btn-mini">new</a></h4>
+
+<ul n:inner-foreach="$diagrams as $d">
+	<li><a href="{plink :Diagram:edit $d->id}">{$d->name}</a></li>
+</ul>

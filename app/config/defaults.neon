@@ -57,6 +57,14 @@ services:
 		class: INewRelationControlFactory
 		factory: NewRelationControlFactory
 
+	diagramControlFactory:
+		class: IDiagramControlFactory
+		factory: DiagramControlFactory
+
+	newDiagramControlFactory:
+		class: INewDiagramControlFactory
+		factory: NewDiagramControlFactory
+
 factories:
 	elementControl:
 		class: ElementControl(%element%, @model.element, @model.relation)
@@ -70,4 +78,7 @@ factories:
 		class: RelationControl(%relation%)
 		parameters: [ Model\Entity\Relation relation ]
 
+	diagramControl:
+		class: DiagramControl(%diagram%, @model.diagram, @model.placement)
+		parameters: [ Model\Entity\Diagram diagram ]
 

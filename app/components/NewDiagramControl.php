@@ -44,7 +44,7 @@ class NewDiagramControl extends BaseControl {
 
 		$model = $this->models[$values->type];
 		$diagram = $model->create($values);
-		$diagram->project = $this->project;
+		$diagram->project_id = $this->project->id;
 		$diagram = $model->save($diagram);
 
 		$this->presenter->flashMessage('Diagram created.');

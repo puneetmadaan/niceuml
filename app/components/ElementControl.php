@@ -54,7 +54,7 @@ class ElementControl extends BaseControl {
 
 	public function render() {
 		$this->template->element = $this->element;
-		$this->template->relation = (int) $this->relation;
+		$this->template->relation = (bool) $this->relation;
 		$this->template->relations = $this->relationModel->table()
 			->where('start_id = ? OR end_id = ?', $this->element->id, $this->element->id);
 		parent::render();

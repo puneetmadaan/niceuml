@@ -43,6 +43,9 @@ class Authorizator extends Nette\Object implements Security\IAuthorizator {
 		$acl->addResource('relation');
 		$acl->allow('user', 'relation', $acl::ALL, $this->checkRelationElement);
 
+		$acl->addResource('diagram');
+		$acl->allow('user', 'diagram', $acl::ALL, $this->checkDiagramProject);
+
 		$acl->allow('admin');
 
 		$this->acl = $acl;
@@ -94,6 +97,14 @@ class Authorizator extends Nette\Object implements Security\IAuthorizator {
 
 		// start->project and end->project projects are the same
 		return (bool) $relation->start->project->related('user_project')->where('user_id', $this->user->id)->fetch();
+	}
+
+
+	public function checkDiagramProject($acl) {
+		if (!$acl->queriedResource instanceof EntityResource)
+			return TRUE;
+		$diagram = $acl->queriedResource->entity;
+		return (bool) $diagram->project->related('user_project')->where('user_id', $this->user->id)->fetch();
 	}
 
 }
