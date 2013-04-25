@@ -8,7 +8,7 @@ use NiceDAO\Entity,
 	Nette\Security\User;
 
 
-class Base extends Service implements IModel {
+class Base extends Service implements IModel, ISourceModel {
 
 	/** @var array of function(Entity $entity) */
 	public $onSave = array();
@@ -47,4 +47,18 @@ class Base extends Service implements IModel {
 	public function filterAllowed(User $user, Selection $table, $action = NULL) {
 	}
 
+
+	public function loadSource($source, $project = NULL) {
+		if (isset($source['id']))
+			$entity = $this->get($source['id']);
+		else
+			$entity = $this->create();
+		if (isset($project))
+			$entity->project_id = $project->id;
+		return $this->save($entity, $source);
+	}
+
+	public function dumpSource($entity) {
+		return $entity->toArray();
+	}
 }
