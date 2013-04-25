@@ -2,6 +2,7 @@ parameters:
 	model:
 		inheritanceColumns:
 			core_element: type
+			core_relation: type
 
 services:
 	model.entityFactory: Model\InheritanceEntityFactory('entity.', 'default', ..., %model.inheritanceColumns%)

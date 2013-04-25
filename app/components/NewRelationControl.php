@@ -50,7 +50,7 @@ class NewRelationControl extends BaseControl {
 
 		$elements = $this->element->project->related('element');
 		if ($allowed !== NULL)
-			$elements->where('type', $allowed);
+			$elements->where('type', array_keys($allowed));
 
 		$form->addSelect('end_id', 'To', $elements->fetchPairs('id', 'caption'))
 			->setPrompt('Choose element')
@@ -65,6 +65,14 @@ class NewRelationControl extends BaseControl {
 
 	public function formSucceeded($form) {
 		$values = $form->values;
+
+		if ($this->allowed[$values->type] !== NULL) {
+			$element = $this->element->project->related('element')->get($values->end_id);
+			if (empty($this->allowed[$values->type][$element->type])) {
+				$form['end_id']->addError('Element not compatible.');
+				return;
+			}
+		}
 
 		$model = $this->models[$values->type];
 		$relation = $model->create($values);
