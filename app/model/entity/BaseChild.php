@@ -51,8 +51,8 @@ class BaseChild extends Base {
 
 
 	public function delete() {
-		$result = parent::delete();
 		$parent = $this->getParent();
+		$result = parent::delete();
 		if ($parent)
 			$parent->delete();
 		return $result;
