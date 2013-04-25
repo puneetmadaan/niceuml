@@ -14,7 +14,7 @@
 	<table n:block="placementTable" class="table">
 		<tr><th>Element</th><th>x</th><th>y</th><th></th></tr>
 		<tr n:foreach="$placements as $p">
-			<td><a href="{plink Element:edit $p->element_id}">{$p->element->caption}</a></td>
+			<td><a href="{plink Element:edit $p->element_id}">{$p->element->name}</a></td>
 			<td>{$p->posX}</td>
 			<td>{$p->posY}</td>
 			<td>

@@ -38,7 +38,7 @@ class ConsoleControl extends BaseControl {
 			return;
 		}
 
-		$this->interpreter->execute($this->project, $command);
+		$this->interpreter->execute($command, $this->project);
 		$this->presenter->flashMessage('Command successfully executed.');
 		$this->redirect('this');
 	}

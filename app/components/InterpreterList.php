@@ -21,7 +21,7 @@ class InterpreterList extends Nette\Object implements IInterpreter {
 
 	public function execute(Command $command, $project = NULL) {
 		$module = $command->getModule();
-		if (isset($this->interpreters[$module]))
+		if (!isset($this->interpreters[$module]))
 			throw new Nette\InvalidArgumentException("Unknown command module '$module'.");
 		return $this->interpreters[$module]->execute($command, $project);
 	}

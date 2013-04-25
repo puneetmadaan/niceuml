@@ -1,6 +1,7 @@
 <?php
 
-use Nette\Utils\Neon,
+use Model\ISourceModel,
+	Nette\Utils\Neon,
 	Nette\Utils\NeonException;
 
 
@@ -70,7 +71,7 @@ class SourceControl extends BaseControl {
 					$form->addError('Invalid element type');
 					return;
 				}
-				$this->elementTypes[$element['type']]->loadSource($element);
+				$this->elementTypes[$element['type']]->loadSource($element, $this->project);
 			}
 
 		if (isset($source['relations']))
@@ -79,7 +80,7 @@ class SourceControl extends BaseControl {
 					$form->addError('Invalid relation type');
 					return;
 				}
-				$this->relationTypes[$relation['type']]->loadSource($relation);
+				$this->relationTypes[$relation['type']]->loadSource($relation, $this->project);
 			}
 
 		if (isset($source['diagrams']))
@@ -88,7 +89,7 @@ class SourceControl extends BaseControl {
 					$form->addError('Invalid diagram type');
 					return;
 				}
-				$this->diagramTypes[$diagram['type']]->loadSource($diagram);
+				$this->diagramTypes[$diagram['type']]->loadSource($diagram, $this->project);
 			}
 
 		$this->presenter->flashMessage('Success', 'success');
