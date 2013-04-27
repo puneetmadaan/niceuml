@@ -8,26 +8,37 @@ class BaseParent extends Base {
 	/** @var BaseChild */
 	protected $child;
 
+	/** @var array */
+	protected $childTables;
+
 	/** @var string */
-	protected $childTable;
+	protected $typeColumn;
 
 
-	public function __construct(array $data, \Nette\Database\Table\Selection $table, $childTable = NULL) {
+	public function __construct(array $data, \Nette\Database\Table\Selection $table, array $childTables = array(), $typeColumn = 'type') {
 		parent::__construct($data, $table);
-		$this->childTable = $childTable;
+		$this->childTables = $childTables;
+		$this->typeColumn = (string) $typeColumn;
 	}
 
 
-	public function setChildTable($table) {
-		$this->childTable = $table;
+	public function setChildTables(array $tables) {
+		$this->childTables = $tables;
+	}
+
+
+	public function setTypeColumn($typeColumn) {
+		$this->typeColumn = (string) $typeColumn;
 	}
 
 
 	public function getChild() {
 		if ($this->child === NULL) {
-			if ($this->childTable === NULL)
-				throw new \Nette\InvalidStateException;
-			$child = $this->ref($this->childTable, 'id');
+			$type = $this->{$this->typeColumn};
+			if (!isset($this->childTables[$type]))
+				$child = NULL;
+			else
+				$child = $this->ref($this->childTables[$type], 'id');
 			$this->child = $child !== NULL ? $child : FALSE;
 			if ($this->child)
 				$child->setParent($this);

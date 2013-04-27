@@ -3,7 +3,7 @@
 namespace Model\Entity;
 
 
-class Relation extends Base {
+class Relation extends BaseParent {
 
 	/** @return Relation self */
 	public function setStart(Element $start) {

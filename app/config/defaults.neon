@@ -75,7 +75,7 @@ factories:
 		parameters: [ Model\Entity\Element element ]
 
 	relationControl:
-		class: RelationControl(%relation%)
+		class: RelationControl(%relation%, @model.relation)
 		parameters: [ Model\Entity\Relation relation ]
 
 	diagramControl:

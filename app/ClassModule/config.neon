@@ -1,8 +1,14 @@
 entity:
 	class_class: ClassModule\Model\Entity\ClassType
-	core_element.class: Model\Entity\Element('class_class')
+	core_element:
+		arguments:
+			childTables:
+				class: class_class
 	class_association: ClassModule\Model\Entity\Association
-	core_relation.association: Model\Entity\Relation('class_association')
+	core_relation:
+		arguments:
+			childTables:
+				association: class_association
 
 services:
 	model.class_class: ClassModule\Model\ClassType('class_class', ..., ..., @model.element)
@@ -45,6 +51,6 @@ factories:
 		parameters: [ Model\Entity\Element element ]
 
 	classModule.associationControl:
-		class: ClassModule\AssociationControl(%element%, @model.class_association, @model.relation)
-		parameters: [ Model\Entity\Element element ]
+		class: ClassModule\AssociationControl(%relation%, @model.class_association)
+		parameters: [ Model\Entity\Relation relation ]
 

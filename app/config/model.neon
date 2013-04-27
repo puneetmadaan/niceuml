@@ -5,8 +5,8 @@ parameters:
 			core_relation: type
 
 services:
-	model.entityFactory: Model\InheritanceEntityFactory('entity.', 'default', ..., %model.inheritanceColumns%)
-#	model.entityFactory: NiceDAO\DIEntityFactory('entity.', 'default')
+#	model.entityFactory: Model\InheritanceEntityFactory('entity.', 'default', ..., %model.inheritanceColumns%)
+	model.entityFactory: NiceDAO\DIEntityFactory('entity.', 'default')
 
 	model.project:
 		class: Model\Project('core_project')
@@ -25,8 +25,11 @@ services:
 factories:
 
 entity:
-	core_element: Model\Entity\Element
-	core_element.note: Model\Entity\Element('core_note')
+	core_element:
+		class: Model\Entity\Element
+		arguments:
+			childTables:
+				note: core_note
 	core_project: Model\Entity\Project
 	core_relation: Model\Entity\Relation
 	core_diagram: Model\Entity\Diagram
