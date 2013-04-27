@@ -54,4 +54,10 @@ class Entity extends Table\ActiveRow {
 		return $this->issetColumn($name);
 	}
 
+
+	public function related($key, $throughColumn = NULL) {
+		$related = parent::related($key, $throughColumn);
+		return $related->select($related->name.'.*');
+	}
+
 }
