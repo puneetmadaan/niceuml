@@ -3,6 +3,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 
 SET NAMES 'utf8';
+SET storage_engine=InnoDB;
 
 
 DROP TABLE IF EXISTS `user_user`;

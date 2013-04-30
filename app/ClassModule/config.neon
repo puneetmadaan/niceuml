@@ -10,6 +10,9 @@ entity:
 			childTables:
 				association: class_association
 
+	class_attribute: ClassModule\Model\Entity\Attribute
+	class_operation: ClassModule\Model\Entity\Operation
+
 services:
 	model.class_class: ClassModule\Model\ClassType('class_class', ..., ..., @model.element)
 	model.class_association: ClassModule\Model\Association('class_association', ..., ..., @model.relation)
@@ -22,7 +25,7 @@ services:
 			- addType('association', 'classModule.associationControl')
 			- addType('generalization', 'relationControl')
 	diagramControlFactory:
-		setup: [ addType('class', 'diagramControl') ]
+		setup: [ addType('class', 'classModule.classDiagramControl') ]
 
 	parser:
 		setup: [ addParser( 'class', ClassModule\Parser() ) ]
@@ -49,6 +52,11 @@ factories:
 	classModule.classControl:
 		class: ClassModule\ClassControl(%element%, @model.class_class, @model.relation)
 		parameters: [ Model\Entity\Element element ]
+
+
+	classModule.classDiagramControl:
+		class: ClassModule\ClassDiagramControl(%diagram%, @model.element, @model.relation)
+		parameters: [ Model\Entity\Diagram diagram ]
 
 	classModule.associationControl:
 		class: ClassModule\AssociationControl(%relation%, @model.class_association)

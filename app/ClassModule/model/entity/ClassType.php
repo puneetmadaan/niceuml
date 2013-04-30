@@ -6,12 +6,12 @@ namespace ClassModule\Model\Entity;
 class ClassType extends \Model\Entity\ElementChild {
 
 	public function getAttributes() {
-		return $this->related('class_attribute')->select('class_attribute.*');
+		return $this->related('class_attribute.class_id');
 	}
 
 
 	public function getOperations() {
-		return $this->related('class_operation')->select('class_operation.*');
+		return $this->related('class_operation.class_id');
 	}
 
 

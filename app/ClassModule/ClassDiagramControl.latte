@@ -1,0 +1,74 @@
+{if empty($mode)}
+	<div id="canvas"></div>
+{elseif ($mode === 'scripts')}
+<link rel="stylesheet" href="{$basePath}/jsUML2/css/UDStyle.css" media="screen">
+<script src="{$basePath}/jsUML2/UDCore.js"></script>
+<script src="{$basePath}/jsUML2/UDModules.js"></script>
+<script>
+	$(function(){
+		var classDiagram = new UMLClassDiagram({ id: 'canvas', width: $('#canvas').width(), height: 700 });
+		var elements = {};
+		{foreach $placements as $p}
+			{var id => $p->element_id}
+			{var element => isset($elements[$id])?$elements[$id]:NULL}
+			{if $element}
+				{if $element->type === 'class'}
+				elements[{$id}] = new UMLClass({ x: {$p->posX}, y: {$p->posY} });
+				elements[{$id}].setName({$element->child->static?('_'.$element->name.'_'):$element->name});
+				{if $element->child->abstract}elements[{$id}].addStereotype("abstract");{/if}
+				{foreach $element->child->attributes as $a}
+				elements[{$id}].addAttribute({$a->toUML()});
+				{/foreach}
+				{foreach $element->child->operations as $o}
+				elements[{$id}].addOperation({$o->toUML()});
+				{/foreach}
+				{elseif $element->type === 'note'}
+				elements[{$id}] = new UMLNote({ x: {$p->posX}, y: {$p->posY} });
+				elements[{$id}].setName({$element->name ? $element->name."\n" : ''} + {$element->child->text});
+				{else}
+				elements[{$id}] = new Node({ x: {$p->posX}, y: {$p->posY} });
+				elements[{$id}].setName({$element->name});
+				{/if}
+
+				elements[{$id}].notifyChange();
+				classDiagram.addElement(elements[{$id}]);
+			{/if}
+		{/foreach}
+		{foreach $relations as $r}
+			{dump $r}
+			{var start => isset($elements[$r->start_id])?$elements[$r->start_id]:NULL}
+			{var end   => isset($elements[$r->end_id])?$elements[$r->end_id]:NULL}
+			{if $start && $end}
+			{if $r->type === 'association'}
+			relation = new UMLAssociation({ a: elements[{$r->start_id}], b: elements[{$r->end_id}] });
+			relation.setRoleA({$r->child->sourceRole});
+			relation.setMultiplicityA({$r->child->sourceMultiplicity});
+			relation.setRoleB({$r->child->targetRole});
+			relation.setMultiplicityB({$r->child->targetMultiplicity});
+			{if $r->child->direction === 'uni' || $r->child->direction === 'bi'}
+			relation.setDirectionToB(true);
+			{if $r->child->direction === 'bi'}relation.setDirectionToA(true);{/if}
+			{/if}
+			{elseif $r->type === 'generalization'}
+			relation = new UMLGeneralization({ a: elements[{$r->start_id}], b: elements[{$r->end_id}] });
+			{elseif $r->type === 'noteLink'}
+			relation = new UMLLine({ a: elements[{$r->start_id}], b: elements[{$r->end_id}] });
+			{else}
+			relation = new Relation({ a: elements[{$r->start_id}], b: elements[{$r->end_id}] });
+			{/if}
+			relation.setComponentName({$r->name});
+			relation.notifyChange();
+			{* // relation._points.splice(1, 0, new Point(0, 0)); *}
+			classDiagram.addElement(relation);
+			{/if}
+		{/foreach}
+
+		classDiagram.draw();
+
+		$('#canvas').on('dblclick', function(){
+			var url = $('canvas').get(0).toDataURL( 'image/png' );
+			window.open( url, '_blank' );
+		});
+	});
+</script>
+{/if}

@@ -29,7 +29,9 @@ class NewElementControl extends BaseControl {
 			->setPrompt('Choose a type')
 			->setRequired('Choose a type');
 
-		$form->addText('name', 'Name');
+		$form->addText('name', 'Name')
+			->addCondition($form::FILLED)
+			->addRule($this->checkUniqueName, 'Name already in use.');
 
 		$form->addSubmit('send', 'Create');
 
@@ -38,10 +40,26 @@ class NewElementControl extends BaseControl {
 	}
 
 
+	public function checkUniqueName($input) {
+		$row = $this->project->related('element')->where('name', $input->value)->fetch();
+		return $row ? FALSE : TRUE;
+	}
+
+
 	public function formSucceeded($form) {
 		$values = $form->values;
 
 		$model = $this->models[$values->type];
+		if (!$values->name) {
+			$count = $this->project->related('element')->where('type', $values->type)->count('id');
+			do {
+				$count++;
+				$name = $values->type . ' ' . $count;
+				$row = $this->project->related('element')->where('name', $name)->fetch();
+			} while ($row);
+			$values->name = $name;
+		}
+
 		$element = $model->create($values);
 		$element->project = $this->project;
 		$element = $model->save($element);

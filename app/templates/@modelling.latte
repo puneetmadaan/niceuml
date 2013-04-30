@@ -23,3 +23,8 @@
 
 {include #parent}
 {/block}
+
+{block scripts}
+	{include #parent}
+	{control sourceControl scripts}
+{/block}

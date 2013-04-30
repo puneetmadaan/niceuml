@@ -3,6 +3,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 
 SET NAMES 'utf8';
+SET storage_engine=InnoDB;
 
 
 DROP TABLE IF EXISTS `core_diagram`;
@@ -13,7 +14,8 @@ CREATE TABLE `core_diagram` (
 	`package_id` INT UNSIGNED,
 	`type` VARCHAR (50),
 	FOREIGN KEY (`project_id`) REFERENCES `core_project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (`package_id`) REFERENCES `core_package` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+	FOREIGN KEY (`package_id`) REFERENCES `core_package` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+	UNIQUE (`project_id`, `name`)
 );
 
 
@@ -25,7 +27,8 @@ CREATE TABLE `core_element` (
 	`package_id` INT UNSIGNED,
 	`type` VARCHAR (50),
 	FOREIGN KEY (`project_id`) REFERENCES `core_project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (`package_id`) REFERENCES `core_package` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+	FOREIGN KEY (`package_id`) REFERENCES `core_package` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+	UNIQUE (`project_id`, `name`)
 	-- package.project_id == project_id
 );
 

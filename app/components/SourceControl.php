@@ -41,8 +41,7 @@ class SourceControl extends BaseControl {
 	protected function createComponentForm() {
 		$form = $this->formFactory->create();
 		$form->addTextarea('source', 'Source', NULL, 10)
-			->setRequired('Enter source.')
-			->controlPrototype->addClass('span9');
+			->setRequired('Enter source.');
 		$form->addSubmit('send', 'Send');
 		$form->onSuccess[] = $this->formSucceeded;
 		return $form;
@@ -57,6 +56,7 @@ class SourceControl extends BaseControl {
 			$form->addError($e->getMessage());
 			return;
 		}
+
 		$sections = array('elements' => TRUE, 'relations' => TRUE, 'diagrams' => TRUE);
 		foreach ($source as $key => $value) {
 			if (!isset($sections[$key])) {
@@ -97,8 +97,9 @@ class SourceControl extends BaseControl {
 	}
 
 
-	public function render() {
-		$this['form']->render();
+	public function render($mode = NULL) {
+		$this->template->mode = $mode;
+		parent::render();
 	}
 
 }

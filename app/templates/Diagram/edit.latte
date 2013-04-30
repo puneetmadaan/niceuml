@@ -8,3 +8,15 @@
 {control diagramControl}
 
 <a n:href="default" class="btn">Back</a>
+
+{/block}
+
+{block scripts}
+{include #parent}
+{control diagramControl:scripts}
+{/block}
+
+{block head}
+{include #parent}
+
+{/block}

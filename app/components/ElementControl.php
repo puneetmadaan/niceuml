@@ -65,10 +65,22 @@ class ElementControl extends BaseControl {
 		$form = $this->formFactory->create();
 
 		$form->addText('name', 'Name')
-			->setDefaultValue($this->element->name);
+			->setDefaultValue($this->element->name)
+			->setRequired("Enter element name")
+			->addRule($this->checkUniqueName, 'Name already in use.');
+
 		$form->addSubmit('send', 'Save');
 		$form->onSuccess[] = $this->formSucceeded;
 		return $form;
+	}
+
+
+	public function checkUniqueName($input) {
+		$row = $this->element->project->related('element')->where(array(
+			'id != ?' => $this->element->id,
+			'name' => $input->value
+		))->fetch();
+		return $row ? FALSE : TRUE;
 	}
 
 
