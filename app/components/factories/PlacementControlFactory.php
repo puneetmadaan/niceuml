@@ -3,7 +3,7 @@
 use Nette\DI\Container;
 
 
-class DiagramElementControlFactory implements IDiagramElementControlFactory {
+class PlacementControlFactory implements IPlacementControlFactory {
 
 	private $container;
 
@@ -25,7 +25,7 @@ class DiagramElementControlFactory implements IDiagramElementControlFactory {
 			$method = Container::getMethodName($this->types[$element->type], FALSE);
 			return $this->container->$method($diagram, $element);
 		}
-		return $this->container->createDiagramElementControl($diagram, $element);
+		return $this->container->createPlacementControl($diagram, $element);
 	}
 
 }
