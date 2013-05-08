@@ -5,8 +5,8 @@ namespace Model;
 
 interface ISourceModel {
 
-	function loadSource($source);
+	function load(Entity\Project $project, $name, $source);
 
-	function dumpSource($entity);
+	function dump(Entity\Project $project);
 
 }
