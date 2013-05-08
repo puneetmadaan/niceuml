@@ -46,8 +46,8 @@ factories:
 		setup:
 			- addElementType('class', @model.class_class)
 			- addRelationType('association', @model.class_association)
-			- addRelationType('generalization', @model.relation)
-			- addDiagramType('class', @model.diagram)
+			# - addRelationType('generalization', @model.relation)
+			- addDiagramType('class')
 
 	classModule.classControl:
 		class: ClassModule\ClassControl(%element%, @model.class_class, @model.relation)

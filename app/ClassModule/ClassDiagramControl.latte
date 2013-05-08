@@ -7,6 +7,7 @@
 <script>
 	$(function(){
 		var classDiagram = new UMLClassDiagram({ id: 'canvas', width: $('#canvas').width(), height: 700 });
+		classDiagram.setName({$diagram->name});
 		var elements = {};
 		{foreach $placements as $p}
 			{var id => $p->element_id}
