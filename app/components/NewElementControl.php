@@ -4,14 +4,16 @@
 class NewElementControl extends BaseControl {
 
 	protected $project;
+	protected $model;
 	protected $formFactory;
 
 	protected $types = array();
 	protected $models = array();
 
 
-	public function __construct(Model\Entity\Project $project, IFormFactory $formFactory) {
+	public function __construct(Model\Entity\Project $project, Model\Element $model, IFormFactory $formFactory) {
 		$this->project = $project;
+		$this->model = $model;
 		$this->formFactory = $formFactory;
 	}
 
@@ -49,7 +51,7 @@ class NewElementControl extends BaseControl {
 	public function formSucceeded($form) {
 		$values = $form->values;
 
-		$model = $this->models[$values->type];
+		$model = $this->model;
 		if (!$values->name) {
 			$count = $this->project->related('element')->where('type', $values->type)->count('id');
 			do {

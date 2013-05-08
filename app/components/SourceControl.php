@@ -12,29 +12,41 @@ class SourceControl extends BaseControl {
 
 	protected $formFactory;
 
+	protected $diagramModel;
+
 	protected $elementTypes = array();
 	protected $relationTypes = array();
 	protected $diagramTypes = array();
 
 
-	public function __construct(Model\Entity\Project $project, IFormFactory $formFactory) {
+	public function __construct(Model\Entity\Project $project, IFormFactory $formFactory, Model\Diagram $diagramModel) {
 		$this->project = $project;
 		$this->formFactory = $formFactory;
+		$this->diagramModel = $diagramModel;
 	}
 
 
 	public function addElementType($name, ISourceModel $model) {
+		if (isset($this->elementTypes[$name]))
+			throw new \Nette\InvalidArgumentException("Element type '{$name}' already set.");
 		$this->elementTypes[$name] = $model;
+		return $this;
 	}
 
 
 	public function addRelationType($name, ISourceModel $model) {
+		if (isset($this->relationTypes[$name]))
+			throw new \Nette\InvalidArgumentException("Relation type '{$name}' already set.");
 		$this->relationTypes[$name] = $model;
+		return $this;
 	}
 
 
-	public function addDiagramType($name, ISourceModel $model) {
-		$this->diagramTypes[$name] = $model;
+	public function addDiagramType($name) {
+		if (isset($this->diagramTypes[$name]))
+			throw new \Nette\InvalidArgumentException("Diagram type '{$name}' already set.");
+		$this->diagramTypes[$name] = TRUE;
+		return $this;
 	}
 
 
@@ -57,47 +69,91 @@ class SourceControl extends BaseControl {
 			return;
 		}
 
-		$sections = array('elements' => TRUE, 'relations' => TRUE, 'diagrams' => TRUE);
-		foreach ($source as $key => $value) {
-			if (!isset($sections[$key])) {
-				$form->addError('Unknown section "'.$key.'"');
-				return;
+		try {
+			$sections = array('elements' => TRUE, 'relations' => TRUE, 'diagrams' => TRUE);
+			foreach ($source as $key => $value) {
+				if (!isset($sections[$key])) {
+					$form->addError('Unknown section "'.$key.'"');
+					return;
+				}
 			}
+			$source += array('elements' => array(), 'relations' => array(), 'diagrams' => array());
+			$elements = array();
+			foreach ((array) $source['elements'] as $name => $element) {
+				if (empty($element['type']) || empty($this->elementTypes[$element['type']])) {
+					$form->addError('Invalid element type in element ' . $name);
+					return;
+				}
+				$elements[$name] = $this->elementTypes[$element['type']]->load($this->project, $name, $element);
+			}
+			$elements = $this->project->related('core_element')->fetchPairs('name');
+			foreach ((array) $source['relations'] as $name => $relation) {
+				if (empty($relation['type']) || empty($this->relationTypes[$relation['type']])) {
+					$form->addError('Invalid relation type in relation ' . $name);
+					return;
+				}
+				if (!isset($relation['start'], $elements[$relation['start']])) {
+					$form->addError('Invalid starting element in relation ' . $name);
+					return;
+				}
+				if (!isset($relation['end'], $elements[$relation['end']])) {
+					$form->addError('Invalid ending element in relation ' . $name);
+					return;
+				}
+				$relation['start'] = $elements[$relation['start']];
+				$relation['end'] = $elements[$relation['end']];
+				$this->relationTypes[$relation['type']]->load($this->project, $name, $relation);
+			}
+
+			foreach ($source['diagrams'] as $name => $diagram) {
+				if (empty($diagram['type']) || empty($this->diagramTypes[$diagram['type']])) {
+					$form->addError('Invalid diagram type in diagram ' . $name);
+					return;
+				}
+				$placements = array();
+				if (isset($diagram['elements'])) {
+					foreach ($diagram['elements'] as $el => $position) {
+						if (empty($elements[$el])) {
+							$form->addError('Invalid element in diagram ' . $name);
+							return;
+						}
+						if (count($position) !== 2) {
+							$form->addError('Invalid coordinate count in diagram ' . $name);
+						}
+						list($x, $y) = array_values($position);
+						$placements[] = array(
+							'element' => $elements[$el],
+							'posX' => $x,
+							'posY' => $y,
+						);
+					}
+				}
+				$diagram['elements'] = $placements;
+				$this->diagramModel->load($this->project, $name, $diagram);
+			}
+		} catch (SourceException $e) {
+			$form->addError($e->getMessage());
+			return;
 		}
 
-		if (isset($source['elements']))
-			foreach ((array) $source['elements'] as $element) {
-				if (empty($element['type']) || empty($this->elementTypes[$element['type']])) {
-					$form->addError('Invalid element type');
-					return;
-				}
-				$this->elementTypes[$element['type']]->loadSource($element, $this->project);
-			}
-
-		if (isset($source['relations']))
-			foreach ($source['relations'] as $relation) {
-				if (empty($relation['type']) || empty($this->relationTypes[$relation['type']])) {
-					$form->addError('Invalid relation type');
-					return;
-				}
-				$this->relationTypes[$relation['type']]->loadSource($relation, $this->project);
-			}
-
-		if (isset($source['diagrams']))
-			foreach ($source['diagrams'] as $diagram) {
-				if (empty($diagram['type']) || empty($this->diagramTypes[$diagram['type']])) {
-					$form->addError('Invalid diagram type');
-					return;
-				}
-				$this->diagramTypes[$diagram['type']]->loadSource($diagram, $this->project);
-			}
-
-		$this->presenter->flashMessage('Success', 'success');
+		$this->presenter->flashMessage('Source loaded.', 'success');
 		$this->redirect('this');
 	}
 
 
 	public function render($mode = NULL) {
+		if (!$this['form']->submitted) {
+			$source = array(
+				'elements' => array(),
+				'relations' => array(),
+				'diagrams' => $this->diagramModel->dump($this->project),
+			);
+			foreach ($this->elementTypes as $key => $model)
+				$source['elements'] += (array) $model->dump($this->project);
+			foreach ($this->relationTypes as $key => $model)
+				$source['relations'] += (array) $model->dump($this->project);
+			$this['form']['source']->defaultValue = Neon::encode($source, Neon::BLOCK);
+		}
 		$this->template->mode = $mode;
 		parent::render();
 	}
