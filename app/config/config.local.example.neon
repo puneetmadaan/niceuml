@@ -1,0 +1,12 @@
+parameters:
+	mails:
+		defaultFrom: redwormik@gmail.com
+nette:
+	database:
+		dsn: 'mysql:host=127.0.0.1;dbname=niceuml'
+		user: 'root'
+		password: ''
+
+services:
+
+factories:
