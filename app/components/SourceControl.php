@@ -14,15 +14,18 @@ class SourceControl extends BaseControl {
 
 	protected $diagramModel;
 
+	protected $db;
+
 	protected $elementTypes = array();
 	protected $relationTypes = array();
 	protected $diagramTypes = array();
 
 
-	public function __construct(Model\Entity\Project $project, IFormFactory $formFactory, Model\Diagram $diagramModel) {
+	public function __construct(Model\Entity\Project $project, IFormFactory $formFactory, Model\Diagram $diagramModel, Nette\Database\Connection $db) {
 		$this->project = $project;
 		$this->formFactory = $formFactory;
 		$this->diagramModel = $diagramModel;
+		$this->db = $db;
 	}
 
 
@@ -70,34 +73,44 @@ class SourceControl extends BaseControl {
 		}
 
 		try {
+			$this->db->beginTransaction();
+
 			$sections = array('elements' => TRUE, 'relations' => TRUE, 'diagrams' => TRUE);
 			foreach ($source as $key => $value) {
 				if (!isset($sections[$key])) {
 					$form->addError('Unknown section "'.$key.'"');
+					$this->db->rollback();
 					return;
 				}
 			}
 			$source += array('elements' => array(), 'relations' => array(), 'diagrams' => array());
 			$elements = array();
+			$oldElements = $this->project->related('core_element')->fetchPairs('name');
 			foreach ((array) $source['elements'] as $name => $element) {
 				if (empty($element['type']) || empty($this->elementTypes[$element['type']])) {
 					$form->addError('Invalid element type in element ' . $name);
+					$this->db->rollback();
 					return;
 				}
 				$elements[$name] = $this->elementTypes[$element['type']]->load($this->project, $name, $element);
+				unset($oldElements[$name]);
 			}
-			$elements = $this->project->related('core_element')->fetchPairs('name');
+			$this->project->related('core_element')->where('id', array_values($oldElements))->delete();
+
 			foreach ((array) $source['relations'] as $name => $relation) {
 				if (empty($relation['type']) || empty($this->relationTypes[$relation['type']])) {
 					$form->addError('Invalid relation type in relation ' . $name);
+					$this->db->rollback();
 					return;
 				}
 				if (!isset($relation['start'], $elements[$relation['start']])) {
 					$form->addError('Invalid starting element in relation ' . $name);
+					$this->db->rollback();
 					return;
 				}
 				if (!isset($relation['end'], $elements[$relation['end']])) {
 					$form->addError('Invalid ending element in relation ' . $name);
+					$this->db->rollback();
 					return;
 				}
 				$relation['start'] = $elements[$relation['start']];
@@ -108,6 +121,7 @@ class SourceControl extends BaseControl {
 			foreach ($source['diagrams'] as $name => $diagram) {
 				if (empty($diagram['type']) || empty($this->diagramTypes[$diagram['type']])) {
 					$form->addError('Invalid diagram type in diagram ' . $name);
+					$this->db->rollback();
 					return;
 				}
 				$placements = array();
@@ -115,6 +129,7 @@ class SourceControl extends BaseControl {
 					foreach ($diagram['elements'] as $el => $position) {
 						if (empty($elements[$el])) {
 							$form->addError('Invalid element in diagram ' . $name);
+							$this->db->rollback();
 							return;
 						}
 						if (count($position) !== 2) {
@@ -130,8 +145,10 @@ class SourceControl extends BaseControl {
 				}
 				$diagram['elements'] = $placements;
 				$this->diagramModel->load($this->project, $name, $diagram);
+				$this->db->commit();
 			}
 		} catch (SourceException $e) {
+			$this->db->rollback();
 			$form->addError($e->getMessage());
 			return;
 		}

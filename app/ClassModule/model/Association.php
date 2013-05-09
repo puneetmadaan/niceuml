@@ -13,17 +13,23 @@ class Association extends \Model\BaseChild implements \Model\ISourceModel {
 	function dump(\Model\Entity\Project $project){
 		$result = array();
 		$ids = $project->related('core_element')->collect('id');
-		foreach ($this->table()->where('start_id', $ids)->where('end_id', $ids) as $assoc) {
-			$result[$assoc->parent->name] = array(
-				'name' => $assoc->parent->name,
-				'type' => $assoc->parent->type,
-				'start' => $assoc->parent->start->name,
-				'end' => $assoc->parent->end->name,
-				'direction' => $assoc->direction,
-				'sourceRole' => $assoc->sourceRole,
-				'sourceMultiplicity' => $assoc->sourceMultiplicity,
-				'targetRole' => $assoc->targetRole,
-				'targetMultiplicity' => $assoc->targetMultiplicity,
+		$table  = $this->parentModel->table()->where(array(
+			'start_id' => $ids,
+			'end_id' =>  $ids,
+			'type' => 'association',
+		));
+		foreach ($table as $assoc) {
+
+			$result[$assoc->name] = array(
+				'name' => $assoc->name,
+				'type' => $assoc->type,
+				'start' => $assoc->start->name,
+				'end' => $assoc->end->name,
+				'direction' => $assoc->child->direction,
+				'sourceRole' => $assoc->child->sourceRole,
+				'sourceMultiplicity' => $assoc->child->sourceMultiplicity,
+				'targetRole' => $assoc->child->targetRole,
+				'targetMultiplicity' => $assoc->child->targetMultiplicity,
 			);
 		}
 		return $result;

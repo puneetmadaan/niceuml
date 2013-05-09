@@ -11,14 +11,14 @@ class Diagram extends Base implements ISourceModel {
 		if (isset($source['name']) && (!$diagram || $source['name'] !== $name)) {
 			$dup = $this->table()->where('project_id', $project->id)->where('name', $source['name'])->fetch();
 			if ($dup)
-				throw new \SourceException("Duplicate project name " . $source['name']);
+				throw new \SourceException("Duplicate diagram name " . $source['name']);
 		}
 
 		if (!$diagram) {
 			$diagram = $this->create();
 			$diagram->project_id = $project->id;
 			if (!isset($source['type']))
-				throw new \SourceException("Missing project type");
+				throw new \SourceException("Missing diagram type");
 			$diagram->type = $source['type'];
 		}
 		$diagram->name = isset($source['name']) ? $source['name'] : $name;
