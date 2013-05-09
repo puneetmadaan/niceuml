@@ -30,7 +30,7 @@ class ClassType extends \Model\BaseChild implements \Model\ISourceModel {
 			$class->static = (bool) $source['static'];
 		$class = $this->save($class);
 
-		return $class;
+		return $class->getParent();
 	}
 
 

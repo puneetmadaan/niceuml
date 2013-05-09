@@ -72,9 +72,8 @@ class SourceControl extends BaseControl {
 			return;
 		}
 
+		$this->db->beginTransaction();
 		try {
-			$this->db->beginTransaction();
-
 			$sections = array('elements' => TRUE, 'relations' => TRUE, 'diagrams' => TRUE);
 			foreach ($source as $key => $value) {
 				if (!isset($sections[$key])) {
@@ -83,6 +82,7 @@ class SourceControl extends BaseControl {
 					return;
 				}
 			}
+
 			$source += array('elements' => array(), 'relations' => array(), 'diagrams' => array());
 			$elements = array();
 			$oldElements = $this->project->related('core_element')->fetchPairs('name');
@@ -151,6 +151,11 @@ class SourceControl extends BaseControl {
 			$this->db->rollback();
 			$form->addError($e->getMessage());
 			return;
+		} catch (Exception $e) {
+			$this->db->rollback();
+			Nette\Diagnostics\Debugger::log($e);
+			$form->addError("Unknown error occured.");
+			return;
 		}
 
 		$this->presenter->flashMessage('Source loaded.', 'success');
@@ -175,4 +180,9 @@ class SourceControl extends BaseControl {
 		parent::render();
 	}
 
+}
+
+
+class SourceException extends Nette\InvalidStateException
+{
 }

@@ -6,7 +6,19 @@ namespace ClassModule\Model;
 class Association extends \Model\BaseChild implements \Model\ISourceModel {
 
 	function load(\Model\Entity\Project $project, $name, $source){
+		$association = $this->create();
 
+		$known = array('name', 'type', 'start', 'end', 'direction', 'sourceRole', 'sourceMultiplicity', 'targetRole', 'targetMultiplicity');
+		if ($error = array_diff(array_keys($source), $known)) {
+			throw new \SourceException("Unknown fields '" . implode("', '", $error) . "' in relation '$name'.");
+		}
+
+		$association = $this->create();
+		foreach ($source as $key => $value) {
+			$association->$key = $value;
+		}
+
+		return $this->save($association);
 	}
 
 
