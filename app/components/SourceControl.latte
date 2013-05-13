@@ -5,7 +5,7 @@
 	{form buttons}
 {/form}
 {elseif $mode === 'scripts'}
-<script src="http://rawgithub.com/ajaxorg/ace-builds/master/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="{$basePath}/js/ace/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
 	$(function(){
 		var textarea = $("#"+{$control['form']->elementPrototype->id}+" textarea").first().hide();
