@@ -2,6 +2,8 @@
 
 namespace Model;
 
+use Nette\Utils\NeonEntity;
+
 
 class Diagram extends Base implements ISourceModel {
 
@@ -47,7 +49,9 @@ class Diagram extends Base implements ISourceModel {
 				'elements' => array(),
 			);
 			foreach ($diagram->related('core_placement') as $el) {
-				$row['elements'][$el->element->name] = array($el->posX, $el->posY);
+				$row['elements'][] = $ne = new NeonEntity;
+				$ne->value = $el->element->name;
+				$ne->attributes = array($el->posX, $el->posY);
 			}
 			$result[$diagram->name] = $row;
 		}

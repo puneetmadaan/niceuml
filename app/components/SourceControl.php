@@ -2,6 +2,7 @@
 
 use Model\ISourceModel,
 	Nette\Utils\Neon,
+	Nette\Utils\NeonEntity,
 	Nette\Utils\NeonException;
 
 
@@ -55,8 +56,7 @@ class SourceControl extends BaseControl {
 
 	protected function createComponentForm() {
 		$form = $this->formFactory->create();
-		$form->addTextarea('source', 'Source', NULL, 10)
-			->setRequired('Enter source.');
+		$form->addTextarea('source', 'Source', NULL, 10);
 		$form->addSubmit('send', 'Send');
 		$form->onSuccess[] = $this->formSucceeded;
 		return $form;
@@ -66,7 +66,7 @@ class SourceControl extends BaseControl {
 	public function formSucceeded($form) {
 		$source = $form['source']->value;
 		try {
-			$source = Neon::decode($source);
+			$source = (array) Neon::decode($source);
 		} catch (NeonException $e) {
 			$form->addError($e->getMessage());
 			return;
@@ -127,8 +127,13 @@ class SourceControl extends BaseControl {
 				$placements = array();
 				if (isset($diagram['elements'])) {
 					foreach ($diagram['elements'] as $el => $position) {
+						if ($position instanceof NeonEntity) {
+							$el = $position->value;
+							$position = $position->attributes;
+							// TODO: check for duplicates
+						}
 						if (empty($elements[$el])) {
-							$form->addError('Invalid element in diagram ' . $name);
+							$form->addError('Invalid element "' . $el . '" in diagram ' . $name);
 							$this->db->rollback();
 							return;
 						}
@@ -145,8 +150,8 @@ class SourceControl extends BaseControl {
 				}
 				$diagram['elements'] = $placements;
 				$this->diagramModel->load($this->project, $name, $diagram);
-				$this->db->commit();
 			}
+			$this->db->commit();
 		} catch (SourceException $e) {
 			$this->db->rollback();
 			$form->addError($e->getMessage());
