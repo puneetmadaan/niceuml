@@ -32,7 +32,7 @@ class Association extends \Model\BaseChild implements \Model\ISourceModel {
 		));
 		foreach ($table as $assoc) {
 
-			$result[$assoc->name] = array(
+			$result[] = array(
 				'name' => $assoc->name,
 				'type' => $assoc->type,
 				'start' => $assoc->start->name,

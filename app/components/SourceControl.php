@@ -97,6 +97,10 @@ class SourceControl extends BaseControl {
 			}
 			$this->project->related('core_element')->where('id', array_values($oldElements))->delete();
 
+
+			$els = $this->project->related('core_element')->collect('id');
+			$this->db->table('core_relation')->where('start_id', $els)->delete();
+
 			foreach ((array) $source['relations'] as $name => $relation) {
 				if (empty($relation['type']) || empty($this->relationTypes[$relation['type']])) {
 					$form->addError('Invalid relation type in relation ' . $name);
@@ -158,8 +162,9 @@ class SourceControl extends BaseControl {
 			return;
 		} catch (Exception $e) {
 			$this->db->rollback();
-			Nette\Diagnostics\Debugger::log($e);
-			$form->addError("Unknown error occured.");
+			throw $e;
+			// Nette\Diagnostics\Debugger::log($e);
+			// $form->addError("Unknown error occured.");
 			return;
 		}
 
