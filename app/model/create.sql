@@ -11,10 +11,8 @@ CREATE TABLE `core_diagram` (
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`name` VARCHAR (50) NOT NULL,
 	`project_id` INT UNSIGNED NOT NULL,
-	`package_id` INT UNSIGNED,
 	`type` VARCHAR (50),
 	FOREIGN KEY (`project_id`) REFERENCES `core_project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (`package_id`) REFERENCES `core_package` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
 	UNIQUE (`project_id`, `name`)
 );
 
@@ -24,10 +22,8 @@ CREATE TABLE `core_element` (
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`name` VARCHAR (50) NOT NULL,
 	`project_id` INT UNSIGNED NOT NULL,
-	`package_id` INT UNSIGNED,
 	`type` VARCHAR (50),
 	FOREIGN KEY (`project_id`) REFERENCES `core_project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (`package_id`) REFERENCES `core_package` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
 	UNIQUE (`project_id`, `name`)
 	-- package.project_id == project_id
 );
@@ -47,17 +43,6 @@ DROP TABLE IF EXISTS `core_keyword`;
 CREATE TABLE `core_keyword` (
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`name` VARCHAR (50) NOT NULL UNIQUE
-);
-
-
-DROP TABLE IF EXISTS `core_package`;
-CREATE TABLE `core_package` (
-	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	`name` VARCHAR (50) NOT NULL,
-	`project_id` INT UNSIGNED NOT NULL,
-	`parent_id` INT UNSIGNED,
-	FOREIGN KEY (`project_id`) REFERENCES `core_project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (`parent_id`) REFERENCES `core_package` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 
@@ -109,16 +94,6 @@ CREATE TABLE `core_note` (
 	`id` INT UNSIGNED NOT NULL PRIMARY KEY,
 	`text` TEXT NOT NULL,
 	FOREIGN KEY (`id`) REFERENCES `core_element` (`id`)  ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-
-DROP TABLE IF EXISTS `core_note_relation`;
-CREATE TABLE `core_note_relation` (
-	`note_id` INT UNSIGNED NOT NULL,
-	`relation_id` INT UNSIGNED NOT NULL,
-	PRIMARY KEY (`note_id`, `relation_id`),
-	FOREIGN KEY (`note_id`) REFERENCES `core_note` (`id`)  ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (`relation_id`) REFERENCES `core_relation` (`id`)  ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 
