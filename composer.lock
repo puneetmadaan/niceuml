@@ -1,0 +1,271 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
+    "hash": "e51b41d3f9eb2786cd72504d09989ea0",
+    "packages": [
+        {
+            "name": "kdyby/bootstrap-form-renderer",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Kdyby/BootstrapFormRenderer",
+                "reference": "v2.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/Kdyby/BootstrapFormRenderer/archive/v2.0.0.zip",
+                "reference": "v2.0.0",
+                "shasum": ""
+            },
+            "require": {
+                "nette/nette": "2.0.*"
+            },
+            "require-dev": {
+                "nette/tester": "@dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Kdyby\\BootstrapFormRenderer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause",
+                "GPL-2.0",
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Filip Procházka",
+                    "homepage": "http://filip-prochazka.com"
+                }
+            ],
+            "description": "Nette forms renderer with bootstrap",
+            "homepage": "http://kdyby.org",
+            "keywords": [
+                "Forms",
+                "bootstrap",
+                "kdyby",
+                "nette"
+            ],
+            "time": "2013-01-20 12:11:39"
+        },
+        {
+            "name": "nette/nette",
+            "version": "v2.0.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nette/nette.git",
+                "reference": "v2.0.10"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nette/nette/zipball/v2.0.10",
+                "reference": "v2.0.10",
+                "shasum": ""
+            },
+            "require": {
+                "ext-iconv": "*",
+                "ext-tokenizer": "*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "nette/tester": "@dev"
+            },
+            "suggest": {
+                "ext-fileinfo": "*",
+                "ext-gd": "*",
+                "ext-mbstring": "*",
+                "ext-memcache": "*",
+                "ext-pdo": "*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "Nette/loader.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause",
+                "GPL-2.0",
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "David Grudl",
+                    "homepage": "http://davidgrudl.com"
+                },
+                {
+                    "name": "Nette Community",
+                    "homepage": "http://nette.org/contributors"
+                }
+            ],
+            "description": "Nette Framework - innovative framework for fast and easy development of secured web applications in PHP. Write less, have cleaner code and your work will bring you joy.",
+            "homepage": "http://nette.org",
+            "keywords": [
+                "Forms",
+                "database",
+                "dbal",
+                "debugging",
+                "framework",
+                "images",
+                "latte",
+                "mailing",
+                "micro",
+                "mvc",
+                "neon",
+                "templating"
+            ],
+            "time": "2013-03-08 15:44:35"
+        },
+        {
+            "name": "redwormik/niceorm",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/redwormik/niceorm.git",
+                "reference": "8de77bdd177aca78861df77c2a7c1c2feb0768ed"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/redwormik/niceorm/zipball/8de77bdd177aca78861df77c2a7c1c2feb0768ed",
+                "reference": "8de77bdd177aca78861df77c2a7c1c2feb0768ed",
+                "shasum": ""
+            },
+            "require": {
+                "nette/nette": ">=2.0.10",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "nette/tester": "@dev"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "NiceORM/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Nette\\Database based ORM library",
+            "time": "2013-05-06 07:05:03"
+        },
+        {
+            "name": "vojtech-dobes/extensions-list",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vojtech-dobes/nette-extensions-list.git",
+                "reference": "1.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/vojtech-dobes/nette-extensions-list/zipball/1.0.0",
+                "reference": "1.0.0",
+                "shasum": ""
+            },
+            "require": {
+                "nette/nette": ">=2.0.5"
+            },
+            "type": "nette-addon",
+            "autoload": {
+                "classmap": [
+                    "/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "New BSD"
+            ],
+            "authors": [
+                {
+                    "name": "Vojtěch Dobeš",
+                    "email": "me@vojtechdobes.com"
+                }
+            ],
+            "description": "Enables registration of other extensions in config file (for Nette Framework)",
+            "homepage": "http://github.com/vojtech-dobes/ExtensionsList",
+            "keywords": [
+                "config",
+                "di",
+                "nette"
+            ],
+            "time": "2012-09-04 10:46:08"
+        }
+    ],
+    "packages-dev": [
+        {
+            "name": "nette/tester",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nette/tester.git",
+                "reference": "523bd9930485c690e50db592034d412f3bf35abe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nette/tester/zipball/523bd9930485c690e50db592034d412f3bf35abe",
+                "reference": "523bd9930485c690e50db592034d412f3bf35abe",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "bin": [
+                "Tester/tester"
+            ],
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "Tester/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause",
+                "GPL-2.0",
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "David Grudl",
+                    "homepage": "http://davidgrudl.com"
+                },
+                {
+                    "name": "Nette Community",
+                    "homepage": "http://nette.org/contributors"
+                }
+            ],
+            "description": "An easy-to-use PHP Unit Testing framework.",
+            "homepage": "http://nette.org",
+            "keywords": [
+                "nette",
+                "testing",
+                "unit"
+            ],
+            "time": "2013-03-14 02:11:44"
+        }
+    ],
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "redwormik/niceorm": 20,
+        "nette/tester": 20
+    },
+    "platform": {
+        "php": ">= 5.3.0"
+    },
+    "platform-dev": [
+
+    ]
+}
