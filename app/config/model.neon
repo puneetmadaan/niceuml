@@ -1,18 +1,4 @@
 services:
-
-	model.entityFactory:
-		class: Model\Database\DIEntityFactory
-		arguments:
-			services:
-				core_element: 'entity.core_element'
-				core_project: 'entity.core_project'
-				core_relation: 'entity.core_relation'
-				core_diagram: 'entity.core_diagram'
-				core_placement: 'entity.core_placement'
-				core_note: 'entity.core_note'
-				core_user: 'entity.core_user'
-			default: 'entity.default'
-
 	model.project: Model\ProjectDAO('core_project')
 	model.element: Model\ElementDAO('core_element')
 	model.relation: Model\RelationDAO('core_relation')
