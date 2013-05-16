@@ -1,9 +1,12 @@
 <?php
 
-namespace UserModule;
+namespace Model\Security;
 
-use Nette,
-	Nette\Security;
+use Model\Entity\Base as BaseEntity,
+	Nette,
+	Nette\Security\IAuthorizator,
+	Nette\Security\Permission,
+	Nette\Security\User;
 
 
 /**
@@ -11,7 +14,8 @@ use Nette,
  *
  * @author Jakub Červenka
  */
-class Authorizator extends Nette\Object implements Security\IAuthorizator {
+class Authorizator extends Nette\Object implements IAuthorizator
+{
 
 	/** @var \Nette\Security\User */
 	private $user;
@@ -21,10 +25,10 @@ class Authorizator extends Nette\Object implements Security\IAuthorizator {
 	/**
 	* @param \Nette\Security\User
 	*/
-	public function __construct(\Nette\Security\User $user)
+	public function __construct(User $user)
 	{
 		$this->user = $user;
-		$acl = new Security\Permission;
+		$acl = new Permission;
 
 		$acl->addRole('guest');
 		$acl->addRole('authenticated');
@@ -35,7 +39,8 @@ class Authorizator extends Nette\Object implements Security\IAuthorizator {
 		$acl->allow('user', 'usage');
 
 		$acl->addResource('project');
-		$acl->allow('user', 'project', $acl::ALL, $this->checkProjectUser);
+		$acl->allow('user', 'project', 'view', $this->checkProjectUser);
+		$acl->allow('user', 'project', $acl::ALL, $this->checkProjectOwner);
 
 		$acl->addResource('element');
 		$acl->allow('user', 'element', $acl::ALL, $this->checkElementProject);
@@ -67,18 +72,25 @@ class Authorizator extends Nette\Object implements Security\IAuthorizator {
 	 * @return bool
 	 */
 	public function isAllowed($role = self::ALL, $resource = self::ALL, $privilege = self::ALL) {
-		if ($resource instanceof \Model\Entity\Base) {
+		if ($resource instanceof BaseEntity) {
 			$resource = new EntityResource($resource);
 		}
 		return $this->acl->isAllowed($role, $resource, $privilege);
 	}
 
 
-	public function checkProjectUser($acl) {
+	public function checkProjectUser($acl, $role, $resource, $privilege, $owner = FALSE) {
 		if (!$acl->queriedResource instanceof EntityResource)
 			return TRUE;
 		$project = $acl->queriedResource->entity;
-		return (bool) $project->related('user_project')->where('user_id', $this->user->id)->fetch();
+		$part = $project->related('user_project')->where('user_id', $this->user->id)->fetch();
+		if (!$part) return FALSE;
+		return !$owner || $part->role === 'owner';
+	}
+
+
+	public function checkProjectOwner($acl, $role, $resource, $privilege) {
+		return $this->checkProjectUser($acl, $role, $resource, $privilege, TRUE);
 	}
 
 

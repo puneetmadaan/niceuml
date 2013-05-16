@@ -27,6 +27,12 @@ routes:
 	'<presenter>[/<action>][/<id>]': Homepage:default
 
 services:
+	authenticator:
+		factory: Model\Security\Authenticator
+
+	authorizator:
+		factory: Model\Security\Authorizator
+
 	database: @nette.database.default
 	mailFactory: MailFactory( %appDir%/templates/mails, %mails.defaultFrom% )
 
@@ -38,6 +44,7 @@ services:
 		class: InterpreterList
 
 factories:
+
 	nette.latte:
 		setup:
 			- Kdyby\BootstrapFormRenderer\Latte\FormMacros::install(@self::getCompiler())

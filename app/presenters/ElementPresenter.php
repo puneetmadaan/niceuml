@@ -78,7 +78,7 @@ final class ElementPresenter extends ModellingPresenter {
 		$element = $this->elementModel->get((int) $id);
 		if (!$element || $element->project_id !== $this->project->id)
 			$this->error();
-		if (!$this->user->isAllowed($element))
+		if (!$this->user->isAllowed($element, 'edit'))
 			$this->forbidden();
 		return $element;
 	}

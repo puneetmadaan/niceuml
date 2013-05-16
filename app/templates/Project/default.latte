@@ -13,7 +13,7 @@
 		<tr n:foreach="$projects as $p">
 			<td>{$p->id}</td>
 			<td><a n:href="Element: projectId => $p->id">{$p->name}</a></td>
-			<td><a n:href="edit $p->id" class="btn btn-small">Edit</a></td>
+			<td><a n:href="edit $p->id" class="btn btn-small" n:if="$user->isAllowed($p, 'edit')">Edit</a></td>
 		</tr>
 	</tbody>
 </table>

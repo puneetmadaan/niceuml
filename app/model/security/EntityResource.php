@@ -1,8 +1,8 @@
 <?php
 
-namespace UserModule;
+namespace Model\Security;
 
-use Model\Entity,
+use Model\Entity\Base as BaseEntity,
 	Nette,
 	Nette\Security;
 
@@ -12,7 +12,7 @@ class EntityResource extends Nette\Object implements Security\IResource {
 	protected $entity;
 
 
-	public function __construct(Entity\Base $entity) {
+	public function __construct(BaseEntity $entity) {
 		$this->entity = $entity;
 	}
 

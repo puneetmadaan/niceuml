@@ -3,7 +3,11 @@
 parameters:
 	controls:
 		menuLinks:
-			- { link: ':Project:', label: 'Projects', access: 'project' }
+			- [ link: ':Project:', label: 'Projects', access: 'project' ]
+			- [ link: ':User:default', label: Register, access: usage, accessInverse: TRUE ]
+			- [ link: ':Sign:in', label: Log in, access: usage, accessInverse: TRUE ]
+			- [ link: ':User:default', label: User settings, access: usage ]
+			- [ link: ':Sign:out', label: Log out, access: usage ]
 
 
 routes: # highest priority routes

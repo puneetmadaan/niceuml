@@ -8,6 +8,11 @@ final class HomepagePresenter extends BasePresenter {
 
 	protected $projectModel;
 
+	public function startup() {
+		parent::startup();
+		if (!$this->user->isAllowed('usage'))
+			$this->forbidden();
+	}
 
 	public function injectProjectModel(Model\Project $projectModel) {
 		$this->doInject('projectModel', $projectModel);
@@ -15,8 +20,7 @@ final class HomepagePresenter extends BasePresenter {
 
 
 	public function renderDefault() {
-		$projects = $this->projectModel->table();
-		$this->projectModel->filterAllowed($this->user, $projects);
+		$projects = $this->projectModel->findByUserId($this->user->id);
 		$this->template->projects = $projects;
 	}
 

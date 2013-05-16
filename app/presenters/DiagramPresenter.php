@@ -78,7 +78,7 @@ final class DiagramPresenter extends ModellingPresenter {
 		$diagram = $this->diagramModel->get((int) $id);
 		if (!$diagram || $diagram->project_id !== $this->project->id)
 			$this->error();
-		if (!$this->user->isAllowed($diagram))
+		if (!$this->user->isAllowed($diagram, 'edit'))
 			$this->forbidden();
 		return $diagram;
 	}

@@ -6,5 +6,4 @@ parameters:
 modules:
 
 includes:
-	- ../UserModule/config.neon
 	- ../ClassModule/config.neon

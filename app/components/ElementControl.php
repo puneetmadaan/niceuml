@@ -108,7 +108,7 @@ class ElementControl extends BaseControl {
 		$relation = $this->relationModel->get((int) $id);
 		if (!$relation || ($relation->start_id !== $this->element->id && $relation->end_id !== $this->element->id) )
 			$this->presenter->error();
-		if (!$this->presenter->user->isAllowed($relation))
+		if (!$this->presenter->user->isAllowed($relation, 'edit'))
 			$this->presenter->forbidden();
 		return $relation;
 	}

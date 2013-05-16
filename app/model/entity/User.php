@@ -1,46 +1,46 @@
 <?php
 
-namespace UserModule;
+namespace Model\Entity;
 
-use Model\Entity,
+use Nette,
 	Nette\Security\Identity,
 	Nette\Utils\Strings;
 
 
-
-/**
- * Description of User
- *
- * @author wormik
- */
-class User extends Entity\Base {
+class User extends Base
+{
 
 
-	public function setPassword($password) {
+	public function setPassword($password)
+	{
 		$this->setColumn('password', $this->calculateHash($password));
 	}
 
 
-	public function hasPassword($password) {
+	public function hasPassword($password)
+	{
 		return $this->getColumn('password') === $this->calculateHash($password, $this->getColumn('password'));
 	}
 
 
-	public function setEmail($email) {
-		if (! \Nette\Utils\Validators::isEmail($email) )
-			throw new \Nette\InvalidArgumentException;
+	public function setEmail($email)
+	{
+		if (!Nette\Utils\Validators::isEmail($email))
+			throw new Nette\InvalidArgumentException;
 		$this->setColumn('email', $email);
 		$this->login = $email;
 		return $this;
 	}
 
 
-	public function getFullName() {
+	public function getFullName()
+	{
 		return $this->name . ' ' . $this->surname;
 	}
 
 
-	public function resetPassword() {
+	public function resetPassword()
+	{
 		$password = Strings::random(10);
 		$this->passwordNew = $this->calculateHash($password);
 		$this->passwordNewCode = Strings::random(10);
@@ -48,16 +48,18 @@ class User extends Entity\Base {
 	}
 
 
-	public function resetPasswordConfirm() {
+	public function resetPasswordConfirm()
+	{
 		$this->setColumn( 'password', $this->passwordNew );
 		$this->passwordNew = $this->passwordNewCode = NULL;
 		return $this;
 	}
 
 
-	public function createIdentity() {
+	public function createIdentity()
+	{
 		$data = $this->toArray();
-		unset($data['password']);
+		unset($data['password'], $data['passwordNew'], $data['passwordNewCode']);
 		return new Identity($this->id, $this->role, $data);
 	}
 

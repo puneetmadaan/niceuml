@@ -68,7 +68,7 @@ abstract class ModellingPresenter extends BasePresenter {
 		$project = $this->projectModel->get((int) $id);
 		if (!$project)
 			$this->error();
-		if (!$this->user->isAllowed($project))
+		if (!$this->user->isAllowed($project, 'view'))
 			$this->forbidden();
 		return $project;
 	}

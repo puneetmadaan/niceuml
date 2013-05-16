@@ -1,20 +1,18 @@
 <?php
 
-namespace UserModule;
 
-
-final class ForgotPresenter extends \BasePresenter {
+final class ForgotPresenter extends BasePresenter {
 
 	protected $mailFactory = NULL;
 	protected $users;
 
 
-	public function injectMailFactory(\MailFactory $mailFactory) {
+	public function injectMailFactory(MailFactory $mailFactory) {
 		$this->mailFactory = $mailFactory;
 	}
 
 
-	public function injectUsers(Model $users) {
+	public function injectUsers(Model\UserDAO $users) {
 		$this->users = $users;
 	}
 

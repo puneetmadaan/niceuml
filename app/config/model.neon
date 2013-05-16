@@ -20,6 +20,8 @@ services:
 		class: Model\Diagram('core_diagram')
 	model.placement:
 		class: Model\Placement('core_placement')
+	model.user:
+		class: Model\UserDAO('core_user')
 
 
 factories:
@@ -36,4 +38,5 @@ entity:
 	core_diagram: Model\Entity\Diagram
 	core_placement: Model\Entity\Placement
 	core_note: Model\Entity\Note
+	core_user: Model\Entity\User
 	default: Model\Entity\Base

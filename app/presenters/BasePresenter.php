@@ -12,21 +12,10 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 	/** @var IMenuControlFactory */
 	protected $menuControlFactory;
 
-	/** @var ILoginControlFactory */
-	protected $loginControlFactory;
 
-
-	public function injectBaseFactories(IFormFactory $form, IMenuControlFactory $menu, ILoginControlFactory $login = NULL) {
+	public function injectBaseFactories(IFormFactory $form, IMenuControlFactory $menu) {
 		$this->doInject('formFactory', $form);
 		$this->doInject('menuControlFactory', $menu);
-		if ($login !== NULL)
-			$this->doInject('loginControlFactory', $login);
-	}
-
-
-	protected function beforeRender() {
-		parent::beforeRender();
-		$this->template->isLoginControl = $this->loginControlFactory !== NULL;
 	}
 
 
@@ -40,24 +29,18 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 	}
 
 
-	protected function createComponentLoginControl() {
-		if ($this->loginControlFactory === NULL)
-			throw new Nette\InvalidArgumentException("No factory for component 'loginControl' has been set.");
-		return $this->loginControlFactory->create();
-	}
-
-
 	protected function doInject($name, $dependency) {
 		if ($this->$name !== NULL)
-			throw new \Nette\InvalidStateException("Dependency '$name' has already been set.");
+			throw new Nette\InvalidStateException("Dependency '$name' has already been set.");
 		$this->$name = $dependency;
 	}
 
 
 	public function forbidden($msg = NULL) {
 		if (!$this->user->loggedIn) {
+			$request = $this->storeRequest();
 			$this->flashMessage('You need to be logged in to visit that page');
-			$this->redirect(':Homepage:');
+			$this->redirect(':Sign:in', $request);
 		}
 		else $this->error($msg, Nette\Http\IResponse::S403_FORBIDDEN);
 	}

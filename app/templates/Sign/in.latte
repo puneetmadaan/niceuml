@@ -1,0 +1,12 @@
+
+{block content}
+
+	<h3>Log In</h3>
+	{form loginForm}
+		{form errors}
+		{form controls}
+		<div class="form-actions">
+			{input send class=>"btn btn-primary"}
+			<a class="btn" n:href=":Forgot:">Forgotten password</a>
+		</div>
+	{/form}

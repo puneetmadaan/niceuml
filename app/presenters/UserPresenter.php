@@ -1,15 +1,13 @@
 <?php
 
-namespace UserModule;
 
-
-final class DefaultPresenter extends \BasePresenter {
+final class UserPresenter extends BasePresenter {
 
 	protected $users;
 	protected $userDetail;
 
 
-	public function injectUsers(Model $users) {
+	public function injectUsers(Model\UserDAO $users) {
 		$this->users = $users;
 	}
 
@@ -32,7 +30,7 @@ final class DefaultPresenter extends \BasePresenter {
 				->setRequired()
 				->addRule($form::EMAIL)
 				->addRule(function ($input) use ($users) {
-					return $users->isLoginUnique($input->value);
+					return $users->getByLogin($input->value) ? FALSE : TRUE;
 				}, 'This e-mail is already used.');
 			$form->addPassword('password', 'Password')
 				->setRequired()
@@ -45,7 +43,6 @@ final class DefaultPresenter extends \BasePresenter {
 			->setRequired();
 		$form->addText('surname', 'Surname', NULL, 30)
 			->setRequired();
-		$form->addText('nick', 'Nickname', NULL, 20);
 
 		if ($this->user->loggedIn) {
 			$user = $this->userDetail;
@@ -86,6 +83,8 @@ final class DefaultPresenter extends \BasePresenter {
 				$this->user->identity->$key = $value;
 		}
 		$this->flashMessage($this->user->loggedIn ? 'Data saved.' : 'Registration successful.');
+		if (!$this->user->loggedIn)
+			$this->redirect('Sign:in');
 		$this->redirect('this');
 	}
 
