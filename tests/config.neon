@@ -1,14 +1,1 @@
-parameters:
-	mails:
-		defaultFrom: 'redwormik@gmail.com'
-nette:
-	database:
-		dsn: 'mysql:host=127.0.0.1'
-		user: 'root'
-		password: ''
-
 services:
-	cacheStorage:
-		class: Nette\Caching\Storages\MemoryStorage
-
-factories:
