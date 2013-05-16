@@ -132,4 +132,7 @@ class DiagramControl extends BaseControl {
 	}
 
 
+	public function renderScripts() {
+	}
+
 }
