@@ -8,13 +8,15 @@ class ClassDiagramControl extends \BaseControl {
 	protected $diagram;
 	protected $elementModel;
 	protected $relationModel;
+	protected $formFactory;
 
 	protected $rendered = FALSE;
 
-	public function __construct(\Model\Entity\Diagram $diagram, \Model\Element $elementModel, \Model\Relation $relationModel) {
+	public function __construct(\Model\Entity\Diagram $diagram, \Model\Element $elementModel, \Model\Relation $relationModel, \IDiagramControlFactory $formFactory) {
 		$this->diagram = $diagram;
 		$this->elementModel = $elementModel;
 		$this->relationModel = $relationModel;
+		$this->formFactory = $formFactory;
 	}
 
 	protected function beforeRender() {
@@ -36,6 +38,13 @@ class ClassDiagramControl extends \BaseControl {
 		}
 	}
 
+	public function createComponentForm() {
+		$oldType = $this->diagram->type;
+		$this->diagram->type = NULL;
+		$form = $this->formFactory->create($this->diagram);
+		$this->diagram->type = $oldType;
+		return $form;
+	}
 
 	public function render() {
 		$this->beforeRender();
