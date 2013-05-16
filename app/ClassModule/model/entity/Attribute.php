@@ -19,9 +19,7 @@ class Attribute extends \Model\Entity\BaseEntity
 		if ($this->derived) $res.='/';
 		if ($this->static) $res.='static ';
 		$res.=$this->name;
-		if ($this->type_id !== NULL)
-			$res.=':'.$this->ref('class_class', 'type_id')->name;
-		elseif ($this->type !== NULL)
+		if ($this->type !== '')
 			$res.=':'.$this->type;
 		if ($this->multiplicity)
 			$res.='['.$this->multiplicity.']';

@@ -24,9 +24,7 @@ class Operation extends \Model\Entity\BaseEntity
 			$param = '';
 			$param .= ($p->direction && $p->direction !== 'in') ? ($p->direction . ' ') : '';
 			$param .= $p->name;
-			if ($p->type_id !== NULL)
-				$param.=':'.$p->ref('class_class', 'type_id')->name;
-			elseif ($p->type !== NULL)
+			if ($p->type !== '')
 				$param.=':'.$p->type;
 			if ($p->multiplicity)
 				$param.='['.$p->multiplicity.']';
@@ -35,9 +33,7 @@ class Operation extends \Model\Entity\BaseEntity
 			$params[] = $param;
 		}
 		$res.='('.implode(', ', $params).')';
-		if ($this->returnType_id !== NULL)
-			$res.=':'.$this->ref('class_class', 'returnType_id')->name;
-		elseif ($this->returnType !== NULL)
+		if ($this->returnType !== '')
 			$res.=':'.$this->returnType;
 		return $res;
 	}

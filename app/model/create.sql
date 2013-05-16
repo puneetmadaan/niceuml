@@ -7,7 +7,7 @@ CREATE TABLE `core_diagram` (
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`name` VARCHAR (50) NOT NULL,
 	`project_id` INT UNSIGNED NOT NULL,
-	`type` VARCHAR (50),
+	`type` VARCHAR (50) NOT NULL,
 	FOREIGN KEY (`project_id`) REFERENCES `core_project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	UNIQUE (`project_id`, `name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
@@ -18,7 +18,7 @@ CREATE TABLE `core_element` (
 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	`name` VARCHAR (50) NOT NULL,
 	`project_id` INT UNSIGNED NOT NULL,
-	`type` VARCHAR (50),
+	`type` VARCHAR (50) NOT NULL,
 	FOREIGN KEY (`project_id`) REFERENCES `core_project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	UNIQUE (`project_id`, `name`)
 	-- package.project_id == project_id
@@ -68,7 +68,7 @@ CREATE TABLE `core_relation` (
 	`name` VARCHAR (50) NOT NULL,
 	`start_id` INT UNSIGNED NOT NULL,
 	`end_id` INT UNSIGNED NOT NULL,
-	`type` VARCHAR (50),
+	`type` VARCHAR (50) NOT NULL,
 	FOREIGN KEY (`start_id`) REFERENCES `core_element` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (`end_id`) REFERENCES `core_element` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 	-- start.project_id == end.project_id
@@ -107,7 +107,7 @@ CREATE TABLE `core_user` (
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `login` (`login`),
 	UNIQUE KEY `passwordNewCode` (`passwordNewCode`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 
 DROP TABLE IF EXISTS `core_user_project`;
@@ -118,7 +118,7 @@ CREATE TABLE `core_user_project` (
 	PRIMARY KEY (`user_id`, `project_id`),
 	FOREIGN KEY (`user_id`) REFERENCES `core_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (`project_id`) REFERENCES `core_project` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 
 SET FOREIGN_KEY_CHECKS = @OLD_CHECKS;
