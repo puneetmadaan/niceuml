@@ -22,7 +22,7 @@ class SourceControl extends BaseControl {
 	protected $diagramTypes = array();
 
 
-	public function __construct(Model\Entity\Project $project, IFormFactory $formFactory, Model\Diagram $diagramModel, Nette\Database\Connection $db) {
+	public function __construct(Model\Entity\Project $project, IFormFactory $formFactory, Model\DiagramDAO $diagramModel, Nette\Database\Connection $db) {
 		$this->project = $project;
 		$this->formFactory = $formFactory;
 		$this->diagramModel = $diagramModel;

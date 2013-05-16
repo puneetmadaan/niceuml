@@ -3,7 +3,7 @@
 namespace ClassModule\Model;
 
 
-class ClassType extends \Model\BaseChild implements \Model\ISourceModel {
+class ClassType extends \Model\BaseChildDAO implements \Model\ISourceModel {
 
 	function load(\Model\Entity\Project $project, $name, $source){
 		$class = $this->parentModel->table()->where('project_id', $project->id)->where('name', $name)->fetch();

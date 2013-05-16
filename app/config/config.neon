@@ -51,6 +51,7 @@ factories:
 	nette.basicForm:
 		class: Nette\Application\UI\Form
 		setup:
+			- addProtection()
 			- $renderer( Kdyby\BootstrapFormRenderer\BootstrapRenderer() )
 	form: @nette.basicForm
 

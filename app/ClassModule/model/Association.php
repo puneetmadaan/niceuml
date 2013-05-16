@@ -3,7 +3,8 @@
 namespace ClassModule\Model;
 
 
-class Association extends \Model\BaseChild implements \Model\ISourceModel {
+class Association extends \Model\BaseChildDAO implements \Model\ISourceModel
+{
 
 	function load(\Model\Entity\Project $project, $name, $source){
 		$association = $this->create();

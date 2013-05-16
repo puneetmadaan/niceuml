@@ -18,7 +18,7 @@ class NewRelationControl extends BaseControl {
 	}
 
 
-	public function add($type, $label, Model\IModel $model, $allowed = NULL, $allowedTo = NULL) {
+	public function add($type, $label, Model\BaseDAO $model, $allowed = NULL, $allowedTo = NULL) {
 		$allowed = ($allowed === NULL) ? $allowed : array_fill_keys((array) $allowed, TRUE);
 		$allowedTo = ($allowedTo === NULL) ? $allowedTo : array_fill_keys((array) $allowedTo, TRUE);
 

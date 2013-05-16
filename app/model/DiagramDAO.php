@@ -5,7 +5,15 @@ namespace Model;
 use Nette\Utils\NeonEntity;
 
 
-class Diagram extends Base implements ISourceModel {
+class DiagramDAO extends BaseDAO implements ISourceModel
+{
+
+
+	public function isElementTypeAllowed($diagramType, $elementType)
+	{
+		return TRUE;
+	}
+
 
 	public function load(Entity\Project $project, $name, $source) {
 		$diagram = $this->table()->where('project_id', $project->id)->where('name', $name)->fetch();

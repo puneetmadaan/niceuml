@@ -14,7 +14,7 @@ final class HomepagePresenter extends BasePresenter {
 			$this->forbidden();
 	}
 
-	public function injectProjectModel(Model\Project $projectModel) {
+	public function injectProjectModel(Model\ProjectDAO $projectModel) {
 		$this->doInject('projectModel', $projectModel);
 	}
 

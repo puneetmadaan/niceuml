@@ -12,7 +12,7 @@ class ClassDiagramControl extends \BaseControl {
 
 	protected $rendered = FALSE;
 
-	public function __construct(\Model\Entity\Diagram $diagram, \Model\Element $elementModel, \Model\Relation $relationModel, \IDiagramControlFactory $formFactory) {
+	public function __construct(\Model\Entity\Diagram $diagram, \Model\ElementDAO $elementModel, \Model\RelationDAO $relationModel, \IDiagramControlFactory $formFactory) {
 		$this->diagram = $diagram;
 		$this->elementModel = $elementModel;
 		$this->relationModel = $relationModel;

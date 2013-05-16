@@ -2,8 +2,10 @@
 
 namespace Model;
 
+use Nette;
 
-class UserDAO extends Base
+
+class UserDAO extends BaseDAO
 {
 
 

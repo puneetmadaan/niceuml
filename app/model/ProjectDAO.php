@@ -4,8 +4,7 @@ namespace Model;
 
 use Nette;
 
-
-class Project extends Base
+class ProjectDAO extends BaseDAO
 {
 
 

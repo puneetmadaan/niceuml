@@ -3,7 +3,7 @@
 namespace Model\Entity;
 
 
-abstract class BaseChild extends Base {
+abstract class BaseChild extends BaseEntity {
 
 	/** @var Base */
 	protected $parent;
@@ -21,7 +21,7 @@ abstract class BaseChild extends Base {
 	}
 
 
-	public function setParent(Base $parent) {
+	public function setParent(BaseEntity $parent) {
 		if ($this->parent === $parent)
 			return $this;
 		$this->parent = $parent;

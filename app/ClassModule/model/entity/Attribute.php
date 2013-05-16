@@ -3,7 +3,8 @@
 namespace ClassModule\Model\Entity;
 
 
-class Attribute extends \Model\Entity\Base {
+class Attribute extends \Model\Entity\BaseEntity
+{
 
 
 	public function toUML() {

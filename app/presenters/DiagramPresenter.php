@@ -16,7 +16,7 @@ final class DiagramPresenter extends ModellingPresenter {
 	protected $diagram;
 
 
-	public function injectModel(Model\Diagram $diagramModel) {
+	public function injectModel(Model\DiagramDAO $diagramModel) {
 		$this->doInject('diagramModel', $diagramModel);
 	}
 

@@ -13,7 +13,7 @@ final class ProjectPresenter extends BasePresenter {
 	protected $project;
 
 
-	public function injectModels(Model\Project $projectModel, Model\UserDAO $userModel) {
+	public function injectModels(Model\ProjectDAO $projectModel, Model\UserDAO $userModel) {
 		$this->doInject('projectModel', $projectModel);
 		$this->doInject('userModel', $userModel);
 	}

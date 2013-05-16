@@ -1,11 +1,13 @@
 <?php
 
-namespace NiceDAO;
+namespace Model\Database;
 
-use Nette\Database\Table;
+use Nette,
+	Nette\Database\Table;
 
 
-class GroupedSelection extends Table\GroupedSelection {
+class GroupedSelection extends Table\GroupedSelection
+{
 
 
 	/**
@@ -14,29 +16,34 @@ class GroupedSelection extends Table\GroupedSelection {
 	* @param string database table name
 	* @param string joining column
 	*/
-	public function __construct(Table\Selection $refTable, $table, $column) {
+	public function __construct(Table\Selection $refTable, $table, $column)
+	{
 		if (!($refTable instanceof Selection || $refTable instanceof GroupedSelection))
-			throw new \Nette\InvalidArgumentException;
+			throw new Nette\InvalidArgumentException;
 		parent::__construct($refTable, $table, $column);
 	}
 
 
-	public function collect($item, $preserveKeys = FALSE) {
+	public function collect($item, $preserveKeys = FALSE)
+	{
 		return SelectionMixin::collect($this, $item, $preserveKeys);
 	}
 
 
-	protected function createRow(array $row) {
+	protected function createRow(array $row)
+	{
 		return $this->getRefTable($path)->entityFactory->create($row, $this);
 	}
 
 
-	protected function createSelectionInstance($table = NULL) {
+	protected function createSelectionInstance($table = NULL)
+	{
 		return new Selection($table ?: $this->name, $this->connection, $this->getRefTable($path)->entityFactory);
 	}
 
 
-	protected function createGroupedSelectionInstance($table, $column) {
+	protected function createGroupedSelectionInstance($table, $column)
+	{
 		return new GroupedSelection($this, $table, $column);
 	}
 

@@ -16,7 +16,7 @@ class NewDiagramControl extends BaseControl {
 	}
 
 
-	public function add($type, $label, Model\IModel $model) {
+	public function add($type, $label, Model\BaseDAO $model) {
 		$this->types[$type] = $label;
 		$this->models[$type] = $model;
 	}

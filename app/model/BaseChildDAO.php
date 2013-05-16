@@ -2,21 +2,21 @@
 
 namespace Model;
 
-use Nette\Database\Connection,
-	NiceDAO\IEntityFactory;
+use Model\Database\IEntityFactory,
+	Nette\Database\Connection;
 
 
-class BaseChild extends Base {
+class BaseChildDAO extends BaseDAO {
 
 	protected $parentModel;
 
-	public function __construct($tableName, Connection $connection, IEntityFactory $entityFactory, Base $parent) {
+	public function __construct($tableName, Connection $connection, IEntityFactory $entityFactory, BaseDAO $parent) {
 		parent::__construct($tableName, $connection, $entityFactory);
 		$this->parentModel = $parent;
 	}
 
 
-	public function getByParent(Entity\Base $parent) {
+	public function getByParent(Entity\BaseEntity $parent) {
 		return $parent->ref($this->tableName, 'id');
 	}
 
@@ -33,11 +33,9 @@ class BaseChild extends Base {
 	}
 
 
-	public function save($entity = NULL, $data = NULL) {
+	public function save(Entity\BaseEntity $entity = NULL, $data = NULL) {
 		if ($entity === NULL)
 			$entity = $this->create();
-		elseif (!$entity instanceof \NiceDAO\Entity)
-			throw new \Nette\InvalidArgumentException;
 
 		if ($data !== NULL) {
 			foreach ($data as $key => $value)

@@ -16,7 +16,7 @@ final class ElementPresenter extends ModellingPresenter {
 	protected $element;
 
 
-	public function injectModel(Model\Element $elementModel) {
+	public function injectModel(Model\ElementDAO $elementModel) {
 		$this->doInject('elementModel', $elementModel);
 	}
 

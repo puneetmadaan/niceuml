@@ -11,14 +11,14 @@ class NewElementControl extends BaseControl {
 	protected $models = array();
 
 
-	public function __construct(Model\Entity\Project $project, Model\Element $model, IFormFactory $formFactory) {
+	public function __construct(Model\Entity\Project $project, Model\ElementDAO $model, IFormFactory $formFactory) {
 		$this->project = $project;
 		$this->model = $model;
 		$this->formFactory = $formFactory;
 	}
 
 
-	public function add($type, $label, Model\IModel $model) {
+	public function add($type, $label, Model\BaseDAO $model) {
 		$this->types[$type] = $label;
 		$this->models[$type] = $model;
 	}

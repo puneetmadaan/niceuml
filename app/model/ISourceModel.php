@@ -3,7 +3,8 @@
 namespace Model;
 
 
-interface ISourceModel {
+interface ISourceModel
+{
 
 	function load(Entity\Project $project, $name, $source);
 

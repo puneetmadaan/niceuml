@@ -3,7 +3,8 @@
 namespace ClassModule\Model\Entity;
 
 
-class Operation extends \Model\Entity\Base {
+class Operation extends \Model\Entity\BaseEntity
+{
 
 
 	public function toUML() {

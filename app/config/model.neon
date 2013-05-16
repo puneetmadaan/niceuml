@@ -1,37 +1,32 @@
-parameters:
-	model:
-		inheritanceColumns:
-			core_element: type
-			core_relation: type
-
 services:
-#	model.entityFactory: Model\InheritanceEntityFactory('entity.', 'default', ..., %model.inheritanceColumns%)
-	model.entityFactory: NiceDAO\DIEntityFactory('entity.', 'default')
 
-	model.project:
-		class: Model\Project('core_project')
-	model.element:
-		class: Model\Element('core_element')
-	model.relation:
-		class: Model\Relation('core_relation')
-	model.note:
-		class: Model\BaseChild('core_note', ..., ..., @model.element)
-	model.diagram:
-		class: Model\Diagram('core_diagram')
-	model.placement:
-		class: Model\Placement('core_placement')
-	model.user:
-		class: Model\UserDAO('core_user')
+	model.entityFactory:
+		class: Model\Database\DIEntityFactory
+		arguments:
+			services:
+				core_element: 'entity.core_element'
+				core_project: 'entity.core_project'
+				core_relation: 'entity.core_relation'
+				core_diagram: 'entity.core_diagram'
+				core_placement: 'entity.core_placement'
+				core_note: 'entity.core_note'
+				core_user: 'entity.core_user'
+			default: 'entity.default'
 
-
-factories:
+	model.project: Model\ProjectDAO('core_project')
+	model.element: Model\ElementDAO('core_element')
+	model.relation: Model\RelationDAO('core_relation')
+	model.note: Model\BaseChildDAO('core_note', ..., ..., @model.element)
+	model.diagram: Model\DiagramDAO('core_diagram')
+	model.placement: Model\PlacementDAO('core_placement')
+	model.user: Model\UserDAO('core_user')
 
 entity:
-	core_element:  Model\Entity\Element
+	core_element: Model\Entity\Element
 	core_project: Model\Entity\Project
 	core_relation: Model\Entity\Relation
 	core_diagram: Model\Entity\Diagram
 	core_placement: Model\Entity\Placement
 	core_note: Model\Entity\Note
 	core_user: Model\Entity\User
-	default: Model\Entity\Base
+	default: Model\Entity\BaseEntity

@@ -1,11 +1,14 @@
 <?php
 
-namespace NiceDAO;
+namespace Model\Database;
 
-use Nette\Database\Table;
+use Nette,
+	Nette\Database\Connection,
+	Nette\Database\Table;
 
 
-class Selection extends Table\Selection {
+class Selection extends Table\Selection
+{
 
 	protected $entityFactory;
 
@@ -13,36 +16,42 @@ class Selection extends Table\Selection {
 	/**
 	 * Creates filtered table representation.
 	 * @param  string  database table name
-	 * @param  \Nette\Database\Connection
+	 * @param  Connection
 	 * @param  EntityFactory
 	 */
-	public function __construct($table, \Nette\Database\Connection $connection, IEntityFactory $entityFactory) {
+	public function __construct($table, Connection $connection, IEntityFactory $entityFactory)
+	{
 		parent::__construct($table, $connection);
 		$this->entityFactory = $entityFactory;
 	}
 
 
-	public function getEntityFactory() {
+	public function getEntityFactory()
+	{
 		return $this->entityFactory;
 	}
 
 
-	public function collect($item, $preserveKeys = FALSE) {
+	public function collect($item, $preserveKeys = FALSE)
+	{
 		return SelectionMixin::collect($this, $item, $preserveKeys);
 	}
 
 
-	protected function createRow(array $row) {
+	protected function createRow(array $row)
+	{
 		return $this->entityFactory->create($row, $this);
 	}
 
 
-	protected function createSelectionInstance($table = NULL) {
+	protected function createSelectionInstance($table = NULL)
+	{
 		return new Selection($table ?: $this->name, $this->connection, $this->entityFactory);
 	}
 
 
-	protected function createGroupedSelectionInstance($table, $column) {
+	protected function createGroupedSelectionInstance($table, $column)
+	{
 		return new GroupedSelection($this, $table, $column);
 	}
 

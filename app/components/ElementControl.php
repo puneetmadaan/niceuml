@@ -7,10 +7,10 @@ class ElementControl extends BaseControl {
 	/** @persistent */
 	public $relation;
 
-	/** @var IModel */
+	/** @var Model\BaseDAO */
 	protected $elementModel;
 
-	/** @var IModel */
+	/** @var Model\BaseDAO */
 	protected $relationModel;
 
 	/** @var INewRelationControlFactory */
@@ -30,7 +30,7 @@ class ElementControl extends BaseControl {
 
 
 	public function __construct(
-		Model\Entity\Element $element, Model\IModel $elementModel, Model\IModel $relationModel,
+		Model\Entity\Element $element, Model\BaseDAO $elementModel, Model\BaseDAO $relationModel,
 		INewRelationControlFactory $newRel, IRelationControlFactory $editRel, IFormFactory $formFactory
 	) {
 		$this->element = $element;

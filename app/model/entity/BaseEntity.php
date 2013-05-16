@@ -1,32 +1,38 @@
 <?php
 
-namespace NiceDAO;
+namespace Model\Entity;
 
-use Nette\Database\Table,
+use Nette,
+	Nette\Database\Table\ActiveRow,
 	Nette\ObjectMixin;
 
 
-class Entity extends Table\ActiveRow {
+class BaseEntity extends ActiveRow
+{
 
 
-	protected function getColumn($name) {
+	protected function getColumn($name)
+	{
 		return parent::__get($name);
 	}
 
 
-	protected function setColumn($name, $value) {
+	protected function setColumn($name, $value)
+	{
 		parent::__set($name, $value);
 		return $this;
 	}
 
 
-	protected function issetColumn($name) {
+	protected function issetColumn($name)
+	{
 		parent::__isset($name);
 		return $this;
 	}
 
 
-	public function & __get($name) {
+	public function & __get($name)
+	{
 		if (ObjectMixin::has($this, $name) || method_exists($this, $name))
 			return ObjectMixin::get($this, $name);
 		$value = $this->getColumn($name);
@@ -34,7 +40,8 @@ class Entity extends Table\ActiveRow {
 	}
 
 
-	public function __set($name, $value) {
+	public function __set($name, $value)
+	{
 		if ($name !== '') {
 			$method = 'set'.ucfirst($name);
 			if (method_exists($this, $method)) {
@@ -46,7 +53,8 @@ class Entity extends Table\ActiveRow {
 	}
 
 
-	public function __isset($name) {
+	public function __isset($name)
+	{
 		if (ObjectMixin::has($this, $name)) {
 			$value = ObjectMixin::get($this, $name);
 			return isset($value);
@@ -55,7 +63,9 @@ class Entity extends Table\ActiveRow {
 	}
 
 
-	public function related($key, $throughColumn = NULL) {
+	// fixes broken column caching in GroupedSelection
+	public function related($key, $throughColumn = NULL)
+	{
 		$related = parent::related($key, $throughColumn);
 		return $related->select($related->name.'.*');
 	}

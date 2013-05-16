@@ -2,6 +2,9 @@
 
 namespace Model\Entity;
 
+use Nette;
 
-class Placement extends Base {
+
+class Placement extends BaseEntity
+{
 }

@@ -1,14 +1,6 @@
 entity:
 	class_class: ClassModule\Model\Entity\ClassType
-	core_element:
-		arguments:
-			childTables:
-				class: class_class
 	class_association: ClassModule\Model\Entity\Association
-	core_relation:
-		arguments:
-			childTables:
-				association: class_association
 
 	class_attribute: ClassModule\Model\Entity\Attribute
 	class_operation: ClassModule\Model\Entity\Operation
@@ -31,6 +23,16 @@ services:
 		setup: [ addParser( 'class', ClassModule\Parser() ) ]
 	interpreter:
 		setup: [ addInterpreter( 'class', ClassModule\Interpreter() ) ]
+
+
+	model.entityFactory:
+		class: Model\Database\DIEntityFactory
+		arguments:
+			services:
+				class_class: entity.class_class
+				class_association: entity.class_association
+				class_attribute: entity.class_attribute
+				class_operation: entity.class_operation
 
 factories:
 	newElementControl:

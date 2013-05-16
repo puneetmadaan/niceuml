@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "e51b41d3f9eb2786cd72504d09989ea0",
+    "hash": "7a4b92ab68f8fb54d87ece681028b24e",
     "packages": [
         {
             "name": "kdyby/bootstrap-form-renderer",
@@ -133,12 +133,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/redwormik/niceorm.git",
-                "reference": "8de77bdd177aca78861df77c2a7c1c2feb0768ed"
+                "reference": "e11b01c2c9b20c8ea7eef463b7943b875fe020dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/redwormik/niceorm/zipball/8de77bdd177aca78861df77c2a7c1c2feb0768ed",
-                "reference": "8de77bdd177aca78861df77c2a7c1c2feb0768ed",
+                "url": "https://api.github.com/repos/redwormik/niceorm/zipball/e11b01c2c9b20c8ea7eef463b7943b875fe020dd",
+                "reference": "e11b01c2c9b20c8ea7eef463b7943b875fe020dd",
                 "shasum": ""
             },
             "require": {
@@ -156,7 +156,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Nette\\Database based ORM library",
-            "time": "2013-05-06 07:05:03"
+            "time": "2013-05-09 03:55:59"
         },
         {
             "name": "vojtech-dobes/extensions-list",
@@ -208,12 +208,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/tester.git",
-                "reference": "523bd9930485c690e50db592034d412f3bf35abe"
+                "reference": "dd4f7e25ff6175b598cbc3462ca13a411e3c27f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/tester/zipball/523bd9930485c690e50db592034d412f3bf35abe",
-                "reference": "523bd9930485c690e50db592034d412f3bf35abe",
+                "url": "https://api.github.com/repos/nette/tester/zipball/dd4f7e25ff6175b598cbc3462ca13a411e3c27f4",
+                "reference": "dd4f7e25ff6175b598cbc3462ca13a411e3c27f4",
                 "shasum": ""
             },
             "require": {
@@ -251,7 +251,7 @@
                 "testing",
                 "unit"
             ],
-            "time": "2013-03-14 02:11:44"
+            "time": "2013-04-25 13:48:02"
         }
     ],
     "aliases": [

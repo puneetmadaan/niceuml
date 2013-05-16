@@ -2,7 +2,7 @@
 
 namespace Model\Security;
 
-use Model\Entity\Base as BaseEntity,
+use Model\Entity\BaseEntity,
 	Nette,
 	Nette\Security\IAuthorizator,
 	Nette\Security\Permission,

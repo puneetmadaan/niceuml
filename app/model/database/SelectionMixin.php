@@ -1,9 +1,12 @@
 <?php
 
-namespace NiceDAO;
+namespace Model\Database;
+
+use Nette;
 
 
-class SelectionMixin {
+class SelectionMixin
+{
 
 
 	/**
@@ -11,14 +14,15 @@ class SelectionMixin {
 	 */
 	final public function __construct()
 	{
-		throw new \Nette\StaticClassException;
+		throw new Nette\StaticClassException;
 	}
 
 
-	public static function collect($_this, $item, $preserveKeys = FALSE) {
+	public static function collect($_this, $item, $preserveKeys = FALSE)
+	{
 		$result = array();
 
-		if (is_array($item) || $item instanceof \Closure || $item instanceof \Nette\Callback)
+		if (is_array($item) || $item instanceof \Closure || $item instanceof Nette\Callback)
 			$cb = \callback($item);
 		else $cb = FALSE;
 
@@ -32,4 +36,5 @@ class SelectionMixin {
 
 		return $result;
 	}
+
 }

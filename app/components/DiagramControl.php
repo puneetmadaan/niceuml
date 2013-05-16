@@ -7,10 +7,10 @@ class DiagramControl extends BaseControl {
 	/** @persistent */
 	public $placement;
 
-	/** @var IModel */
+	/** @var Model\BaseDAO */
 	protected $diagramModel;
 
-	/** @var IModel */
+	/** @var Model\BaseDAO */
 	protected $placementModel;
 
 	/** @var IFormFactory */
@@ -23,7 +23,7 @@ class DiagramControl extends BaseControl {
 
 
 	public function __construct(
-		Model\Entity\Diagram $diagram, Model\IModel $diagramModel, Model\IModel $placementModel,
+		Model\Entity\Diagram $diagram, Model\BaseDAO $diagramModel, Model\BaseDAO $placementModel,
 		IFormFactory $formFactory
 	) {
 		$this->diagram = $diagram;

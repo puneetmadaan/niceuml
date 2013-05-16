@@ -5,7 +5,7 @@ namespace Model\Entity;
 use Nette;
 
 
-class Project extends Base
+class Project extends BaseEntity
 {
 
 

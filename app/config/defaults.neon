@@ -15,14 +15,6 @@ routes: # highest priority routes
 
 
 services:
-	authenticator:
-		class: Nette\Security\IAuthenticator
-		factory: DefaultAuthenticator
-
-	authorizator:
-		class: Nette\Security\IAuthorizator
-		factory: DefaultAuthorizator
-
 	formFactory:
 		class: IFormFactory
 		factory: FormFactory
@@ -47,7 +39,7 @@ services:
 		class: IElementControlFactory
 		factory: ElementControlFactory
 		setup:
-			- addType('note', 'noteControl')
+			- addType(note, noteControl)
 
 	newElementControlFactory:
 		class: INewElementControlFactory

@@ -3,7 +3,7 @@
 namespace Model;
 
 
-class Relation extends Base
+class RelationDAO extends BaseDAO
 {
 
 

@@ -7,7 +7,7 @@ use Nette,
 	Nette\Utils\Strings;
 
 
-class User extends Base
+class User extends BaseEntity
 {
 
 

@@ -17,8 +17,9 @@ class EntityExtension extends CompilerExtension {
 			$factory = $container->addDefinition($this->prefix($key));
 			Compiler::parseService($factory, $value);
 
+			$factoryArgs = $factory->factory ? $factory->factory->arguments : array();
 			$factory->setParameters(array_merge($params, $factory->parameters))
-				->setArguments(array_merge($args, $factory->factory->arguments));
+				->setArguments(array_merge($args, $factoryArgs));
 		}
 	}
 }

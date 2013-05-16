@@ -9,7 +9,7 @@ class ProjectTreeControl extends BaseControl {
 	protected $diagramModel;
 
 
-	public function __construct(Model\Entity\Project $project, Model\Element $el, Model\Diagram $di = NULL) {
+	public function __construct(Model\Entity\Project $project, Model\ElementDAO $el, Model\DiagramDAO $di = NULL) {
 		$this->project = $project;
 		$this->elementModel = $el;
 		$this->diagramModel = $di;

@@ -9,7 +9,7 @@ class RelationControl extends BaseControl {
 	protected $formFactory;
 
 
-	public function __construct(Model\Entity\Relation $relation, Model\IModel $model, IFormFactory $formFactory) {
+	public function __construct(Model\Entity\Relation $relation, Model\BaseDAO $model, IFormFactory $formFactory) {
 		$this->relation = $relation;
 		$this->model = $model;
 		$this->formFactory = $formFactory;
