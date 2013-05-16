@@ -10,7 +10,7 @@ class Diagram extends Base implements ISourceModel {
 	public function load(Entity\Project $project, $name, $source) {
 		$diagram = $this->table()->where('project_id', $project->id)->where('name', $name)->fetch();
 
-		if (isset($source['name']) && (!$diagram || $source['name'] !== $name)) {
+		if (isset($source['name']) && (!$diagram || (string) $source['name'] !== (string) $name)) {
 			$dup = $this->table()->where('project_id', $project->id)->where('name', $source['name'])->fetch();
 			if ($dup)
 				throw new \SourceException("Duplicate diagram name " . $source['name']);

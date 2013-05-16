@@ -3,42 +3,28 @@
 namespace Model\Entity;
 
 
-class BaseChild extends Base {
+abstract class BaseChild extends Base {
 
-	/** @var BaseParent */
+	/** @var Base */
 	protected $parent;
 
-	/** @var string */
-	protected $parentTable;
-
-
-	public function __construct(array $data, \Nette\Database\Table\Selection $table, $parentTable = NULL) {
-		parent::__construct($data, $table);
-		$this->parentTable = $parentTable;
-	}
-
-
-	public function setParentTable($table) {
-		$this->parentTable = $table;
-	}
+	protected $parentFields = array();
+	protected $parentMethods = array();
 
 
 	public function getParent() {
 		if ($this->parent === NULL) {
-			$parent = $this->ref($this->parentTable, 'id');
+			$parent = $this->ref('id');
 			$this->parent = $parent !== NULL ? $parent : FALSE;
-			if ($this->parent)
-				$parent->setChild($this);
 		}
 		return $this->parent ?: NULL;
 	}
 
 
-	public function setParent(BaseParent $parent) {
+	public function setParent(Base $parent) {
 		if ($this->parent === $parent)
 			return $this;
 		$this->parent = $parent;
-		$this->parent->setChild($this);
 		return $this;
 	}
 
@@ -56,6 +42,44 @@ class BaseChild extends Base {
 		if ($parent)
 			$parent->delete();
 		return $result;
+	}
+
+
+	public function & __get($name) {
+		if (in_array($name, $this->parentFields))
+			return $this->getParent()->__get($name);
+		return parent::__get($name);
+	}
+
+
+	public function __set($name, $value) {
+		if (in_array($name, $this->parentFields))
+			$this->getParent()->__set($name, $value);
+		else
+			parent::__set($name, $value);
+	}
+
+
+	public function __isset($name) {
+		if (in_array($name, $this->parentFields))
+			return $this->getParent()->__isset($name);
+		return parent::__isset($name);
+	}
+
+
+	public function __unset($name) {
+		if (in_array($name, $this->parentFields))
+			$this->getParent()->__unset($name);
+		else
+			parent::__unset($name);
+	}
+
+
+	public function __call($name, $args) {
+		if (in_array($name, $this->parentMethods))
+			call_user_method_array($name, $this->parent, $args);
+		else
+			return parent::__call($name, $args);
 	}
 
 }

@@ -21,7 +21,7 @@ class ClassType extends \Model\BaseChild implements \Model\ISourceModel {
 				throw new \SourceException("Missing project type");
 			$class->type = $source['type'];
 		}
-		else $class = $class->getChild();
+		else $class = $this->getByParent($class);
 
 		$class->name = isset($source['name']) ? $source['name'] : $name;
 		if (array_key_exists('abstract', $source))
@@ -42,7 +42,10 @@ class ClassType extends \Model\BaseChild implements \Model\ISourceModel {
 		));
 
 		foreach ($table as $class) {
-			$class = $class->getChild();
+			$class = $this->getByParent($class);
+			if (!$class)
+				continue;
+
 			$result[$class->name] = array(
 				'name' => $class->name,
 				'type' => $class->type,

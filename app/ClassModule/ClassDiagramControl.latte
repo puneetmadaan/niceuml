@@ -14,18 +14,20 @@
 			{var element => isset($elements[$id])?$elements[$id]:NULL}
 			{if $element}
 				{if $element->type === 'class'}
+				{var child => $element->ref('class_class', 'id')}
 				elements[{$id}] = new UMLClass({ x: {$p->posX}, y: {$p->posY} });
-				elements[{$id}].setName({$element->child->static?('_'.$element->name.'_'):$element->name});
-				{if $element->child->abstract}elements[{$id}].addStereotype("abstract");{/if}
-				{foreach $element->child->attributes as $a}
+				elements[{$id}].setName({$child->static?('_'.$element->name.'_'):$element->name});
+				{if $child->abstract}elements[{$id}].addStereotype("abstract");{/if}
+				{foreach $child->attributes as $a}
 				elements[{$id}].addAttribute({$a->toUML()});
 				{/foreach}
-				{foreach $element->child->operations as $o}
+				{foreach $child->operations as $o}
 				elements[{$id}].addOperation({$o->toUML()});
 				{/foreach}
 				{elseif $element->type === 'note'}
+				{var child => $element->ref('core_note', 'id')}
 				elements[{$id}] = new UMLNote({ x: {$p->posX}, y: {$p->posY} });
-				elements[{$id}].setName({$element->name ? $element->name."\n" : ''} + {$element->child->text});
+				elements[{$id}].setName({$element->name ? $element->name."\n" : ''} + {$child->text});
 				{else}
 				elements[{$id}] = new Node({ x: {$p->posX}, y: {$p->posY} });
 				elements[{$id}].setName({$element->name});
@@ -41,14 +43,15 @@
 			{var end   => isset($elements[$r->end_id])?$elements[$r->end_id]:NULL}
 			{if $start && $end}
 			{if $r->type === 'association'}
+			{var child => $r->ref('class_association', 'id')}
 			relation = new UMLAssociation({ a: elements[{$r->start_id}], b: elements[{$r->end_id}] });
-			relation.setRoleA({$r->child->sourceRole});
-			relation.setMultiplicityA({$r->child->sourceMultiplicity});
-			relation.setRoleB({$r->child->targetRole});
-			relation.setMultiplicityB({$r->child->targetMultiplicity});
-			{if $r->child->direction === 'uni' || $r->child->direction === 'bi'}
+			relation.setRoleA({$child->sourceRole});
+			relation.setMultiplicityA({$child->sourceMultiplicity});
+			relation.setRoleB({$child->targetRole});
+			relation.setMultiplicityB({$child->targetMultiplicity});
+			{if $child->direction === 'uni' || $child->direction === 'bi'}
 			relation.setDirectionToB(true);
-			{if $r->child->direction === 'bi'}relation.setDirectionToA(true);{/if}
+			{if $child->direction === 'bi'}relation.setDirectionToA(true);{/if}
 			{/if}
 			{elseif $r->type === 'generalization'}
 			relation = new UMLGeneralization({ a: elements[{$r->start_id}], b: elements[{$r->end_id}] });
@@ -59,7 +62,6 @@
 			{/if}
 			relation.setComponentName({$r->name});
 			relation.notifyChange();
-			{* // relation._points.splice(1, 0, new Point(0, 0)); *}
 			classDiagram.addElement(relation);
 			{/if}
 		{/foreach}

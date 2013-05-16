@@ -16,6 +16,11 @@ class BaseChild extends Base {
 	}
 
 
+	public function getByParent(Entity\Base $parent) {
+		return $parent->ref($this->tableName, 'id');
+	}
+
+
 	public function create($data = NULL) {
 		$entity = parent::create();
 		if ($entity instanceof Entity\BaseChild)

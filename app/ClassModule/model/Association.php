@@ -31,17 +31,17 @@ class Association extends \Model\BaseChild implements \Model\ISourceModel {
 			'type' => 'association',
 		));
 		foreach ($table as $assoc) {
-
+			$assoc = $this->getByParent($assoc);
 			$result[] = array(
 				'name' => $assoc->name,
 				'type' => $assoc->type,
 				'start' => $assoc->start->name,
 				'end' => $assoc->end->name,
-				'direction' => $assoc->child->direction,
-				'sourceRole' => $assoc->child->sourceRole,
-				'sourceMultiplicity' => $assoc->child->sourceMultiplicity,
-				'targetRole' => $assoc->child->targetRole,
-				'targetMultiplicity' => $assoc->child->targetMultiplicity,
+				'direction' => $assoc->direction,
+				'sourceRole' => $assoc->sourceRole,
+				'sourceMultiplicity' => $assoc->sourceMultiplicity,
+				'targetRole' => $assoc->targetRole,
+				'targetMultiplicity' => $assoc->targetMultiplicity,
 			);
 		}
 		return $result;

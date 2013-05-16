@@ -3,7 +3,7 @@
 namespace Model\Entity;
 
 
-class Element extends BaseParent {
+class Element extends Base {
 
 
 	public function getCaption() {

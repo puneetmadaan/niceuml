@@ -27,14 +27,9 @@ services:
 factories:
 
 entity:
-	core_element:
-		class: Model\Entity\Element
-		arguments:
-			childTables:
-				note: core_note
+	core_element:  Model\Entity\Element
 	core_project: Model\Entity\Project
-	core_relation:
-		class: Model\Entity\Relation
+	core_relation: Model\Entity\Relation
 	core_diagram: Model\Entity\Diagram
 	core_placement: Model\Entity\Placement
 	core_note: Model\Entity\Note

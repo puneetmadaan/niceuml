@@ -51,7 +51,7 @@ class NewElementControl extends BaseControl {
 	public function formSucceeded($form) {
 		$values = $form->values;
 
-		$model = $this->model;
+		$model = $this->models[$values->type];
 		if (!$values->name) {
 			$count = $this->project->related('element')->where('type', $values->type)->count('id');
 			do {

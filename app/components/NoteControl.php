@@ -8,15 +8,17 @@ class NoteControl extends ElementControl {
 		$form = parent::createComponentForm();
 		unset($form['send']);
 
+		$note = $this->elementModel->getByParent($this->element);
 		$form->addTextarea('text', 'Text')
-			->setDefaultValue($this->element->child->text);
+			->setDefaultValue($note->text);
 		$form->addSubmit('send', 'Save');
 		return $form;
 	}
 
 
 	public function formSucceeded($form) {
-		$this->elementModel->save($this->element->child, $form->values);
+		$note = $this->elementModel->getByParent($this->element);
+		$this->elementModel->save($note, $form->values);
 		$this->presenter->flashMessage('Data saved.');
 		$this->redirect('this');
 	}
