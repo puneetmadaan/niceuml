@@ -43,8 +43,4 @@ class Base extends Service implements IModel {
 		return $return;
 	}
 
-
-	public function filterAllowed(User $user, Selection $table, $action = NULL) {
-	}
-
 }

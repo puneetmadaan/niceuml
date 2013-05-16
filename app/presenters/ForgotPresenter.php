@@ -20,7 +20,7 @@ final class ForgotPresenter extends BasePresenter {
 	public function startup() {
 		parent::startup();
 		if ($this->user->loggedIn)
-			$this->redirect('Default:');
+			$this->redirect(':Homepage:');
 	}
 
 
