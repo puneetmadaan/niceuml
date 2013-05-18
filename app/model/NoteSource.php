@@ -55,13 +55,10 @@ class NoteSource extends Nette\Object implements ISourceModel
 	{
 		if (!$item instanceof Element)
 			return NULL;
-		$note = $this->dao->getByParent($item);
-		if (!$note)
-			return NULL;
 
 		$result = array(
-			'name' => $note->name,
-			'type' => $note->type,
+			'name' => $item->name,
+			'type' => $item->type,
 		);
 
 		return $result;

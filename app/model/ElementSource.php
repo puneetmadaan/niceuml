@@ -29,7 +29,7 @@ class ElementSource extends Nette\Object
 	}
 
 
-	public function load(Entity\Project $project, array $source)
+	public function load(array $source, Entity\Project $project)
 	{
 		$table = $this->dao->findByProject($project, array_keys($this->types));
 		$toDelete = array_fill_keys($table->collect('id'), TRUE);

@@ -69,9 +69,9 @@ class SourceControl extends BaseControl
 
 		$this->db->beginTransaction();
 		try {
-			$elements = $this->elementSource->load($this->project, $source['elements']);
-			$relations = $this->relationSource->load($this->project, $source['relations'], $elements);
-			$diagrams = $this->diagramSource->load($this->project, $source['diagrams'], $elements);
+			$elements = $this->elementSource->load((array) $source['elements'], $this->project);
+			$relations = $this->relationSource->load((array) $source['relations'], $this->project, $elements);
+			$diagrams = $this->diagramSource->load((array) $source['diagrams'], $this->project, $elements);
 			$this->db->commit();
 		} catch (SourceException $e) {
 			$this->db->rollback();

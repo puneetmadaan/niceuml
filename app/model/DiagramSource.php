@@ -29,7 +29,7 @@ class DiagramSource extends Nette\Object
 	}
 
 
-	public function load(Entity\Project $project, $source, $elements)
+	public function load(array $source, Entity\Project $project, $elements)
 	{
 		$table = $this->dao->findByProject($project, array_keys($this->types));
 		$toDelete = array_fill_keys($table->collect('id'), TRUE);

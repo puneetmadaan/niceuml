@@ -29,7 +29,7 @@ class RelationSource extends Nette\Object
 	}
 
 
-	public function load(Entity\Project $project, array $source, array $elements)
+	public function load(array $source, Entity\Project $project, array $elements)
 	{
 		$result = array();
 		$this->dao->findByElements($elements, array_keys($this->types))->delete();
