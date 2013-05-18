@@ -1,7 +1,7 @@
 <?php
 
 
-class ConsoleControlFactory implements IConsoleControlFactory {
+class ConsoleControlFactory {
 
 	private $container;
 

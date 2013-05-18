@@ -1,7 +1,7 @@
 <?php
 
 
-class MenuControlFactory implements IMenuControlFactory {
+class MenuControlFactory {
 
 	private $container;
 

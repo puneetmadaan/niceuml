@@ -1,7 +1,7 @@
 <?php
 
 
-class MailFactory implements IMailFactory {
+class MailFactory {
 
 	protected $container;
 	protected $templateDir;

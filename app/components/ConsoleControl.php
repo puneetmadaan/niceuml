@@ -11,7 +11,7 @@ class ConsoleControl extends BaseControl {
 	protected $formFactory;
 
 
-	public function __construct(Model\Entity\Project $project, IParser $parser, IInterpreter $interpreter, IFormFactory $formFactory) {
+	public function __construct(Model\Entity\Project $project, IParser $parser, IInterpreter $interpreter, FormFactory $formFactory) {
 		$this->project = $project;
 		$this->parser = $parser;
 		$this->interpreter = $interpreter;

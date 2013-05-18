@@ -12,7 +12,7 @@ class NewRelationControl extends BaseControl {
 	protected $models = array();
 
 
-	public function __construct(Model\Entity\Element $element, IFormFactory $formFactory) {
+	public function __construct(Model\Entity\Element $element, FormFactory $formFactory) {
 		$this->element = $element;
 		$this->formFactory = $formFactory;
 	}

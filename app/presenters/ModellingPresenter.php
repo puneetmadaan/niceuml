@@ -12,13 +12,13 @@ abstract class ModellingPresenter extends BasePresenter {
 	/** @var Model\Project */
 	protected $projectModel;
 
-	/** @var IProjectTreeControlFactory */
+	/** @var ProjectTreeControlFactory */
 	protected $projectTreeControlFactory;
 
-	/** @var ISourceControlFactory */
+	/** @var SourceControlFactory */
 	protected $sourceControlFactory;
 
-	/** @var IConsoleControlFactory */
+	/** @var ConsoleControlFactory */
 	protected $consoleControlFactory;
 
 
@@ -27,7 +27,7 @@ abstract class ModellingPresenter extends BasePresenter {
 	}
 
 
-	public function injectModellingFactories(IProjectTreeControlFactory $tree, ISourceControlFactory $source, IConsoleControlFactory $console) {
+	public function injectModellingFactories(ProjectTreeControlFactory $tree, SourceControlFactory $source, ConsoleControlFactory $console) {
 		$this->doInject('projectTreeControlFactory', $tree);
 		$this->doInject('sourceControlFactory', $source);
 		$this->doInject('consoleControlFactory', $console);

@@ -6,14 +6,14 @@
  */
 abstract class BasePresenter extends Nette\Application\UI\Presenter {
 
-	/** @var IFormFactory */
+	/** @var FormFactory */
 	protected $formFactory;
 
-	/** @var IMenuControlFactory */
+	/** @var MenuControlFactory */
 	protected $menuControlFactory;
 
 
-	public function injectBaseFactories(IFormFactory $form, IMenuControlFactory $menu) {
+	public function injectBaseFactories(FormFactory $form, MenuControlFactory $menu) {
 		$this->doInject('formFactory', $form);
 		$this->doInject('menuControlFactory', $menu);
 	}

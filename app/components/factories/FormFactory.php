@@ -1,7 +1,7 @@
 <?php
 
 
-class FormFactory implements IFormFactory {
+class FormFactory {
 
 	private $container;
 

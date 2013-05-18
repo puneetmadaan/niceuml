@@ -10,7 +10,7 @@ class NewDiagramControl extends BaseControl {
 	protected $models = array();
 
 
-	public function __construct(Model\Entity\Project $project, IFormFactory $formFactory) {
+	public function __construct(Model\Entity\Project $project, FormFactory $formFactory) {
 		$this->project = $project;
 		$this->formFactory = $formFactory;
 	}

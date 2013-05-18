@@ -13,13 +13,13 @@ class ElementControl extends BaseControl {
 	/** @var Model\BaseDAO */
 	protected $relationModel;
 
-	/** @var INewRelationControlFactory */
+	/** @var NewRelationControlFactory */
 	protected $newRelationControlFactory;
 
-	/** @var IRelationControlFactory */
+	/** @var RelationControlFactory */
 	protected $relationControlFactory;
 
-	/** @var IFormFactory */
+	/** @var FormFactory */
 	protected $formFactory;
 
 	/** @var Model\Entity\Element */
@@ -31,7 +31,7 @@ class ElementControl extends BaseControl {
 
 	public function __construct(
 		Model\Entity\Element $element, Model\BaseDAO $elementModel, Model\BaseDAO $relationModel,
-		INewRelationControlFactory $newRel, IRelationControlFactory $editRel, IFormFactory $formFactory
+		NewRelationControlFactory $newRel, RelationControlFactory $editRel, FormFactory $formFactory
 	) {
 		$this->element = $element;
 		$this->elementModel = $elementModel;

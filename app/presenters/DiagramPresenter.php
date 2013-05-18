@@ -6,10 +6,10 @@ final class DiagramPresenter extends ModellingPresenter {
 	/** @var Model\Diagram */
 	protected $diagramModel;
 
-	/** @var INewDiagramControlFactory */
+	/** @var NewDiagramControlFactory */
 	protected $newDiagramControlFactory;
 
-	/** @var IDiagramControlFactory */
+	/** @var DiagramControlFactory */
 	protected $diagramControlFactory;
 
 	/** @var Model\Entity\Diagram */
@@ -21,7 +21,7 @@ final class DiagramPresenter extends ModellingPresenter {
 	}
 
 
-	public function injectDiagramControlFactories(INewDiagramControlFactory $new, IDiagramControlFactory $edit) {
+	public function injectDiagramControlFactories(NewDiagramControlFactory $new, DiagramControlFactory $edit) {
 		$this->doInject('newDiagramControlFactory', $new);
 		$this->doInject('diagramControlFactory', $edit);
 	}

@@ -1,7 +1,7 @@
 <?php
 
 
-class SourceControlFactory implements ISourceControlFactory {
+class SourceControlFactory {
 
 	private $container;
 

@@ -15,51 +15,24 @@ routes: # highest priority routes
 
 
 services:
-	formFactory:
-		class: IFormFactory
-		factory: FormFactory
-
-	menuControlFactory:
-		class: IMenuControlFactory
-		factory: MenuControlFactory
-
-	projectControlTreeFactory:
-		class: IProjectTreeControlFactory
-		factory: ProjectTreeControlFactory
-
-	sourceControlFactory:
-		class: ISourceControlFactory
-		factory: SourceControlFactory
-
-	consoleControlFactory:
-		class: IConsoleControlFactory
-		factory: ConsoleControlFactory
+	formFactory: FormFactory
+	menuControrFactory: MenuControlFactory
+	projectControlTreeFactory: ProjectTreeControlFactory
+	sourceControlFactory: SourceControlFactory
+	consoleControlFactory: ConsoleControlFactory
 
 	elementControlFactory:
-		class: IElementControlFactory
-		factory: ElementControlFactory
-		setup:
-			- addType(note, noteControl)
-
-	newElementControlFactory:
-		class: INewElementControlFactory
-		factory: NewElementControlFactory
-
+		class: ElementControlFactory
+		setup: [ addType(note, noteControl) ]
 	relationControlFactory:
-		class: IRelationControlFactory
-		factory: RelationControlFactory
-
-	newRelationControlFactory:
-		class: INewRelationControlFactory
-		factory: NewRelationControlFactory
-
+		class: RelationControlFactory
 	diagramControlFactory:
-		class: IDiagramControlFactory
-		factory: DiagramControlFactory
+		class: DiagramControlFactory
 
-	newDiagramControlFactory:
-		class: INewDiagramControlFactory
-		factory: NewDiagramControlFactory
+
+	newElementControlFactory: NewElementControlFactory
+	newRelationControlFactory: NewRelationControlFactory
+	newDiagramControlFactory: NewDiagramControlFactory
 
 factories:
 	elementControl:

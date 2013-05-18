@@ -1,7 +1,7 @@
 <?php
 
 
-class NewElementControlFactory implements INewElementControlFactory {
+class NewElementControlFactory {
 
 	private $container;
 

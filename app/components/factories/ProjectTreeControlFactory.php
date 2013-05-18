@@ -1,7 +1,7 @@
 <?php
 
 
-class ProjectTreeControlFactory implements IProjectTreeControlFactory {
+class ProjectTreeControlFactory {
 
 	private $container;
 

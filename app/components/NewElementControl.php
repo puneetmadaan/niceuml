@@ -11,7 +11,7 @@ class NewElementControl extends BaseControl {
 	protected $models = array();
 
 
-	public function __construct(Model\Entity\Project $project, Model\ElementDAO $model, IFormFactory $formFactory) {
+	public function __construct(Model\Entity\Project $project, Model\ElementDAO $model, FormFactory $formFactory) {
 		$this->project = $project;
 		$this->model = $model;
 		$this->formFactory = $formFactory;

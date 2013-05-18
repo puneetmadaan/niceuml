@@ -3,7 +3,7 @@
 use Nette\DI\Container;
 
 
-class ElementControlFactory implements IElementControlFactory {
+class ElementControlFactory {
 
 	private $container;
 

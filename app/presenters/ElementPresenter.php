@@ -6,10 +6,10 @@ final class ElementPresenter extends ModellingPresenter {
 	/** @var Model\Element */
 	protected $elementModel;
 
-	/** @var INewElementControlFactory */
+	/** @var NewElementControlFactory */
 	protected $newElementControlFactory;
 
-	/** @var IElementControlFactory */
+	/** @var ElementControlFactory */
 	protected $elementControlFactory;
 
 	/** @var Model\Entity\Element */
@@ -21,7 +21,7 @@ final class ElementPresenter extends ModellingPresenter {
 	}
 
 
-	public function injectElementControlFactories(INewElementControlFactory $new, IElementControlFactory $edit) {
+	public function injectElementControlFactories(NewElementControlFactory $new, ElementControlFactory $edit) {
 		$this->doInject('newElementControlFactory', $new);
 		$this->doInject('elementControlFactory', $edit);
 	}

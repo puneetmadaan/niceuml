@@ -3,7 +3,7 @@
 use Nette\DI\Container;
 
 
-class DiagramControlFactory implements IDiagramControlFactory {
+class DiagramControlFactory {
 
 	private $container;
 

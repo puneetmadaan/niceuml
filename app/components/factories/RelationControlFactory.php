@@ -3,7 +3,7 @@
 use Nette\DI\Container;
 
 
-class RelationControlFactory implements IRelationControlFactory {
+class RelationControlFactory {
 
 	private $container;
 

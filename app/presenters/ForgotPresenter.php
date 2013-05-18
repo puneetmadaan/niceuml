@@ -7,7 +7,7 @@ final class ForgotPresenter extends BasePresenter {
 	protected $users;
 
 
-	public function injectMailFactory(MailFactory $mailFactory) {
+	public function njectMailFactory(MailFactory $mailFactory) {
 		$this->mailFactory = $mailFactory;
 	}
 

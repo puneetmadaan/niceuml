@@ -5,40 +5,40 @@ entity:
 	class_operation: ClassModule\Model\Entity\Operation
 
 services:
-	model.class_class: ClassModule\Model\ClassType('class_class', ..., ..., @model.element)
-	model.class_association: ClassModule\Model\Association('class_association', ..., ..., @model.relation)
+	model.class_class: ClassModule\Model\ClassType(class_class, ..., ..., @model.element)
+	model.class_association: ClassModule\Model\Association(class_association, ..., ..., @model.relation)
 
 
 	elementControlFactory:
-		setup: [ addType('class', 'classModule.classControl') ]
+		setup: [ addType(class, classModule.classControl) ]
 	relationControlFactory:
 		setup:
-			- addType('association', 'classModule.associationControl')
-			- addType('generalization', 'relationControl')
+			- addType(association, classModule.associationControl)
+			- addType(generalization, relationControl)
 	diagramControlFactory:
-		setup: [ addType('class', 'classModule.classDiagramControl') ]
+		setup: [ addType(class, classModule.classDiagramControl) ]
 
 	parser:
-		setup: [ addParser( 'class', ClassModule\Parser() ) ]
+		setup: [ addParser( class, ClassModule\Parser() ) ]
 	interpreter:
-		setup: [ addInterpreter( 'class', ClassModule\Interpreter() ) ]
+		setup: [ addInterpreter( class, ClassModule\Interpreter() ) ]
 
 factories:
 	newElementControl:
-		setup: [ add('class', 'Class', @model.class_class) ]
+		setup: [ add(class, Class, @model.class_class) ]
 	newRelationControl:
 		setup:
-			- add('association', 'Association', @model.class_association, 'class', 'class')
-			- add('generalization', 'Generalization', @model.relation, 'class', 'class')
+			- add(association, Association, @model.class_association, class, class)
+			- add(generalization, Generalization, @model.relation, class, class)
 	newDiagramControl:
-		setup: [ add('class', 'Class diagram', @model.diagram) ]
+		setup: [ add(class, Class diagram, @model.diagram) ]
 
 	sourceControl:
 		setup:
-			- addElementType('class', @model.class_class)
-			- addRelationType('association', @model.class_association)
-			# - addRelationType('generalization', @model.relation)
-			- addDiagramType('class')
+			- addElementType(class, @model.class_class)
+			- addRelationType(association, @model.class_association)
+			# - addRelationType(generalization, @model.relation)
+			- addDiagramType(class)
 
 	classModule.classControl:
 		class: ClassModule\ClassControl(%element%, @model.class_class, @model.relation)

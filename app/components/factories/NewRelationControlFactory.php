@@ -1,7 +1,7 @@
 <?php
 
 
-class NewRelationControlFactory implements INewRelationControlFactory {
+class NewRelationControlFactory {
 
 	private $container;
 
