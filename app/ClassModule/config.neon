@@ -23,6 +23,13 @@ services:
 	interpreter:
 		setup: [ addInterpreter( class, ClassModule\Interpreter() ) ]
 
+	model.elementSource:
+		setup: [ addType(class, @model.class_class) ]
+	model.relationSource:
+		setup: [ addType(association, @model.class_association) ]
+	model.diagramSource:
+		setup: [ addType(class) ]
+
 factories:
 	newElementControl:
 		setup: [ add(class, Class, @model.class_class) ]
@@ -32,13 +39,6 @@ factories:
 			- add(generalization, Generalization, @model.relation, class, class)
 	newDiagramControl:
 		setup: [ add(class, Class diagram, @model.diagram) ]
-
-	sourceControl:
-		setup:
-			- addElementType(class, @model.class_class)
-			- addRelationType(association, @model.class_association)
-			# - addRelationType(generalization, @model.relation)
-			- addDiagramType(class)
 
 	classModule.classControl:
 		class: ClassModule\ClassControl(%element%, @model.class_class, @model.relation)

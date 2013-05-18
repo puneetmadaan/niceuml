@@ -1,6 +1,6 @@
 <?php
 
-namespace ClassModule\Model;
+namespace Model;
 
 use SourceException,
 	Model\BaseChildDAO,
@@ -10,13 +10,21 @@ use SourceException,
 	Nette;
 
 
-class ClassType extends BaseChildDAO implements ISourceModel
+class NoteSource extends Nette\Object implements ISourceModel
 {
+
+	protected $dao;
+
+
+	public function __construct(BaseChildDAO $dao)
+	{
+		$this->dao = $dao;
+	}
 
 
 	function load(array $source, Project $project, $original = NULL)
 	{
-		$known = array('name', 'type', 'abstract', 'static');
+		$known = array('name', 'type');
 		if ($error = array_diff(array_keys($source), $known))
 			throw new SourceException("Unknown field '" . implode("', '", $error));
 
@@ -25,8 +33,6 @@ class ClassType extends BaseChildDAO implements ISourceModel
 		$data = array(
 			'name' => $source['name'],
 			'project' => $project,
-			'abstract' => !empty($source['abstract']),
-			'static' => !empty($source['static']),
 		);
 
 		if ($original === NULL) {
@@ -37,11 +43,11 @@ class ClassType extends BaseChildDAO implements ISourceModel
 		else {
 			if (!$original instanceof Element)
 				throw new Nette\InvalidArgumentException;
-			$original = $this->getByParent($original);
+			$original = $this->dao->getByParent($original);
 		}
 
-		$class = $this->save($original, $data);
-		return $class->getParent();
+		$note = $this->dao->save($original, $data);
+		return $note->getParent();
 	}
 
 
@@ -49,18 +55,16 @@ class ClassType extends BaseChildDAO implements ISourceModel
 	{
 		if (!$item instanceof Element)
 			return NULL;
-		$class = $this->getByParent($item);
-		if (!$class)
+		$note = $this->dao->getByParent($item);
+		if (!$note)
 			return NULL;
 
 		$result = array(
-			'name' => $class->name,
-			'type' => $class->type,
-			'abstract' => (bool) $class->abstract,
-			'static' => (bool) $class->static,
+			'name' => $note->name,
+			'type' => $note->type,
 		);
 
-		return array_filter($result);
+		return $result;
 	}
 
 }

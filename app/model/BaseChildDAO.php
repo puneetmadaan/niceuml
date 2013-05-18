@@ -17,7 +17,10 @@ class BaseChildDAO extends BaseDAO {
 
 
 	public function getByParent(Entity\BaseEntity $parent) {
-		return $parent->ref($this->tableName, 'id');
+		$row = $parent->ref($this->tableName, 'id');
+		if ($row)
+			$row->setParent($parent);
+		return $row;
 	}
 
 

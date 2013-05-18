@@ -43,6 +43,15 @@ services:
 	interpreter:
 		class: InterpreterList
 
+	model.elementSource:
+		class: Model\ElementSource
+		setup: [ addType(note, Model\NoteSource(@model.note)) ]
+	model.relationSource:
+		class: Model\RelationSource
+		setup: [ addType(noteLink, NULL) ]
+	model.diagramSource:
+		class: Model\DiagramSource
+
 factories:
 
 	nette.latte:
@@ -62,9 +71,7 @@ factories:
 		class: ProjectTreeControl(%project%)
 		parameters: [ Model\Entity\Project project ]
 
-	sourceControl:
-		class: SourceControl(%project%)
-		parameters: [ Model\Entity\Project project ]
+	sourceControl: SourceControl
 
 	consoleControl:
 		class: ConsoleControl(%project%)

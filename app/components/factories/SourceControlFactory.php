@@ -11,8 +11,8 @@ class SourceControlFactory {
 	}
 
 
-	public function create(Model\Entity\Project $project) {
-		return $this->container->createSourceControl($project);
+	public function create() {
+		return $this->container->createSourceControl();
 	}
 
 }

@@ -53,7 +53,9 @@ abstract class ModellingPresenter extends BasePresenter {
 
 
 	protected function createComponentSourceControl() {
-		return $this->sourceControlFactory->create($this->project);
+		$control = $this->sourceControlFactory->create();
+		$control->setProject($this->project);
+		return $control;
 	}
 
 

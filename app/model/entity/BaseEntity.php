@@ -2,7 +2,8 @@
 
 namespace Model\Entity;
 
-use Nette,
+use Model\Database\NewEntityTable,
+	Nette,
 	Nette\Database\Table\ActiveRow,
 	Nette\ObjectMixin;
 

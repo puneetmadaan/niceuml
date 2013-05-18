@@ -14,8 +14,7 @@
 			{var id => $p->element_id}
 			{var element => isset($elements[$id])?$elements[$id]:NULL}
 			{if $element}
-				{if $element->type === 'class'}
-				{var child => $element->ref('class_class', 'id')}
+				{if $element->type === 'class' && $child = $element->ref('class_class', 'id')}
 				elements[{$id}] = new UMLClass({ x: {$p->posX}, y: {$p->posY} });
 				elements[{$id}].setName({$child->static?('_'.$element->name.'_'):$element->name});
 				{if $child->abstract}elements[{$id}].addStereotype("abstract");{/if}
@@ -25,26 +24,22 @@
 				{foreach $child->operations as $o}
 				elements[{$id}].addOperation({$o->toUML()});
 				{/foreach}
-				{elseif $element->type === 'note'}
-				{var child => $element->ref('core_note', 'id')}
+				{elseif $element->type === 'note' && $child = $element->ref('core_note', 'id')}
 				elements[{$id}] = new UMLNote({ x: {$p->posX}, y: {$p->posY} });
 				elements[{$id}].setName({$element->name ? $element->name."\n" : ''} + {$child->text});
 				{else}
 				elements[{$id}] = new Node({ x: {$p->posX}, y: {$p->posY} });
-				elements[{$id}].setName({$element->name});
+				// elements[{$id}].setName({$element->name});
 				{/if}
-
 				elements[{$id}].notifyChange();
 				classDiagram.addElement(elements[{$id}]);
 			{/if}
 		{/foreach}
 		{foreach $relations as $r}
-			{dump $r}
 			{var start => isset($elements[$r->start_id])?$elements[$r->start_id]:NULL}
 			{var end   => isset($elements[$r->end_id])?$elements[$r->end_id]:NULL}
 			{if $start && $end}
-			{if $r->type === 'association'}
-			{var child => $r->ref('class_association', 'id')}
+			{if $r->type === 'association' && $child = $r->ref('class_association', 'id')}
 			relation = new UMLAssociation({ a: elements[{$r->start_id}], b: elements[{$r->end_id}] });
 			relation.setRoleA({$child->sourceRole});
 			relation.setMultiplicityA({$child->sourceMultiplicity});
