@@ -11,27 +11,30 @@ class ElementSource extends Nette\Object
 {
 
 	protected $dao;
-	protected $types = array(); // type => ISourceModel
+	protected $types;
+
+	protected $models = array(); // type => ISourceModel
 
 
-	public function __construct(ElementDAO $dao)
+	public function __construct(ElementDAO $dao, ElementType $types)
 	{
 		$this->dao = $dao;
+		$this->types = $types;
 	}
 
 
-	public function addType($name, ISourceModel $model = NULL)
+	public function addType($name, ISourceModel $model)
 	{
-		if (isset($this->types[$name]))
+		if (isset($this->models[$name]))
 			throw new Nette\InvalidArgumentException("Type '{$name}' already set.");
-		$this->types[$name] = $model ?: FALSE;
+		$this->models[$name] = $model;
 		return $this;
 	}
 
 
 	public function load(array $source, Entity\Project $project)
 	{
-		$table = $this->dao->findByProject($project, array_keys($this->types));
+		$table = $this->dao->findByProject($project, $this->types->get());
 		$toDelete = array_fill_keys($table->collect('id'), TRUE);
 		$elements = array();
 		foreach ($table as $row)
@@ -52,7 +55,7 @@ class ElementSource extends Nette\Object
 			else {
 				if (!isset($el['type']))
 					throw new SourceException("Missing type in element '$name'.");
-				if (!isset($this->types[$el['type']]))
+				if (!$this->types->has($el['type']))
 					throw new SourceException("Invalid type '{$el['type']}'' in element '$name'.");
 				$old = NULL;
 			}
@@ -66,8 +69,8 @@ class ElementSource extends Nette\Object
 				$newNames[$newName] = TRUE;
 			}
 
-			if ($this->types[$el['type']]) {
-				$model = $this->types[$el['type']];
+			if (isset($this->models[$el['type']])) {
+				$model = $this->models[$el['type']];
 				try {
 					$result[$lName] = $model->load($el, $project, $old);
 				} catch (SourceException $e) {
@@ -93,11 +96,12 @@ class ElementSource extends Nette\Object
 
 	public function dump(Entity\Project $project)
 	{
-		foreach ($this->dao->findByProject($project, array_keys($this->types)) as $el) {
-			if (!isset($this->types[$el->type]))
+		$result = array();
+		foreach ($this->dao->findByProject($project, $this->types->get()) as $el) {
+			if (!$this->types->has($el->type))
 				continue;
-			if ($this->types[$el->type]) {
-				$model = $this->types[$el->type];
+			if (isset($this->models[$el->type])) {
+				$model = $this->models[$el->type];
 				$row = $model->dump($el);
 			}
 			else {

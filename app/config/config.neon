@@ -43,6 +43,11 @@ services:
 	interpreter:
 		class: InterpreterList
 
+
+	elementType:
+		class: Model\ElementType
+		setup: [ add('note', 'Note') ]
+
 	model.elementSource:
 		class: Model\ElementSource
 		setup: [ addType(note, Model\NoteSource(@model.note)) ]

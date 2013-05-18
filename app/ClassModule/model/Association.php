@@ -24,7 +24,8 @@ class Association extends BaseChildDAO implements ISourceModel
 
 		$data = array();
 		foreach ($known as $key)
-			$data[$key] = Nette\Utils\Arrays::get($source, $key, '');
+			if (array_key_exists($key, $source))
+				$data[$key] = $source[$key];
 
 		return $this->save($original, $data);
 	}

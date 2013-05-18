@@ -8,6 +8,8 @@ services:
 	model.class_class: ClassModule\Model\ClassType(class_class, ..., ..., @model.element)
 	model.class_association: ClassModule\Model\Association(class_association, ..., ..., @model.relation)
 
+	elementType:
+		setup: [ add('class', 'Class') ]
 
 	elementControlFactory:
 		setup: [ addType(class, classModule.classControl) ]
