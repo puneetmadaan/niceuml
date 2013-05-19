@@ -29,7 +29,10 @@ class DiagramControlFactory {
 	public function create($type) {
 		if (isset($this->types[$type])) {
 			$method = Container::getMethodName($this->types[$type], FALSE);
-			return $this->container->$method($type);
+			$control = $this->container->$method();
+			if (!$control instanceof IDiagramControl)
+				throw new Nette\UnexpectedValueException('Factory did not return expected IDiagramControl.');
+			return $control;
 		}
 		return NULL;
 	}

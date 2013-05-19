@@ -1,8 +1,8 @@
 <?php
 
 
-
-class ElementControl extends BaseControl {
+class ElementControl extends BaseControl implements IElementControl
+{
 
 	/** @var Model\BaseDAO */
 	protected $model;

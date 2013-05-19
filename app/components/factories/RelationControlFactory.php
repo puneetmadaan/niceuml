@@ -23,9 +23,13 @@ class RelationControlFactory {
 	public function create($type) {
 		if (isset($this->types[$type])) {
 			$method = Container::getMethodName($this->types[$type], FALSE);
-			return $this->container->$method();
+			$control = $this->container->$method();
 		}
-		return $this->container->createRelationControl();
+		else
+			$control = $this->container->createRelationControl();
+		if (!$control instanceof IRelationControl)
+			throw new Nette\UnexpectedValueException('Factory did not return expected IRelationControl.');
+		return $control;
 	}
 
 }

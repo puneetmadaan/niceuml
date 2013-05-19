@@ -23,9 +23,13 @@ class ElementControlFactory {
 	public function create($type) {
 		if (isset($this->types[$type])) {
 			$method = Container::getMethodName($this->types[$type], FALSE);
-			return $this->container->$method();
+			$control = $this->container->$method();
 		}
-		return $this->container->createElementControl();
+		else
+			$control = $this->container->createElementControl();
+		if (!$control instanceof IElementControl)
+			throw new Nette\UnexpectedValueException('Factory did not return expected IElementControl.');
+		return $control;
 	}
 
 }

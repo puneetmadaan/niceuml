@@ -2,8 +2,14 @@
 
 namespace ClassModule;
 
+use IDiagramControl,
+	BaseControl,
+	Model\ElementDAO,
+	Model\RelationDAO,
+	Model\Entity\Diagram;
 
-class ClassDiagramControl extends \BaseControl {
+
+class ClassDiagramControl extends BaseControl implements IDiagramControl {
 
 	protected $diagram;
 	protected $elementModel;
@@ -12,14 +18,13 @@ class ClassDiagramControl extends \BaseControl {
 
 	protected $rendered = FALSE;
 
-	public function __construct(\Model\ElementDAO $elementModel, \Model\RelationDAO $relationModel, \DiagramControlFactory $formFactory) {
+	public function __construct(ElementDAO $elementModel, RelationDAO $relationModel) {
 		$this->elementModel = $elementModel;
 		$this->relationModel = $relationModel;
-		$this->formFactory = $formFactory;
 	}
 
 
-	public function setDiagram(\Model\Entity\Diagram $diagram)
+	public function setDiagram(Diagram $diagram)
 	{
 		$this->diagram = $diagram;
 	}

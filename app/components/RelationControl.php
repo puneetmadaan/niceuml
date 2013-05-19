@@ -1,8 +1,8 @@
 <?php
 
 
-
-class RelationControl extends BaseControl {
+class RelationControl extends BaseControl implements IRelationControl
+{
 
 	protected $model;
 	protected $types;
@@ -85,4 +85,5 @@ class RelationControl extends BaseControl {
 	public function render() {
 		$this['form']->render();
 	}
+
 }
