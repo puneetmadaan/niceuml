@@ -7,12 +7,12 @@ use FormFactory,
 	Model\ElementDAO,
 	Model\RelationType,
 	Model\Entity\Relation,
-	ClassModule\Model\Association;
+	ClassModule\Model\AssociationDAO;
 
 
 class AssociationControl extends RelationControl {
 
-	public function __construct(Association $model, RelationType $types, ElementDAO $elementModel, FormFactory $formFactory)
+	public function __construct(AssociationDAO $model, RelationType $types, ElementDAO $elementModel, FormFactory $formFactory)
 	{
 		parent::__construct($model, $types, $elementModel, $formFactory);
 	}

@@ -10,7 +10,7 @@ use SourceException,
 	Nette;
 
 
-class Association extends BaseChildDAO implements ISourceModel
+class AssociationDAO extends BaseChildDAO implements ISourceModel
 {
 
 

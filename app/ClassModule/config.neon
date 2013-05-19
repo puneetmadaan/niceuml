@@ -4,7 +4,7 @@ entity:
 
 services:
 	model.class_class: ClassModule\Model\ClassDAO( class_class, ..., ..., @model.element )
-	model.class_association: ClassModule\Model\Association( class_association, ..., ..., @model.relation )
+	model.class_association: ClassModule\Model\AssociationDAO( class_association, ..., ..., @model.relation )
 
 	model.elementType:
 		setup: [ add( class, Class ) ]
