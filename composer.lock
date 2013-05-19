@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "7a4b92ab68f8fb54d87ece681028b24e",
+    "hash": "528c43ecad6c6ab01784249598eaec37",
     "packages": [
         {
             "name": "kdyby/bootstrap-form-renderer",
@@ -128,37 +128,6 @@
             "time": "2013-03-08 15:44:35"
         },
         {
-            "name": "redwormik/niceorm",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/redwormik/niceorm.git",
-                "reference": "e11b01c2c9b20c8ea7eef463b7943b875fe020dd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/redwormik/niceorm/zipball/e11b01c2c9b20c8ea7eef463b7943b875fe020dd",
-                "reference": "e11b01c2c9b20c8ea7eef463b7943b875fe020dd",
-                "shasum": ""
-            },
-            "require": {
-                "nette/nette": ">=2.0.10",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "nette/tester": "@dev"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "NiceORM/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "description": "Nette\\Database based ORM library",
-            "time": "2013-05-09 03:55:59"
-        },
-        {
             "name": "vojtech-dobes/extensions-list",
             "version": "1.0.0",
             "source": {
@@ -208,12 +177,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/tester.git",
-                "reference": "dd4f7e25ff6175b598cbc3462ca13a411e3c27f4"
+                "reference": "dfd266ff2956638716fe338c1816e745baf249d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/tester/zipball/dd4f7e25ff6175b598cbc3462ca13a411e3c27f4",
-                "reference": "dd4f7e25ff6175b598cbc3462ca13a411e3c27f4",
+                "url": "https://api.github.com/repos/nette/tester/zipball/dfd266ff2956638716fe338c1816e745baf249d8",
+                "reference": "dfd266ff2956638716fe338c1816e745baf249d8",
                 "shasum": ""
             },
             "require": {
@@ -251,7 +220,7 @@
                 "testing",
                 "unit"
             ],
-            "time": "2013-04-25 13:48:02"
+            "time": "2013-05-17 14:57:08"
         }
     ],
     "aliases": [
@@ -259,7 +228,6 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "redwormik/niceorm": 20,
         "nette/tester": 20
     },
     "platform": {
