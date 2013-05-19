@@ -53,6 +53,7 @@ class ConsoleControl extends BaseControl {
 			return;
 		} catch (Exception $e) {
 			$form->addError('Unknown error occured.');
+			Nette\Diagnostics\Debugger::log($e);
 			return;
 		}
 
