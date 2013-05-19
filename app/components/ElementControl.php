@@ -10,54 +10,36 @@ class ElementControl extends BaseControl {
 	/** @var Model\BaseDAO */
 	protected $elementModel;
 
-	/** @var Model\BaseDAO */
-	protected $relationModel;
-
-	/** @var NewRelationControlFactory */
-	protected $newRelationControlFactory;
-
-	/** @var RelationControlFactory */
-	protected $relationControlFactory;
-
 	/** @var FormFactory */
 	protected $formFactory;
 
 	/** @var Model\Entity\Element */
 	protected $element;
 
-	/** @var Model\Entity\Relation */
-	// protected $relation;
+	/** @var Model\Entity\Project */
+	protected $project;
 
 
-	public function __construct(
-		Model\Entity\Element $element, Model\BaseDAO $elementModel, Model\BaseDAO $relationModel,
-		NewRelationControlFactory $newRel, RelationControlFactory $editRel, FormFactory $formFactory
-	) {
-		$this->element = $element;
+	public function __construct(Model\BaseDAO $elementModel, FormFactory $formFactory) {
 		$this->elementModel = $elementModel;
-		$this->relationModel = $relationModel;
-		$this->newRelationControlFactory = $newRel;
-		$this->relationControlFactory = $editRel;
 		$this->formFactory = $formFactory;
 	}
 
 
-	public function handleDeleteRelation() {
-		$relation = $this->checkRelation($this->relation);
-		if (!$this->presenter->user->isAllowed($relation, 'delete'))
-			$this->presenter->forbidden();
-		$relation->delete();
-		$this->flashMessage('Relation was deleted.');
-		$this->redirect('this', array('relation' => NULL));
+	public function setElement(Model\Entity\Element $element)
+	{
+		$this->element = $element;
+	}
+
+
+	public function setProject(Model\Entity\Project $project)
+	{
+		$this->project = $project;
 	}
 
 
 	public function render() {
-		$this->template->element = $this->element;
-		$this->template->relation = (bool) $this->relation;
-		$this->template->relations = $this->relationModel->table()
-			->where('start_id = ? OR end_id = ?', $this->element->id, $this->element->id);
-		parent::render();
+		$this['form']->render();
 	}
 
 
@@ -65,40 +47,34 @@ class ElementControl extends BaseControl {
 		$form = $this->formFactory->create();
 
 		$form->addText('name', 'Name')
-			->setDefaultValue($this->element->name)
 			->setRequired("Enter element name")
 			->addRule($this->checkUniqueName, 'Name already in use.');
 
 		$form->addSubmit('send', 'Save');
 		$form->onSuccess[] = $this->formSucceeded;
+
+		if ($this->element)
+			$form->setDefaults($this->element);
 		return $form;
 	}
 
 
 	public function checkUniqueName($input) {
-		$row = $this->element->project->related('element')->where(array(
-			'id != ?' => $this->element->id,
-			'name' => $input->value
-		))->fetch();
-		return $row ? FALSE : TRUE;
+		// $row = $this->elementModel->getByProject($this->project)->where(array(
+		$table = $this->project->related('element')->where('name', $input->value);
+		if ($this->element)
+			$table->where('id != ?', $this->element->id);
+		return $table->fetch() ? FALSE : TRUE;
 	}
 
 
 	public function formSucceeded($form) {
+		$values = $form->values;
+		if (!$this->element && $this->project)
+			$form->values->project = $this->project;
 		$this->elementModel->save($this->element, $form->values);
 		$this->presenter->flashMessage('Data saved.');
 		$this->redirect('this');
-	}
-
-
-	protected function createComponentNewRelationControl() {
-		return $this->newRelationControlFactory->create($this->element);
-	}
-
-
-	protected function createComponentRelationControl() {
-		$relation = $this->checkRelation($this->relation);
-		return $this->relationControlFactory->create($relation);
 	}
 
 

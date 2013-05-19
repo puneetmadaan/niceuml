@@ -11,13 +11,14 @@ class ClassControl extends \ElementControl {
 		$form = parent::createComponentForm();
 		unset($form['send']);
 
-		$class = $this->elementModel->getByParent($this->element);
-
 		$form->addCheckbox('abstract', 'Abstract');
 		$form->addCheckbox('static', 'Static');
 
-		if ($class)
-			$form->setDefaults($class);
+		if ($this->element) {
+			$class = $this->elementModel->getByParent($this->element);
+			if ($class)
+				$form->setDefaults($class);
+		}
 
 		$form->addSubmit('send', 'Save');
 		return $form;
@@ -26,10 +27,15 @@ class ClassControl extends \ElementControl {
 
 	public function formSucceeded($form) {
 		$values = $form->values;
-
-		$this->elementModel->save($this->elementModel->getByParent($this->element), $values);
+		if (!$this->element) {
+			if ($this->project)
+				$values->project = $this->project;
+			$values->type = 'class';
+		}
+		$class = $this->element ? $this->elementModel->getByParent($this->element) : NULL;
+		$class = $this->elementModel->save($class, $values);
 		$this->presenter->flashMessage('Data saved.');
-		$this->redirect('this');
+		$this->presenter->redirect('edit', $class->id);
 	}
 
 }

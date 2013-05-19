@@ -20,12 +20,12 @@ class ElementControlFactory {
 	}
 
 
-	public function create(Model\Entity\Element $element) {
-		if (isset($this->types[$element->type])) {
-			$method = Container::getMethodName($this->types[$element->type], FALSE);
-			return $this->container->$method($element);
+	public function create($type) {
+		if (isset($this->types[$type])) {
+			$method = Container::getMethodName($this->types[$type], FALSE);
+			return $this->container->$method();
 		}
-		return $this->container->createElementControl($element);
+		return $this->container->createElementControl();
 	}
 
 }

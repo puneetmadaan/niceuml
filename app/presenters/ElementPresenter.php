@@ -3,8 +3,11 @@
 
 final class ElementPresenter extends ModellingPresenter {
 
-	/** @var Model\Element */
+	/** @var Model\ElementDAO */
 	protected $elementModel;
+
+	/** @var Model\ElementType */
+	protected $elementType;
 
 	/** @var NewElementControlFactory */
 	protected $newElementControlFactory;
@@ -15,9 +18,26 @@ final class ElementPresenter extends ModellingPresenter {
 	/** @var Model\Entity\Element */
 	protected $element;
 
+	protected $type;
 
-	public function injectModel(Model\ElementDAO $elementModel) {
+
+	/** @var Model\RelationDAO */
+	protected $relationModel;
+
+	/** @var NewElementControlFactory */
+	protected $newRelationControlFactory;
+
+	/** @var ElementControlFactory */
+	protected $relationControlFactory;
+
+	/** @var Model\Entity\Relation */
+	protected $relation;
+
+
+	public function injectModel(Model\ElementDAO $elementModel, Model\RelationDAO $relationModel, Model\ElementType $type) {
 		$this->doInject('elementModel', $elementModel);
+		$this->doInject('relationModel', $relationModel);
+		$this->doInject('elementType', $type);
 	}
 
 
@@ -26,12 +46,28 @@ final class ElementPresenter extends ModellingPresenter {
 		$this->doInject('elementControlFactory', $edit);
 	}
 
+
+	public function injectRelationControlFactories(NewRelationControlFactory $new, RelationControlFactory $edit) {
+		$this->doInject('newRelationControlFactory', $new);
+		$this->doInject('relationControlFactory', $edit);
+	}
+
+
 	public function actionDefault() {
 	}
 
 
 	public function renderDefault() {
 		$this->template->elements = $this->elementModel->table()->where('project_id', $this->project->id);
+	}
+
+
+	public function actionNew($type = NULL) {
+		if ($type !== NULL) {
+			if (!$this->elementType->has($type))
+				$this->error();
+			$this->type = $type;
+		}
 	}
 
 
@@ -44,6 +80,8 @@ final class ElementPresenter extends ModellingPresenter {
 
 	public function renderEdit() {
 		$this->template->element = $this->element;
+		$this->template->relation = $this->relation;
+		$this->template->relations = $this->relationModel->findByElement($this->element);
 	}
 
 
@@ -60,19 +98,45 @@ final class ElementPresenter extends ModellingPresenter {
 	}
 
 
-	protected function createComponentNewElementControl() {
-		return $this->newElementControlFactory->create($this->project);
-	}
-
-
-	protected function createComponentElementControl() {
-		if (!$this->element)
+	public function handleDeleteRelation() {
+		if (empty($this->relation))
 			$this->error();
-		return $this->elementControlFactory->create($this->element);
+
+		if (!$this->presenter->user->isAllowed($this->relation, 'delete'))
+			$this->presenter->forbidden();
+		$this->relation->delete();
+		$this->flashMessage('Relation was deleted.');
+		$this->redirect('this', array('relation' => NULL));
 	}
 
 
-	protected function checkElement($id) {
+	protected function createComponentElementControl()
+	{
+		if ($this->element || $this->type) {
+			$type = $this->element ? $this->element->type : $this->type;
+			$control = $this->elementControlFactory->create($type);
+			if ($this->element)
+				$control->setElement($this->element);
+			$control->setProject($this->project);
+			return $control;
+		}
+		$form = $this->formFactory->create();
+		$form->addSelect('type', 'Type', $this->elementType->getLabels())
+			->setPrompt('Choose type.')
+			->setRequired('Choose type.');
+		$form->addSubmit('send', 'Create');
+		$form->onSuccess[] = $this->elementTypeFormSucceeded;
+		return $form;
+	}
+
+	public function elementTypeFormSucceeded($form)
+	{
+		$this->redirect('new', $form['type']->value);
+	}
+
+
+	protected function checkElement($id)
+	{
 		if ($id === NULL)
 			$this->error();
 		$element = $this->elementModel->get((int) $id);
@@ -83,4 +147,29 @@ final class ElementPresenter extends ModellingPresenter {
 		return $element;
 	}
 
+
+	protected function createComponentNewRelationControl() {
+		return $this->newRelationControlFactory->create($this->element);
+	}
+
+
+	protected function createComponentRelationControl() {
+		if (!$this->relation)
+			$this->error();
+		return $this->relationControlFactory->create($this->relation);
+	}
+
+
+	protected function checkRelation($id)
+	{
+		if ($id === NULL)
+			$this->error();
+		$relation = $this->relationModel->get((int) $id);
+		$el = $this->element ? $this->element->id : NULL;
+		if (!$relation || ($relation->start_id !== $el && $relation->end_id !== $el))
+			$this->error();
+		if (!$this->user->isAllowed($relation, 'edit'))
+			$this->forbidden();
+		return $relation;
+	}
 }

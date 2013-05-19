@@ -34,7 +34,7 @@ class RelationDAO extends BaseDAO
 
 	public function findByElement(Entity\Element $element)
 	{
-		return $this->table->where('start_id = ? OR end_id = ?', $element->id, $element->id);
+		return $this->table()->where('start_id = ? OR end_id = ?', $element->id, $element->id);
 	}
 
 }

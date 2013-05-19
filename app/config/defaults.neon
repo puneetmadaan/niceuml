@@ -36,12 +36,10 @@ services:
 
 factories:
 	elementControl:
-		class: ElementControl(%element%, @model.element, @model.relation)
-		parameters: [ Model\Entity\Element element ]
+		class: ElementControl(@model.element, @model.relation)
 
 	noteControl:
-		class: NoteControl(%element%, @model.note, @model.relation)
-		parameters: [ Model\Entity\Element element ]
+		class: NoteControl(@model.note)
 
 	relationControl:
 		class: RelationControl(%relation%, @model.relation)
