@@ -10,8 +10,8 @@ class Element extends BaseEntity
 
 
 	public function getCaption() {
-		$name = $this->getColumn('name');
-		return ($name ?: "element #" . $this->id) . " (" . $this->type . ")";
+		$name = (string) $this->getColumn('name');
+		return ($name !== '' ? $name : "element #" . $this->id) . " (" . $this->type . ")";
 	}
 
 

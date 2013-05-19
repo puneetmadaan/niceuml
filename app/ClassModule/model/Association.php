@@ -19,7 +19,7 @@ class Association extends BaseChildDAO implements ISourceModel
 
 		$known = array('name', 'type', 'start', 'end', 'direction', 'sourceRole', 'sourceMultiplicity', 'targetRole', 'targetMultiplicity');
 		if ($error = array_diff(array_keys($source), $known)) {
-			throw new SourceException("Unknown field '" . implode("', '", $error));
+			throw new SourceException("Unknown field '" . implode("', '", $error)."'.");
 		}
 
 		$data = array();
@@ -48,7 +48,9 @@ class Association extends BaseChildDAO implements ISourceModel
 			'targetRole' => $assoc->targetRole,
 			'targetMultiplicity' => $assoc->targetMultiplicity,
 		);
-		return array_filter($result);
+		return array_filter($result, function($val) {
+			return (string) $val !== '';
+		});
 	}
 
 }

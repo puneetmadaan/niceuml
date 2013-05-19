@@ -42,8 +42,11 @@ class DiagramSource extends Nette\Object
 		$known = array('name', 'type', 'elements');
 
 		foreach ($source as $name => $d) {
-			if (!is_array($d))
+			if (!is_array($d)) {
+				if ($d instanceof NeonEntity)
+					throw new SourceException("Unexpected entity in diagram '$name'.");
 				$d = array('type' => $d);
+			}
 
 			if ($error = array_diff(array_keys($d), $known))
 				throw new SourceException("Unknown key '" . implode("', '", $error) . "' in diagram '$name'.");
@@ -73,6 +76,8 @@ class DiagramSource extends Nette\Object
 			}
 
 			$dElements = isset($d['elements']) ? $d['elements'] : array();
+			if (!is_array($dElements))
+				$dElements = array($dElements);
 			unset($d['elements']);
 			$result[$lName] = $diagram = $this->dao->save($old, $d);
 
@@ -131,7 +136,7 @@ class DiagramSource extends Nette\Object
 				$ne->value = $el->element->name;
 				$ne->attributes = array($el->posX, $el->posY);
 			}
-			$result[$diagram->name] = $row;
+			$result[(string) $diagram->name] = $row;
 		}
 		return $result;
 	}

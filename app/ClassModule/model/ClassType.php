@@ -56,11 +56,14 @@ class ClassType extends BaseChildDAO implements ISourceModel
 		$result = array(
 			'name' => $class->name,
 			'type' => $class->type,
-			'abstract' => (bool) $class->abstract,
-			'static' => (bool) $class->static,
 		);
 
-		return array_filter($result);
+		if ($class->abstract)
+			$result['abstract'] = TRUE;
+		if ($class->static)
+			$result['static'] = TRUE;
+
+		return $result;
 	}
 
 }

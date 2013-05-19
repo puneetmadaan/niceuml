@@ -53,9 +53,14 @@ class SourceControl extends BaseControl
 
 		$source = $form['source']->value;
 		try {
-			$source = (array) Neon::decode($source);
+			$source = Neon::decode($source);
 		} catch (NeonException $e) {
 			$form->addError($e->getMessage());
+			return;
+		}
+
+		if (!is_array($source)) {
+			$form->addError("Invalid value.");
 			return;
 		}
 
@@ -65,13 +70,20 @@ class SourceControl extends BaseControl
 			return;
 		}
 
+		foreach ($source as $key => $value) {
+			if (!is_array($value)) {
+				$form->addError("Invalid value in section '$key'.");
+				return;
+			}
+		}
+
 		$source += array('elements' => array(), 'relations' => array(), 'diagrams' => array());
 
 		$this->db->beginTransaction();
 		try {
-			$elements = $this->elementSource->load((array) $source['elements'], $this->project);
-			$relations = $this->relationSource->load((array) $source['relations'], $this->project, $elements);
-			$diagrams = $this->diagramSource->load((array) $source['diagrams'], $this->project, $elements);
+			$elements = $this->elementSource->load($source['elements'], $this->project);
+			$relations = $this->relationSource->load($source['relations'], $this->project, $elements);
+			$diagrams = $this->diagramSource->load($source['diagrams'], $this->project, $elements);
 			$this->db->commit();
 		} catch (SourceException $e) {
 			$this->db->rollback();

@@ -43,8 +43,11 @@ class ElementSource extends Nette\Object
 		$result = array();
 
 		foreach ($source as $name => $el) {
-			if (!is_array($el))
+			if (!is_array($el)) {
+				if ($el instanceof NeonEntity)
+					throw new SourceException("Unexpected entity in element '$name'.");
 				$el = array('type' => $el);
+			}
 
 			$lName = Strings::lower($name);
 			if (isset($elements[$lName])) {
@@ -74,7 +77,7 @@ class ElementSource extends Nette\Object
 				try {
 					$result[$lName] = $model->load($el, $project, $old);
 				} catch (SourceException $e) {
-					throw SourceException("Element '$name': " . $e->getMessage(), NULL, $e);
+					throw new SourceException("Element '$name': " . $e->getMessage(), NULL, $e);
 				}
 			}
 			else {
@@ -111,7 +114,7 @@ class ElementSource extends Nette\Object
 				);
 			}
 			if ($row !== NULL)
-				$result[$el->name] = $row;
+				$result[(string) $el->name] = $row;
 		}
 
 		return $result;

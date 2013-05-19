@@ -37,7 +37,7 @@ class RelationSource extends Nette\Object
 
 		foreach ($source as $key => $rel) {
 			if (!is_array($rel))
-				$rel = array('type' => $rel);
+				throw new SourceException("Invalid value in relation $key.");
 
 			if (!isset($rel['type']))
 				throw new SourceException("Missing type in relation $key.");
@@ -66,7 +66,7 @@ class RelationSource extends Nette\Object
 				try {
 					$result[$key] = $model->load($rel, $project, NULL);
 				} catch (SourceException $e) {
-					throw SourceException("Relation $key: " . $e->getMessage(), NULL, $e);
+					throw new SourceException("Relation $key: " . $e->getMessage(), NULL, $e);
 				}
 			}
 			else {
