@@ -33,8 +33,6 @@ services:
 		setup: [ addType(class) ]
 
 factories:
-	newElementControl:
-		setup: [ add(class, Class, @model.class_class) ]
 	newRelationControl:
 		setup:
 			- add(association, Association, @model.class_association, class, class)

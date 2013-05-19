@@ -30,7 +30,6 @@ services:
 		class: DiagramControlFactory
 
 
-	newElementControlFactory: NewElementControlFactory
 	newRelationControlFactory: NewRelationControlFactory
 	newDiagramControlFactory: NewDiagramControlFactory
 

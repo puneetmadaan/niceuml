@@ -9,9 +9,6 @@ final class ElementPresenter extends ModellingPresenter {
 	/** @var Model\ElementType */
 	protected $elementType;
 
-	/** @var NewElementControlFactory */
-	protected $newElementControlFactory;
-
 	/** @var ElementControlFactory */
 	protected $elementControlFactory;
 
@@ -24,30 +21,25 @@ final class ElementPresenter extends ModellingPresenter {
 	/** @var Model\RelationDAO */
 	protected $relationModel;
 
-	/** @var NewElementControlFactory */
+	/** @var NewRelationControlFactory */
 	protected $newRelationControlFactory;
 
-	/** @var ElementControlFactory */
+	/** @var RelationControlFactory */
 	protected $relationControlFactory;
 
 	/** @var Model\Entity\Relation */
 	protected $relation;
 
 
-	public function injectModel(Model\ElementDAO $elementModel, Model\RelationDAO $relationModel, Model\ElementType $type) {
-		$this->doInject('elementModel', $elementModel);
-		$this->doInject('relationModel', $relationModel);
+	public function injectElements(Model\ElementDAO $model, Model\ElementType $type, ElementControlFactory $controlFactory) {
+		$this->doInject('elementModel', $model);
 		$this->doInject('elementType', $type);
+		$this->doInject('elementControlFactory', $controlFactory);
 	}
 
 
-	public function injectElementControlFactories(NewElementControlFactory $new, ElementControlFactory $edit) {
-		$this->doInject('newElementControlFactory', $new);
-		$this->doInject('elementControlFactory', $edit);
-	}
-
-
-	public function injectRelationControlFactories(NewRelationControlFactory $new, RelationControlFactory $edit) {
+	public function injectRelations(Model\RelationDAO $model, NewRelationControlFactory $new, RelationControlFactory $edit) {
+		$this->doInject('relationModel', $model);
 		$this->doInject('newRelationControlFactory', $new);
 		$this->doInject('relationControlFactory', $edit);
 	}
