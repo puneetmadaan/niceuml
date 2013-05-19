@@ -17,10 +17,4 @@ class DiagramDAO extends BaseDAO
 		return $table;
 	}
 
-
-	public function isElementTypeAllowed($diagramType, $elementType)
-	{
-		return TRUE;
-	}
-
 }

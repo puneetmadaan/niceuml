@@ -12,26 +12,18 @@ class DiagramSource extends Nette\Object
 {
 
 	protected $dao;
-	protected $types = array();
+	protected $types;
 
-	public function __construct(DiagramDAO $dao)
+	public function __construct(DiagramDAO $dao, DiagramType $types)
 	{
 		$this->dao = $dao;
-	}
-
-
-	public function addType($name)
-	{
-		if (isset($this->types[$name]))
-			throw new Nette\InvalidArgumentException("Type '{$name}' already set.");
-		$this->types[$name] = TRUE;
-		return $this;
+		$this->types = $types;
 	}
 
 
 	public function load(array $source, Entity\Project $project, $elements)
 	{
-		$table = $this->dao->findByProject($project, array_keys($this->types));
+		$table = $this->dao->findByProject($project, $this->types->get());
 		$toDelete = array_fill_keys($table->collect('id'), TRUE);
 		$diagrams = array();
 		foreach ($table as $row)
@@ -60,7 +52,7 @@ class DiagramSource extends Nette\Object
 			else {
 				if (!isset($d['type']))
 					throw new SourceException("Missing type in diagram '$name'.");
-				if (!isset($this->types[$d['type']]))
+				if ($this->types->has($d['type']))
 					throw new SourceException("Invalid type '{$d['type']}'' in diagram '$name'.");
 				$old = NULL;
 				$d['project'] = $project;
@@ -98,7 +90,8 @@ class DiagramSource extends Nette\Object
 				$placedElements[$el] = TRUE;
 
 				$el = $elements[$el];
-				if (!$this->dao->isElementTypeAllowed($diagram->type, $el->type)) // FIXME
+				$types = $this->types->getElementTypes($diagram->type);
+				if ($types !== NULl && !in_array($el->type, $types)) // FIXME
 					throw new SourceException("Invalid element type '{$el->type}' in diagram '$name', element '$key'.");
 
 				if (count($position) !== 2)
@@ -123,8 +116,8 @@ class DiagramSource extends Nette\Object
 	public function dump(Entity\Project $project)
 	{
 		$result = array();
-		foreach ($this->dao->findByProject($project, array_keys($this->types)) as $diagram) {
-			if (!isset($this->types[$diagram->type]))
+		foreach ($this->dao->findByProject($project, $this->types->get()) as $diagram) {
+			if (!$this->types->has($diagram->type))
 				continue;
 			$row = array(
 				'name' => $diagram->name,

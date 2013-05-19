@@ -35,8 +35,6 @@ services:
 		setup: [ addType(class, @model.class_class) ]
 	model.relationSource:
 		setup: [ addType(association, @model.class_association) ]
-	model.diagramSource:
-		setup: [ addType(class) ]
 
 factories:
 	classModule.classControl: ClassModule\ClassControl
