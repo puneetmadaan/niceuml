@@ -121,6 +121,7 @@ final class ElementPresenter extends ModellingPresenter {
 		return $form;
 	}
 
+
 	public function elementTypeFormSucceeded($form)
 	{
 		$this->redirect('new', $form['type']->value);
