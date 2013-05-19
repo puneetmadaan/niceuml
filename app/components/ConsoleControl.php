@@ -6,20 +6,28 @@ class ConsoleControl extends BaseControl {
 	/** @var Model\Entity\Project */
 	protected $project;
 
-	protected $parser;
-	protected $interpreter;
+	/** @var Model\ICommandModel */
+	protected $model;
+
+	/** @var FormFactory */
 	protected $formFactory;
 
 
-	public function __construct(Model\Entity\Project $project, IParser $parser, IInterpreter $interpreter, FormFactory $formFactory) {
-		$this->project = $project;
-		$this->parser = $parser;
-		$this->interpreter = $interpreter;
+	public function __construct(Model\ICommandModel $model, FormFactory $formFactory)
+	{
+		$this->model = $model;
 		$this->formFactory = $formFactory;
 	}
 
 
-	protected function createComponentForm() {
+	public function setProject(Model\Entity\Project $project)
+	{
+		$this->project = $project;
+	}
+
+
+	protected function createComponentForm()
+	{
 		$form = $this->formFactory->create();
 		$form->addTextarea('command', 'Command', NULL, 10)
 			->setRequired('Enter command.')
@@ -29,16 +37,26 @@ class ConsoleControl extends BaseControl {
 		return $form;
 	}
 
-	public function formSucceeded($form) {
+
+	public function formSucceeded($form)
+	{
 		$command = $form['command']->value;
+
 		try {
-			$command = $this->parser->parse($command);
-		} catch (ParsingException $e) {
-			$form->addError('Parsing error: '. $e->getMessage());
+			$result = $this->model->execute($command, $this->project);
+			if (!$result) {
+				$form->addError('Unrecognized command.');
+				return;
+			}
+		} catch (CommandException $e) {
+			$form->addError('Console error: '. $e->getMessage());
+			return;
+		} catch (Exception $e) {
+			$form->addError('Unknown error occured.');
 			return;
 		}
 
-		$this->interpreter->execute($command, $this->project);
+
 		$this->presenter->flashMessage('Command successfully executed.');
 		$this->redirect('this');
 	}

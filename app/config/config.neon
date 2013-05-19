@@ -40,11 +40,6 @@ services:
 	database: @nette.database.default
 	router: @routes.router
 
-	parser:
-		class: ParserList
-	interpreter:
-		class: InterpreterList
-
 	formFactory: FormFactory
 	mailFactory: MailFactory( %appDir%/templates/mails, %mails.defaultFrom% )
 	menuControlFactory: MenuControlFactory
@@ -63,7 +58,7 @@ services:
 factories:
 	nette.latte:
 		setup:
-			- Kdyby\BootstrapFormRenderer\Latte\FormMacros::install(@self::getCompiler())
+			- Kdyby\BootstrapFormRenderer\Latte\FormMacros::install( @self::getCompiler() )
 	nette.basicForm:
 		class: Nette\Application\UI\Form
 		setup:
@@ -71,19 +66,13 @@ factories:
 			- $renderer( Kdyby\BootstrapFormRenderer\BootstrapRenderer() )
 	form: @nette.basicForm
 
-	projectTreeControl:
-		class: ProjectTreeControl(%project%)
-		parameters: [ Model\Entity\Project project ]
-
-	consoleControl:
-		class: ConsoleControl(%project%)
-		parameters: [ Model\Entity\Project project ]
-
 	menuControl: MenuControl( %controls.menuLinks% )
+	projectTreeControl: ProjectTreeControl
+	elementControl: ElementControl( @model.element )
+	relationControl: RelationControl( @model.relation )
+	noteControl: NoteControl( @model.note )
 	sourceControl: SourceControl
-	elementControl: ElementControl(@model.element)
-	noteControl: NoteControl(@model.note)
-	relationControl: RelationControl(@model.relation)
+	consoleControl: ConsoleControl( @model.commandModel )
 
 includes:
 	- model.neon

@@ -3,37 +3,34 @@ entity:
 	class_association: ClassModule\Model\Entity\Association
 
 services:
-	model.class_class: ClassModule\Model\ClassDAO(class_class, ..., ..., @model.element)
-	model.class_association: ClassModule\Model\Association(class_association, ..., ..., @model.relation)
+	model.class_class: ClassModule\Model\ClassDAO( class_class, ..., ..., @model.element )
+	model.class_association: ClassModule\Model\Association( class_association, ..., ..., @model.relation )
 
 	model.elementType:
-		setup: [ add(class, Class) ]
+		setup: [ add( class, Class ) ]
 	model.relationType:
 		setup:
-			- add(association, Association, [ class: [class] ])
-			- add(generalization, Generalization, [ class: [class] ])
+			- add( association, Association, [ class: [class] ] )
+			- add( generalization, Generalization, [ class: [class] ] )
 	model.diagramType:
-		setup: [ add(class, Class diagram, [class, note]) ]
-
+		setup: [ add( class, Class diagram, [class, note] ) ]
 
 	model.elementSource:
-		setup: [ addType(class, @model.class_class) ]
+		setup: [ addType( class, @model.class_class ) ]
 	model.relationSource:
-		setup: [ addType(association, @model.class_association) ]
+		setup: [ addType( association, @model.class_association ) ]
+
+	model.commandModel:
+		setup: [ add( ClassModule\Model\CommandModel() ) ]
 
 	elementControlFactory:
-		setup: [ addType(class, classModule.classControl) ]
+		setup: [ addType( class, classModule.classControl ) ]
 	relationControlFactory:
 		setup:
-			- addType(association, classModule.associationControl)
-			- addType(generalization, relationControl)
+			- addType( association, classModule.associationControl )
+			- addType( generalization, relationControl )
 	diagramControlFactory:
-		setup: [ addType(class, classModule.classDiagramControl) ]
-
-	parser:
-		setup: [ addParser( class, ClassModule\Parser() ) ]
-	interpreter:
-		setup: [ addInterpreter( class, ClassModule\Interpreter() ) ]
+		setup: [ addType( class, classModule.classDiagramControl ) ]
 
 factories:
 	classModule.classControl: ClassModule\ClassControl

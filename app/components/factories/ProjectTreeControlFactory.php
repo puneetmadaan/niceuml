@@ -11,8 +11,8 @@ class ProjectTreeControlFactory {
 	}
 
 
-	public function create(Model\Entity\Project $project) {
-		return $this->container->createProjectTreeControl($project);
+	public function create() {
+		return $this->container->createProjectTreeControl();
 	}
 
 }

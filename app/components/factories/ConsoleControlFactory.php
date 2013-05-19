@@ -11,8 +11,8 @@ class ConsoleControlFactory {
 	}
 
 
-	public function create(Model\Entity\Project $project) {
-		return $this->container->createConsoleControl($project);
+	public function create() {
+		return $this->container->createConsoleControl();
 	}
 
 }

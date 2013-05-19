@@ -27,7 +27,7 @@ class DiagramSource extends Nette\Object
 		$toDelete = array_fill_keys($table->collect('id'), TRUE);
 		$diagrams = array();
 		foreach ($table as $row)
-			$diagrams[strtolower($row->name)] = $row;
+			$diagrams[Strings::lower($row->name)] = $row;
 		$newNames = array();
 		$result = array();
 

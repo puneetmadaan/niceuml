@@ -38,7 +38,7 @@ class ElementSource extends Nette\Object
 		$toDelete = array_fill_keys($table->collect('id'), TRUE);
 		$elements = array();
 		foreach ($table as $row)
-			$elements[strtolower($row->name)] = $row;
+			$elements[Strings::lower($row->name)] = $row;
 		$newNames = array();
 		$result = array();
 

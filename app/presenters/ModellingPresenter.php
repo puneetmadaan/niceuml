@@ -48,7 +48,9 @@ abstract class ModellingPresenter extends BasePresenter {
 
 
 	protected function createComponentProjectTreeControl() {
-		return $this->projectTreeControlFactory->create($this->project);
+		$control = $this->projectTreeControlFactory->create();
+		$control->setProject($this->project);
+		return $control;
 	}
 
 
@@ -60,7 +62,9 @@ abstract class ModellingPresenter extends BasePresenter {
 
 
 	protected function createComponentConsoleControl() {
-		return $this->consoleControlFactory->create($this->project);
+		$control = $this->consoleControlFactory->create();
+		$control->setProject($this->project);
+		return $control;
 	}
 
 

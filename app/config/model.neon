@@ -1,28 +1,31 @@
 services:
-	model.project: Model\ProjectDAO('core_project')
-	model.element: Model\ElementDAO('core_element')
-	model.relation: Model\RelationDAO('core_relation')
-	model.note: Model\BaseChildDAO('core_note', ..., ..., @model.element)
-	model.diagram: Model\DiagramDAO('core_diagram')
-	model.placement: Model\PlacementDAO('core_placement')
-	model.user: Model\UserDAO('core_user')
+	model.project: Model\ProjectDAO( core_project )
+	model.element: Model\ElementDAO( core_element )
+	model.relation: Model\RelationDAO( core_relation )
+	model.note: Model\BaseChildDAO( core_note, ..., ..., @model.element )
+	model.diagram: Model\DiagramDAO( core_diagram )
+	model.placement: Model\PlacementDAO( core_placement )
+	model.user: Model\UserDAO( core_user )
 
 	model.elementType:
 		class: Model\ElementType
-		setup: [ add('note', 'Note') ]
+		setup: [ add(note, Note) ]
 	model.relationType:
 		class: Model\RelationType
-		setup: [ add('noteLink', 'Note link', [ note: NULL, NULL: [note] ]) ]
+		setup: [ add( noteLink, Note link, [ note: NULL, NULL: [note] ] ) ]
 	model.diagramType:
 		class: Model\DiagramType
 
 	model.elementSource:
 		class: Model\ElementSource
-		setup: [ addType(note, Model\NoteSource(@model.note)) ]
+		setup: [ addType( note, Model\NoteSource(@model.note) ) ]
 	model.relationSource:
 		class: Model\RelationSource
 	model.diagramSource:
 		class: Model\DiagramSource
+
+	model.commandModel:
+		class: Model\CommandModelList
 
 entity:
 	core_element: Model\Entity\Element
