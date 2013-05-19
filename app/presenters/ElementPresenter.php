@@ -180,8 +180,10 @@ final class ElementPresenter extends ModellingPresenter {
 		if ($id === NULL)
 			$this->error();
 		$relation = $this->relationModel->get((int) $id);
+		if (!$relation) // relation source deletes them
+			$this->redirect('this', array('relation' => NULL));
 		$el = $this->element ? $this->element->id : NULL;
-		if (!$relation || ($relation->start_id !== $el && $relation->end_id !== $el))
+		if ($relation->start_id !== $el && $relation->end_id !== $el)
 			$this->error();
 		if (!$this->user->isAllowed($relation, 'edit'))
 			$this->forbidden();

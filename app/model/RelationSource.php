@@ -11,20 +11,23 @@ class RelationSource extends Nette\Object
 {
 
 	protected $dao;
-	protected $types = array(); // type => ISourceModel
+	protected $types;
+
+	protected $models = array(); // type => ISourceModel
 
 
-	public function __construct(RelationDAO $dao)
+	public function __construct(RelationDAO $dao, RelationType $types)
 	{
 		$this->dao = $dao;
+		$this->types = $types;
 	}
 
 
-	public function addType($name, ISourceModel $model = NULL)
+	public function addType($name, ISourceModel $model)
 	{
-		if (isset($this->types[$name]))
+		if (isset($this->models[$name]))
 			throw new Nette\InvalidArgumentException("Type '{$name}' already set.");
-		$this->types[$name] = $model ?: FALSE;
+		$this->models[$name] = $model;
 		return $this;
 	}
 
@@ -32,7 +35,7 @@ class RelationSource extends Nette\Object
 	public function load(array $source, Entity\Project $project, array $elements)
 	{
 		$result = array();
-		$this->dao->findByElements($elements, array_keys($this->types))->delete();
+		$this->dao->findByElements($elements, $this->types->get())->delete();
 
 
 		foreach ($source as $key => $rel) {
@@ -41,7 +44,7 @@ class RelationSource extends Nette\Object
 
 			if (!isset($rel['type']))
 				throw new SourceException("Missing type in relation $key.");
-			if (!isset($this->types[$rel['type']]))
+			if (!$this->types->has($rel['type']))
 				throw new SourceException("Invalid type '{$rel['type']}' in relation $key.");
 
 			if (!isset($rel['start']))
@@ -58,11 +61,13 @@ class RelationSource extends Nette\Object
 				throw new SourceException("Invalid ending element in relation $key.");
 			$rel['end'] = $elements[$end];
 
-			// TODO: check element types
+			$ends = $this->types->getElementTypes($rel['type'], $rel['start']->type);
+			if ($ends !== RelationType::ALL && !in_array($rel['end']->type, $ends))
+				throw new SourceException("Incompatible elements in relation $key.");
 
 
-			if ($this->types[$rel['type']]) {
-				$model = $this->types[$rel['type']];
+			if (isset($this->models[$rel['type']])) {
+				$model = $this->models[$rel['type']];
 				try {
 					$result[$key] = $model->load($rel, $project, NULL);
 				} catch (SourceException $e) {
@@ -84,11 +89,11 @@ class RelationSource extends Nette\Object
 	public function dump(Entity\Project $project)
 	{
 		$result = array();
-		foreach ($this->dao->findByProject($project, array_keys($this->types)) as $rel) {
-			if (!isset($this->types[$rel->type]))
+		foreach ($this->dao->findByProject($project, $this->types->get()) as $rel) {
+			if (!$this->types->has($rel->type))
 				continue;
-			if ($this->types[$rel->type]) {
-				$model = $this->types[$rel->type];
+			if (isset($this->models[$rel->type])) {
+				$model = $this->models[$rel->type];
 				$row = $model->dump($rel);
 			}
 			else {

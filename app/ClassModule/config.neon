@@ -32,9 +32,7 @@ services:
 	model.elementSource:
 		setup: [ addType(class, @model.class_class) ]
 	model.relationSource:
-		setup:
-			- addType(association, @model.class_association)
-			- addType(generalization, NULL)
+		setup: [ addType(association, @model.class_association) ]
 	model.diagramSource:
 		setup: [ addType(class) ]
 

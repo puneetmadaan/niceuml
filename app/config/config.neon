@@ -57,7 +57,6 @@ services:
 		setup: [ addType(note, Model\NoteSource(@model.note)) ]
 	model.relationSource:
 		class: Model\RelationSource
-		setup: [ addType(noteLink, NULL) ]
 	model.diagramSource:
 		class: Model\DiagramSource
 
