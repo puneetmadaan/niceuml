@@ -10,7 +10,7 @@ use SourceException,
 	Nette;
 
 
-class ClassType extends BaseChildDAO implements ISourceModel
+class ClassDAO extends BaseChildDAO implements ISourceModel
 {
 
 

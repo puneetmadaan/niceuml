@@ -1,11 +1,9 @@
 entity:
-	class_class: ClassModule\Model\Entity\ClassType
+	class_class: ClassModule\Model\Entity\ClassEntity
 	class_association: ClassModule\Model\Entity\Association
-	class_attribute: ClassModule\Model\Entity\Attribute
-	class_operation: ClassModule\Model\Entity\Operation
 
 services:
-	model.class_class: ClassModule\Model\ClassType(class_class, ..., ..., @model.element)
+	model.class_class: ClassModule\Model\ClassDAO(class_class, ..., ..., @model.element)
 	model.class_association: ClassModule\Model\Association(class_association, ..., ..., @model.relation)
 
 	elementType:

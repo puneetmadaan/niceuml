@@ -10,7 +10,7 @@ class Interpreter extends \Nette\Object implements \IInterpreter {
 	protected $model;
 
 
-	public function __construct(Model\ClassType $model) {
+	public function __construct(Model\ClassDAO $model) {
 		$this->model = $model;
 	}
 

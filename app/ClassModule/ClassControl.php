@@ -6,12 +6,12 @@ use ElementControl,
 	FormFactory,
 	Model\ElementType,
 	Model\Entity\Element,
-	ClassModule\Model\ClassType;
+	ClassModule\Model\ClassDAO;
 
 
 class ClassControl extends ElementControl {
 
-	public function __construct(ClassType $model, ElementType $types, FormFactory $formFactory)
+	public function __construct(ClassDAO $model, ElementType $types, FormFactory $formFactory)
 	{
 		parent::__construct($model, $types, $formFactory);
 	}
