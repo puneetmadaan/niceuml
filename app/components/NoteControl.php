@@ -4,34 +4,28 @@
 class NoteControl extends ElementControl {
 
 
-	protected function createComponentForm() {
-		$form = parent::createComponentForm();
-		unset($form['send']);
+	public function __construct(Model\BaseChildDAO $model, Model\ElementType $types, FormFactory $formFactory)
+	{
+		parent::__construct($model, $types, $formFactory);
+	}
 
+
+	public function setElement(Model\Entity\Element $element)
+	{
+		$this->element = $this->model->getByParent($element);
+	}
+
+
+	protected function addFormControls($form) {
 		$form->addTextarea('text', 'Text');
-		$form->addSubmit('send', 'Save');
-
-		if ($this->element) {
-			$note = $this->elementModel->getByParent($this->element);
-			if ($note)
-				$form->setDefaults($note);
-		}
-		return $form;
+		if ($this->element)
+			$form->setDefaults($this->element->parent);
 	}
 
 
 	public function formSucceeded($form) {
-		$values = $form->values;
-		$values->text = trim($values->text);
-		if (!$this->element) {
-			if ($this->project)
-				$values->project = $this->project;
-			$values->type = 'note';
-		}
-		$note = $this->element ? $this->elementModel->getByParent($this->element) : NULL;
-		$note = $this->elementModel->save($note, $values);
-		$this->presenter->flashMessage('Data saved.');
-		$this->presenter->redirect('edit', $note->id);
+		$form['text']->value = trim($form['text']->value);
+		parent::formSucceeded($form);
 	}
 
 }

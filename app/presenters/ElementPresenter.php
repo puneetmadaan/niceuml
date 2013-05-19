@@ -12,40 +12,36 @@ final class ElementPresenter extends ModellingPresenter {
 	/** @var ElementControlFactory */
 	protected $elementControlFactory;
 
-	/** @var Model\Entity\Element */
-	protected $element;
-
-	protected $type;
-
-
 	/** @var Model\RelationDAO */
 	protected $relationModel;
 
-	/** @var NewRelationControlFactory */
-	protected $newRelationControlFactory;
+	/** @var Model\RelationType */
+	protected $relationType;
 
 	/** @var RelationControlFactory */
 	protected $relationControlFactory;
 
+	/** @var Model\Entity\Element */
+	protected $element;
+
 	/** @var Model\Entity\Relation */
 	protected $relation;
 
+	protected $newElementType;
+	protected $newRelationType;
 
-	public function injectElements(Model\ElementDAO $model, Model\ElementType $type, ElementControlFactory $controlFactory) {
+
+	public function injectElements(Model\ElementDAO $model, Model\ElementType $type, ElementControlFactory $ctrlFactory) {
 		$this->doInject('elementModel', $model);
 		$this->doInject('elementType', $type);
-		$this->doInject('elementControlFactory', $controlFactory);
+		$this->doInject('elementControlFactory', $ctrlFactory);
 	}
 
 
-	public function injectRelations(Model\RelationDAO $model, NewRelationControlFactory $new, RelationControlFactory $edit) {
+	public function injectRelations(Model\RelationDAO $model, Model\RelationType $type, RelationControlFactory $ctrlFactory) {
 		$this->doInject('relationModel', $model);
-		$this->doInject('newRelationControlFactory', $new);
-		$this->doInject('relationControlFactory', $edit);
-	}
-
-
-	public function actionDefault() {
+		$this->doInject('relationType', $type);
+		$this->doInject('relationControlFactory', $ctrlFactory);
 	}
 
 
@@ -58,15 +54,20 @@ final class ElementPresenter extends ModellingPresenter {
 		if ($type !== NULL) {
 			if (!$this->elementType->has($type))
 				$this->error();
-			$this->type = $type;
+			$this->newElementType = $type;
 		}
 	}
 
 
-	public function actionEdit($id, $relation = NULL) {
+	public function actionEdit($id, $relation = NULL, $relationType = NULL) {
 		$this->element = $this->checkElement($id);
 		if ($relation !== NULL)
 			$this->relation = $this->checkRelation($relation);
+		elseif ($relationType !== NULL) {
+			if (!$this->relationType->has($relationType, $this->element))
+				$this->error();
+			$this->newRelationType = $relationType;
+		}
 	}
 
 
@@ -104,11 +105,12 @@ final class ElementPresenter extends ModellingPresenter {
 
 	protected function createComponentElementControl()
 	{
-		if ($this->element || $this->type) {
-			$type = $this->element ? $this->element->type : $this->type;
+		if ($this->element || $this->newElementType) {
+			$type = $this->element ? $this->element->type : $this->newElementType;
 			$control = $this->elementControlFactory->create($type);
 			if ($this->element)
 				$control->setElement($this->element);
+			$control->setType($type);
 			$control->setProject($this->project);
 			return $control;
 		}
@@ -141,15 +143,35 @@ final class ElementPresenter extends ModellingPresenter {
 	}
 
 
-	protected function createComponentNewRelationControl() {
-		return $this->newRelationControlFactory->create($this->element);
+	protected function createComponentRelationControl() {
+		if (!$this->element)
+			$this->error();
+
+		if ($this->relation || $this->newRelationType) {
+			$type = $this->relation ? $this->relation->type : $this->newRelationType;
+			$control = $this->relationControlFactory->create($type);
+			if ($this->relation)
+				$control->setRelation($this->relation);
+			$control->setType($type);
+			$control->setElement($this->element);
+			return $control;
+		}
+		$form = $this->formFactory->create();
+		$form->addSelect('type', 'Type', $this->relationType->getLabels($this->element))
+			->setPrompt('Choose type.')
+			->setRequired('Choose type.');
+		$form->addSubmit('send', 'Create');
+		$form->onSuccess[] = $this->relationTypeFormSucceeded;
+		return $form;
 	}
 
 
-	protected function createComponentRelationControl() {
-		if (!$this->relation)
-			$this->error();
-		return $this->relationControlFactory->create($this->relation);
+	public function relationTypeFormSucceeded($form)
+	{
+		$this->redirect('edit', array(
+			'id' => $this->element->id,
+			'relationType' => $form['type']->value,
+		));
 	}
 
 

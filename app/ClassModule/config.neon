@@ -10,6 +10,10 @@ services:
 
 	elementType:
 		setup: [ add(class, Class) ]
+	relationType:
+		setup:
+			- add('association', 'Association', [ class: class ])
+			- add('generalization', 'Generalization', [ class: class ])
 
 	elementControlFactory:
 		setup: [ addType(class, classModule.classControl) ]
@@ -28,27 +32,22 @@ services:
 	model.elementSource:
 		setup: [ addType(class, @model.class_class) ]
 	model.relationSource:
-		setup: [ addType(association, @model.class_association) ]
+		setup:
+			- addType(association, @model.class_association)
+			- addType(generalization, NULL)
 	model.diagramSource:
 		setup: [ addType(class) ]
 
 factories:
-	newRelationControl:
-		setup:
-			- add(association, Association, @model.class_association, class, class)
-			- add(generalization, Generalization, @model.relation, class, class)
 	newDiagramControl:
 		setup: [ add(class, Class diagram, @model.diagram) ]
 
-	classModule.classControl:
-		class: ClassModule\ClassControl(@model.class_class)
+	classModule.classControl: ClassModule\ClassControl(@model.class_class)
 
 
 	classModule.classDiagramControl:
 		class: ClassModule\ClassDiagramControl(%diagram%, @model.element, @model.relation)
 		parameters: [ Model\Entity\Diagram diagram ]
 
-	classModule.associationControl:
-		class: ClassModule\AssociationControl(%relation%, @model.class_association)
-		parameters: [ Model\Entity\Relation relation ]
+	classModule.associationControl: ClassModule\AssociationControl(@model.class_association)
 

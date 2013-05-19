@@ -30,19 +30,14 @@ services:
 		class: DiagramControlFactory
 
 
-	newRelationControlFactory: NewRelationControlFactory
 	newDiagramControlFactory: NewDiagramControlFactory
 
 factories:
-	elementControl:
-		class: ElementControl(@model.element, @model.relation)
+	elementControl: ElementControl(@model.element, @model.relation)
 
-	noteControl:
-		class: NoteControl(@model.note)
+	noteControl: NoteControl(@model.note)
 
-	relationControl:
-		class: RelationControl(%relation%, @model.relation)
-		parameters: [ Model\Entity\Relation relation ]
+	relationControl: RelationControl(@model.relation)
 
 	diagramControl:
 		class: DiagramControl(%diagram%, @model.diagram, @model.placement)

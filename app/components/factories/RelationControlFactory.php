@@ -20,12 +20,12 @@ class RelationControlFactory {
 	}
 
 
-	public function create(Model\Entity\Relation $relation) {
-		if (isset($this->types[$relation->type])) {
-			$method = Container::getMethodName($this->types[$relation->type], FALSE);
-			return $this->container->$method($relation);
+	public function create($type) {
+		if (isset($this->types[$type])) {
+			$method = Container::getMethodName($this->types[$type], FALSE);
+			return $this->container->$method();
 		}
-		return $this->container->createRelationControl($relation);
+		return $this->container->createRelationControl();
 	}
 
 }

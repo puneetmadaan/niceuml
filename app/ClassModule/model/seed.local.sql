@@ -8,7 +8,8 @@ INSERT INTO `core_project` (`id`, `name`) VALUES
 	(1, 'Project');
 
 INSERT INTO `core_user_project` (`user_id`, `project_id`) VALUES
-	(1, 1);
+	(1, 1),
+	(2, 1);
 
 INSERT INTO `core_element` (`id`, `name`, `project_id`, `type`) VALUES
 	(1, 'Class 1', 1, 'class'),
@@ -51,20 +52,20 @@ INSERT INTO `class_association` (`id`, `direction`, `sourceRole`, `sourceMultipl
 	(7, 'bi', '', '', '', '');
 
 
-INSERT INTO `class_attribute` (`id`, `class_id`, `visibility`, `name`, `type`, `multiplicity`, `defaultValue`, `derived`, `static`) VALUES
-	(1, 2, 'public', 'setFoo', '', '0..1', 'null', 0, 0),
-	(2, 2, 'protected', 'getFoo', 'Foo', '', '""', 1, 0),
-	(3, 2, 'private', 'food', '', '', '', 0, 1),
-	(4, 2, 'package', 'drink', '', '', '', 1, 1);
+-- INSERT INTO `class_attribute` (`id`, `class_id`, `visibility`, `name`, `type`, `multiplicity`, `defaultValue`, `derived`, `static`) VALUES
+-- 	(1, 2, 'public', 'setFoo', '', '0..1', 'null', 0, 0),
+-- 	(2, 2, 'protected', 'getFoo', 'Foo', '', '""', 1, 0),
+-- 	(3, 2, 'private', 'food', '', '', '', 0, 1),
+-- 	(4, 2, 'package', 'drink', '', '', '', 1, 1);
 
 
-INSERT INTO `class_operation` (`id`, `class_id`, `visibility`, `name`, `returnType`, `abstract`, `static`) VALUES
-	(1, 1, 'public', 'setFoo', '', 0, 0),
-	(2, 1, 'protected', 'getFoo', 'Foo', 1, 0),
-	(3, 1, 'private', 'food', '', 0, 1),
-	(4, 1, 'package', 'drink', '', 1, 1);
+-- INSERT INTO `class_operation` (`id`, `class_id`, `visibility`, `name`, `returnType`, `abstract`, `static`) VALUES
+-- 	(1, 1, 'public', 'setFoo', '', 0, 0),
+-- 	(2, 1, 'protected', 'getFoo', 'Foo', 1, 0),
+-- 	(3, 1, 'private', 'food', '', 0, 1),
+-- 	(4, 1, 'package', 'drink', '', 1, 1);
 
-INSERT INTO `class_operationParameter` (`id`, `operation_id`, `name`, `type`, `multiplicity`, `defaultValue`, `direction`) VALUES
-	(1, 3, 'what', 'foo', '0..1', 'null', 'inout'),
-	(2, 1, 'bar', 'string', '', '""', 'in');
+-- INSERT INTO `class_operationParameter` (`id`, `operation_id`, `name`, `type`, `multiplicity`, `defaultValue`, `direction`) VALUES
+-- 	(1, 3, 'what', 'foo', '0..1', 'null', 'inout'),
+-- 	(2, 1, 'bar', 'string', '', '""', 'in');
 

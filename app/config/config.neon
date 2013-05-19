@@ -48,6 +48,10 @@ services:
 		class: Model\ElementType
 		setup: [ add('note', 'Note') ]
 
+	relationType:
+		class: Model\RelationType
+		setup: [ add('noteLink', 'Note link', [ note: NULL, NULL: note ]) ]
+
 	model.elementSource:
 		class: Model\ElementSource
 		setup: [ addType(note, Model\NoteSource(@model.note)) ]
@@ -81,12 +85,6 @@ factories:
 	consoleControl:
 		class: ConsoleControl(%project%)
 		parameters: [ Model\Entity\Project project ]
-
-	newRelationControl:
-		class: NewRelationControl(%element%)
-		parameters: [ Model\Entity\Element element ]
-		setup:
-			- add('noteLink', 'Note link', @model.relation, 'note')
 
 	newDiagramControl:
 		class: NewDiagramControl(%project%)

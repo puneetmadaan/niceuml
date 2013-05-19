@@ -4,11 +4,11 @@
 
 class ElementControl extends BaseControl {
 
-	/** @persistent */
-	public $relation;
-
 	/** @var Model\BaseDAO */
-	protected $elementModel;
+	protected $model;
+
+	/** @var Model\ElementType */
+	protected $types;
 
 	/** @var FormFactory */
 	protected $formFactory;
@@ -16,12 +16,14 @@ class ElementControl extends BaseControl {
 	/** @var Model\Entity\Element */
 	protected $element;
 
+	protected $type;
+
 	/** @var Model\Entity\Project */
 	protected $project;
 
-
-	public function __construct(Model\BaseDAO $elementModel, FormFactory $formFactory) {
-		$this->elementModel = $elementModel;
+	public function __construct(Model\BaseDAO $model, Model\ElementType $types, FormFactory $formFactory) {
+		$this->model = $model;
+		$this->types = $types;
 		$this->formFactory = $formFactory;
 	}
 
@@ -29,6 +31,14 @@ class ElementControl extends BaseControl {
 	public function setElement(Model\Entity\Element $element)
 	{
 		$this->element = $element;
+	}
+
+
+	public function setType($type)
+	{
+		if (!$this->types->has($type))
+			throw new Nette\InvalidArgumentException("Invalid element type '$type'.");
+		$this->type = $type;
 	}
 
 
@@ -50,6 +60,8 @@ class ElementControl extends BaseControl {
 			->setRequired("Enter element name")
 			->addRule($this->checkUniqueName, 'Name already in use.');
 
+		$this->addFormControls($form);
+
 		$form->addSubmit('send', 'Save');
 		$form->onSuccess[] = $this->formSucceeded;
 
@@ -59,8 +71,12 @@ class ElementControl extends BaseControl {
 	}
 
 
+	protected function addFormControls($form)
+	{
+	}
+
+
 	public function checkUniqueName($input) {
-		// $row = $this->elementModel->getByProject($this->project)->where(array(
 		$table = $this->project->related('element')->where('name', $input->value);
 		if ($this->element)
 			$table->where('id != ?', $this->element->id);
@@ -70,24 +86,13 @@ class ElementControl extends BaseControl {
 
 	public function formSucceeded($form) {
 		$values = $form->values;
-		if (!$this->element && $this->project)
-			$form->values->project = $this->project;
-		$this->elementModel->save($this->element, $form->values);
+		if (!$this->element) {
+			$values->project = $this->project;
+			$values->type = $this->type;
+		}
+		$element = $this->model->save($this->element, $values);
 		$this->presenter->flashMessage('Data saved.');
-		$this->redirect('this');
+		$this->presenter->redirect('edit', $element->id);
 	}
-
-
-	protected function checkRelation($id) {
-		if ($id === NULL)
-			$this->presenter->error();
-		$relation = $this->relationModel->get((int) $id);
-		if (!$relation || ($relation->start_id !== $this->element->id && $relation->end_id !== $this->element->id) )
-			$this->presenter->error();
-		if (!$this->presenter->user->isAllowed($relation, 'edit'))
-			$this->presenter->forbidden();
-		return $relation;
-	}
-
 
 }

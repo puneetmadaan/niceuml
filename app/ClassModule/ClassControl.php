@@ -2,40 +2,32 @@
 
 namespace ClassModule;
 
-use Nette\Utils\Neon;
+use ElementControl,
+	FormFactory,
+	Model\ElementType,
+	Model\Entity\Element,
+	ClassModule\Model\ClassType;
 
 
-class ClassControl extends \ElementControl {
+class ClassControl extends ElementControl {
 
-	protected function createComponentForm() {
-		$form = parent::createComponentForm();
-		unset($form['send']);
-
-		$form->addCheckbox('abstract', 'Abstract');
-		$form->addCheckbox('static', 'Static');
-
-		if ($this->element) {
-			$class = $this->elementModel->getByParent($this->element);
-			if ($class)
-				$form->setDefaults($class);
-		}
-
-		$form->addSubmit('send', 'Save');
-		return $form;
+	public function __construct(ClassType $model, ElementType $types, FormFactory $formFactory)
+	{
+		parent::__construct($model, $types, $formFactory);
 	}
 
 
-	public function formSucceeded($form) {
-		$values = $form->values;
-		if (!$this->element) {
-			if ($this->project)
-				$values->project = $this->project;
-			$values->type = 'class';
-		}
-		$class = $this->element ? $this->elementModel->getByParent($this->element) : NULL;
-		$class = $this->elementModel->save($class, $values);
-		$this->presenter->flashMessage('Data saved.');
-		$this->presenter->redirect('edit', $class->id);
+	public function setElement(Element $element)
+	{
+		$this->element = $this->model->getByParent($element);
+	}
+
+
+	protected function addFormControls($form) {
+		$form->addCheckbox('abstract', 'Abstract');
+		$form->addCheckbox('static', 'Static');
+		if ($this->element)
+			$form->setDefaults($this->element->parent);
 	}
 
 }
