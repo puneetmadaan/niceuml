@@ -50,7 +50,11 @@ services:
 
 	relationType:
 		class: Model\RelationType
-		setup: [ add('noteLink', 'Note link', [ note: NULL, NULL: note ]) ]
+		setup: [ add('noteLink', 'Note link', [ note: NULL, NULL: [note] ]) ]
+
+	diagramType:
+		class: Model\DiagramType
+
 
 	model.elementSource:
 		class: Model\ElementSource
@@ -72,8 +76,7 @@ factories:
 			- $renderer( Kdyby\BootstrapFormRenderer\BootstrapRenderer() )
 	form: @nette.basicForm
 
-	menuControl:
-		class: MenuControl( %controls.menuLinks% )
+	menuControl: MenuControl( %controls.menuLinks% )
 
 	projectTreeControl:
 		class: ProjectTreeControl(%project%)
@@ -83,10 +86,6 @@ factories:
 
 	consoleControl:
 		class: ConsoleControl(%project%)
-		parameters: [ Model\Entity\Project project ]
-
-	newDiagramControl:
-		class: NewDiagramControl(%project%)
 		parameters: [ Model\Entity\Project project ]
 
 includes:

@@ -3,47 +3,62 @@
 
 final class DiagramPresenter extends ModellingPresenter {
 
-	/** @var Model\Diagram */
-	protected $diagramModel;
+	/** @var Model\DiagramDAO */
+	protected $model;
 
-	/** @var NewDiagramControlFactory */
-	protected $newDiagramControlFactory;
+	/** @var Model\ElementDAO */
+	protected $elementModel;
+
+	/** @var Model\PlacementDAO */
+	protected $placementModel;
+
+	/** @var Model\DiagramType */
+	protected $types;
 
 	/** @var DiagramControlFactory */
-	protected $diagramControlFactory;
+	protected $controlFactory;
 
 	/** @var Model\Entity\Diagram */
 	protected $diagram;
 
+	/** @var Model\Entity\Placement */
+	protected $placement;
 
-	public function injectModel(Model\DiagramDAO $diagramModel) {
-		$this->doInject('diagramModel', $diagramModel);
+
+	public function inject(Model\DiagramDAO $model, Model\DiagramType $types, DiagramControlFactory $ctrlFactory) {
+		$this->doInject('model', $model);
+		$this->doInject('types', $types);
+		$this->doInject('controlFactory', $ctrlFactory);
 	}
 
 
-	public function injectDiagramControlFactories(NewDiagramControlFactory $new, DiagramControlFactory $edit) {
-		$this->doInject('newDiagramControlFactory', $new);
-		$this->doInject('diagramControlFactory', $edit);
+	public function injectElements(Model\ElementDAO $elementModel, Model\PlacementDAO $placementModel)
+	{
+		$this->doInject('elementModel', $elementModel);
+		$this->doInject('placementModel', $placementModel);
 	}
+
 
 	public function actionDefault() {
 	}
 
 
 	public function renderDefault() {
-		$this->template->diagrams = $this->diagramModel->table()->where('project_id', $this->project->id);
+		$this->template->diagrams = $this->model->table()->where('project_id', $this->project->id);
 	}
 
 
-	public function actionEdit($id, $relation = NULL) {
+	public function actionEdit($id, $placement = NULL) {
 		$this->diagram = $this->checkDiagram($id);
-		if ($relation !== NULL)
-			$this->relation = $this->checkRelation($relation);
+		if ($placement !== NULL)
+			$this->placement = $this->checkPlacement($placement);
 	}
 
 
 	public function renderEdit() {
 		$this->template->diagram = $this->diagram;
+		$this->template->renderDiagram = $this->controlFactory->has($this->diagram->type);
+		$this->template->placements = $this->placementModel->table()->where('diagram_id', $this->diagram->id);
 	}
 
 
@@ -60,27 +75,128 @@ final class DiagramPresenter extends ModellingPresenter {
 	}
 
 
-	protected function createComponentNewDiagramControl() {
-		return $this->newDiagramControlFactory->create($this->project);
+	public function handleDeletePlacement() {
+		if (empty($this->placement))
+			$this->error();
+		$this->placement->delete();
+		$this->presenter->flashMessage('Placement was deleted.');
+		$this->redirect('this', array('placement' => NULL));
+	}
+
+
+	protected function createComponentForm() {
+		$form = $this->formFactory->create();
+
+		if (!$this->diagram)
+			$form->addSelect('type', 'Type', $this->types->getLabels())
+				->setPrompt('Choose a type')
+				->setRequired('Choose a type');
+
+		$form->addText('name', 'Name')
+			->setRequired('Enter diagram name.')
+			->addRule($this->checkUniqueName, 'Name already in use.');
+
+		$form->addSubmit('send', 'Save');
+
+		$form->onSuccess[] = $this->formSucceeded;
+		if ($this->diagram)
+			$form->setDefaults($this->diagram);
+		return $form;
+	}
+
+
+	public function checkUniqueName($input) {
+		$table = $this->model->findByProject($this->project)->where('name', $input->value);
+		if ($this->diagram)
+			$table->where('id != ?', $this->diagram->id);
+		return $table->fetch() ? FALSE : TRUE;
+	}
+
+
+	public function formSucceeded($form) {
+		$values = $form->values;
+		if (!$this->diagram)
+			$values->project = $this->project;
+		$diagram = $this->model->save($this->diagram, $values);
+		$this->presenter->flashMessage('Data saved.');
+		$this->presenter->redirect('edit', $diagram->id);
+	}
+
+
+	protected function createComponentPlacementForm() {
+		if (!$this->diagram)
+			$this->error();
+
+		$form = $this->formFactory->create();
+
+		if (!$this->placement) {
+			$types = $this->types->getElementTypes($this->diagram->type);
+			$elements = $this->elementModel->findByProject($this->project, $types);
+
+			$placed = $this->placementModel->table()->where('diagram_id', $this->diagram->id)
+				->collect('element_id');
+			if ($placed)
+				$elements->where('id NOT', $placed);
+			$form->addSelect('element_id', 'Element', $elements->fetchPairs('id', 'caption'))
+				->setPrompt('Choose')
+				->setRequired('Choose');
+		}
+
+		$form->addText('posX', 'X')
+			->setRequired()
+			->addRule($form::INTEGER);
+		$form->addText('posY', 'Y')
+			->setRequired()
+			->addRule($form::INTEGER);
+
+		$form->addSubmit('send', 'Save');
+		if ($this->placement)
+			$form->defaults = $this->placement;
+		$form->onSuccess[] = $this->placementSucceeded;
+		return $form;
+	}
+
+
+	public function placementSucceeded($form) {
+		$values = $form->values;
+		if (!$this->placement)
+			$values->diagram_id = $this->diagram->id;
+		$this->placementModel->save($this->placement, $values);
+		$this->flashMessage('Data saved.');
+		$this->redirect('this', array('placement' => NULL));
 	}
 
 
 	protected function createComponentDiagramControl() {
 		if (!$this->diagram)
 			$this->error();
-		return $this->diagramControlFactory->create($this->diagram);
+		$control = $this->controlFactory->create($this->diagram->type);
+		if (!$control)
+			$this->error();
+		$control->setDiagram($this->diagram);
+		return $control;
 	}
 
 
 	protected function checkDiagram($id) {
 		if ($id === NULL)
 			$this->error();
-		$diagram = $this->diagramModel->get((int) $id);
+		$diagram = $this->model->get((int) $id);
 		if (!$diagram || $diagram->project_id !== $this->project->id)
 			$this->error();
 		if (!$this->user->isAllowed($diagram, 'edit'))
 			$this->forbidden();
 		return $diagram;
+	}
+
+
+	protected function checkPlacement($id) {
+		if (!$this->diagram || $id === NULL)
+			$this->error();
+		$placement = $this->placementModel->get(array($this->diagram->id, (int) $id));
+		if (!$placement) // diagram source deletes them
+			$this->redirect('this', array('placement' => NULL));
+		return $placement;
 	}
 
 }

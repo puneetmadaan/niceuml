@@ -12,8 +12,10 @@ services:
 		setup: [ add(class, Class) ]
 	relationType:
 		setup:
-			- add('association', 'Association', [ class: class ])
-			- add('generalization', 'Generalization', [ class: class ])
+			- add(association, Association, [ class: [class] ])
+			- add(generalization, Generalization, [ class: [class] ])
+	diagramType:
+		setup: [ add(class, Class diagram, [class, note]) ]
 
 	elementControlFactory:
 		setup: [ addType(class, classModule.classControl) ]
@@ -37,15 +39,8 @@ services:
 		setup: [ addType(class) ]
 
 factories:
-	newDiagramControl:
-		setup: [ add(class, Class diagram, @model.diagram) ]
+	classModule.classControl: ClassModule\ClassControl
+	classModule.associationControl: ClassModule\AssociationControl
+	classModule.classDiagramControl: ClassModule\ClassDiagramControl
 
-	classModule.classControl: ClassModule\ClassControl(@model.class_class)
-
-
-	classModule.classDiagramControl:
-		class: ClassModule\ClassDiagramControl(%diagram%, @model.element, @model.relation)
-		parameters: [ Model\Entity\Diagram diagram ]
-
-	classModule.associationControl: ClassModule\AssociationControl(@model.class_association)
 

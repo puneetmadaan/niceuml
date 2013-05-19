@@ -12,14 +12,21 @@ class ClassDiagramControl extends \BaseControl {
 
 	protected $rendered = FALSE;
 
-	public function __construct(\Model\Entity\Diagram $diagram, \Model\ElementDAO $elementModel, \Model\RelationDAO $relationModel, \DiagramControlFactory $formFactory) {
-		$this->diagram = $diagram;
+	public function __construct(\Model\ElementDAO $elementModel, \Model\RelationDAO $relationModel, \DiagramControlFactory $formFactory) {
 		$this->elementModel = $elementModel;
 		$this->relationModel = $relationModel;
 		$this->formFactory = $formFactory;
 	}
 
-	protected function beforeRender() {
+
+	public function setDiagram(\Model\Entity\Diagram $diagram)
+	{
+		$this->diagram = $diagram;
+	}
+
+
+	protected function beforeRender()
+	{
 		if ($this->rendered) return;
 		$this->rendered = TRUE;
 
@@ -38,22 +45,17 @@ class ClassDiagramControl extends \BaseControl {
 		}
 	}
 
-	public function createComponentForm() {
-		$oldType = $this->diagram->type;
-		$this->diagram->type = NULL;
-		$form = $this->formFactory->create($this->diagram);
-		$this->diagram->type = $oldType;
-		return $form;
-	}
 
-	public function render() {
+	public function render()
+	{
 		$this->beforeRender();
 		$this->template->mode = NULL;
 		parent::render();
 	}
 
 
-	public function renderScripts() {
+	public function renderScripts()
+	{
 		$this->beforeRender();
 		$this->template->mode = 'scripts';
 		parent::render();

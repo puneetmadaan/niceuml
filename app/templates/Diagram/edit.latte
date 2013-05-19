@@ -5,7 +5,28 @@
 
 <a n:href="default" class="btn">Back</a>
 
-{control diagramControl}
+{if $renderDiagram}{control diagramControl}{/if}
+
+{control form}
+
+<a n:href="delete!" n:if="$user->isAllowed($diagram, 'delete')" class="btn btn-danger">Delete</a>
+
+<h2>Elements</h2>
+
+{control placementForm}
+
+<table class="table">
+	<tr><th>Element</th><th>x</th><th>y</th><th></th></tr>
+	<tr n:foreach="$placements as $p">
+		<td><a n:href="Element:edit $p->element_id">{$p->element->name}</a></td>
+		<td>{$p->posX}</td>
+		<td>{$p->posY}</td>
+		<td>
+			<a n:href="this placement => $p->element_id" class="btn btn-small">Edit</a>
+			<a n:href="deletePlacement! placement => $p->element_id" class="btn btn-danger btn-small">Delete</a>
+		</td>
+	</tr>
+</table>
 
 <a n:href="default" class="btn">Back</a>
 
@@ -13,10 +34,5 @@
 
 {block scripts}
 {include #parent}
-{control diagramControl:scripts}
-{/block}
-
-{block head}
-{include #parent}
-
+{if $renderDiagram}{control diagramControl:scripts}{/if}
 {/block}

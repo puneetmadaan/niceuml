@@ -29,17 +29,9 @@ services:
 	diagramControlFactory:
 		class: DiagramControlFactory
 
-
-	newDiagramControlFactory: NewDiagramControlFactory
-
 factories:
 	elementControl: ElementControl(@model.element, @model.relation)
-
 	noteControl: NoteControl(@model.note)
-
 	relationControl: RelationControl(@model.relation)
 
-	diagramControl:
-		class: DiagramControl(%diagram%, @model.diagram, @model.placement)
-		parameters: [ Model\Entity\Diagram diagram ]
 
