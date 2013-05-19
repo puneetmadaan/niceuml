@@ -64,7 +64,7 @@ final class ElementPresenter extends ModellingPresenter {
 		if ($relation !== NULL)
 			$this->relation = $this->checkRelation($relation);
 		elseif ($relationType !== NULL) {
-			if (!$this->relationType->has($relationType, $this->element))
+			if (!$this->relationType->has($relationType, $this->element->type))
 				$this->error();
 			$this->newRelationType = $relationType;
 		}
@@ -157,7 +157,7 @@ final class ElementPresenter extends ModellingPresenter {
 			return $control;
 		}
 		$form = $this->formFactory->create();
-		$form->addSelect('type', 'Type', $this->relationType->getLabels($this->element))
+		$form->addSelect('type', 'Type', $this->relationType->getLabels($this->element->type))
 			->setPrompt('Choose type.')
 			->setRequired('Choose type.');
 		$form->addSubmit('send', 'Create');
