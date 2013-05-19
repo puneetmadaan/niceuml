@@ -7,6 +7,23 @@ services:
 	model.placement: Model\PlacementDAO('core_placement')
 	model.user: Model\UserDAO('core_user')
 
+	model.elementType:
+		class: Model\ElementType
+		setup: [ add('note', 'Note') ]
+	model.relationType:
+		class: Model\RelationType
+		setup: [ add('noteLink', 'Note link', [ note: NULL, NULL: [note] ]) ]
+	model.diagramType:
+		class: Model\DiagramType
+
+	model.elementSource:
+		class: Model\ElementSource
+		setup: [ addType(note, Model\NoteSource(@model.note)) ]
+	model.relationSource:
+		class: Model\RelationSource
+	model.diagramSource:
+		class: Model\DiagramSource
+
 entity:
 	core_element: Model\Entity\Element
 	core_project: Model\Entity\Project

@@ -5,6 +5,13 @@
 # http://nette.org/security-warning
 #
 parameters:
+	controls:
+		menuLinks:
+			- [ link: ':Project:', label: 'Projects', access: 'project' ]
+			- [ link: ':User:default', label: Register, access: usage, accessInverse: TRUE ]
+			- [ link: ':Sign:in', label: Log in, access: usage, accessInverse: TRUE ]
+			- [ link: ':User:default', label: User settings, access: usage ]
+			- [ link: ':Sign:out', label: Log out, access: usage ]
 
 php:
 	date.timezone: Europe/Prague
@@ -20,22 +27,17 @@ nette:
 
 modules:
 	routes: RoutesExtension
-	entity: EntityExtension
+	entity: Model\EntityExtension
 
 routes:
+	index.php: [ Homepage:default, oneWay ]
 	- '<projectId [1-9]\d*>/<presenter element|diagram>[/<action=default>][/<id>]'
 	'<presenter>[/<action>][/<id>]': Homepage:default
 
 services:
-	authenticator:
-		factory: Model\Security\Authenticator
-
-	authorizator:
-		factory: Model\Security\Authorizator
-
+	authenticator: Model\Security\Authenticator
+	authorizator: Model\Security\Authorizator
 	database: @nette.database.default
-	mailFactory: MailFactory( %appDir%/templates/mails, %mails.defaultFrom% )
-
 	router: @routes.router
 
 	parser:
@@ -43,29 +45,22 @@ services:
 	interpreter:
 		class: InterpreterList
 
+	formFactory: FormFactory
+	mailFactory: MailFactory( %appDir%/templates/mails, %mails.defaultFrom% )
+	menuControlFactory: MenuControlFactory
+	projectControlTreeFactory: ProjectTreeControlFactory
+	sourceControlFactory: SourceControlFactory
+	consoleControlFactory: ConsoleControlFactory
 
-	elementType:
-		class: Model\ElementType
-		setup: [ add('note', 'Note') ]
-
-	relationType:
-		class: Model\RelationType
-		setup: [ add('noteLink', 'Note link', [ note: NULL, NULL: [note] ]) ]
-
-	diagramType:
-		class: Model\DiagramType
-
-
-	model.elementSource:
-		class: Model\ElementSource
-		setup: [ addType(note, Model\NoteSource(@model.note)) ]
-	model.relationSource:
-		class: Model\RelationSource
-	model.diagramSource:
-		class: Model\DiagramSource
+	elementControlFactory:
+		class: ElementControlFactory
+		setup: [ addType(note, noteControl) ]
+	relationControlFactory:
+		class: RelationControlFactory
+	diagramControlFactory:
+		class: DiagramControlFactory
 
 factories:
-
 	nette.latte:
 		setup:
 			- Kdyby\BootstrapFormRenderer\Latte\FormMacros::install(@self::getCompiler())
@@ -76,19 +71,19 @@ factories:
 			- $renderer( Kdyby\BootstrapFormRenderer\BootstrapRenderer() )
 	form: @nette.basicForm
 
-	menuControl: MenuControl( %controls.menuLinks% )
-
 	projectTreeControl:
 		class: ProjectTreeControl(%project%)
 		parameters: [ Model\Entity\Project project ]
-
-	sourceControl: SourceControl
 
 	consoleControl:
 		class: ConsoleControl(%project%)
 		parameters: [ Model\Entity\Project project ]
 
+	menuControl: MenuControl( %controls.menuLinks% )
+	sourceControl: SourceControl
+	elementControl: ElementControl(@model.element)
+	noteControl: NoteControl(@model.note)
+	relationControl: RelationControl(@model.relation)
+
 includes:
-	- defaults.neon
-	- modules.neon
 	- model.neon

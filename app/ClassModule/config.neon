@@ -6,14 +6,20 @@ services:
 	model.class_class: ClassModule\Model\ClassDAO(class_class, ..., ..., @model.element)
 	model.class_association: ClassModule\Model\Association(class_association, ..., ..., @model.relation)
 
-	elementType:
+	model.elementType:
 		setup: [ add(class, Class) ]
-	relationType:
+	model.relationType:
 		setup:
 			- add(association, Association, [ class: [class] ])
 			- add(generalization, Generalization, [ class: [class] ])
-	diagramType:
+	model.diagramType:
 		setup: [ add(class, Class diagram, [class, note]) ]
+
+
+	model.elementSource:
+		setup: [ addType(class, @model.class_class) ]
+	model.relationSource:
+		setup: [ addType(association, @model.class_association) ]
 
 	elementControlFactory:
 		setup: [ addType(class, classModule.classControl) ]
@@ -28,11 +34,6 @@ services:
 		setup: [ addParser( class, ClassModule\Parser() ) ]
 	interpreter:
 		setup: [ addInterpreter( class, ClassModule\Interpreter() ) ]
-
-	model.elementSource:
-		setup: [ addType(class, @model.class_class) ]
-	model.relationSource:
-		setup: [ addType(association, @model.class_association) ]
 
 factories:
 	classModule.classControl: ClassModule\ClassControl

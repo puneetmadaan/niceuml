@@ -1,5 +1,7 @@
 <?php
 
+namespace Model;
+
 use Nette\Config\Compiler,
 	Nette\Config\CompilerExtension;
 

@@ -1,6 +1,6 @@
 parameters:
 	mails:
-		defaultFrom: redwormik@gmail.com
+		defaultFrom: ''
 nette:
 	database:
 		dsn: 'mysql:host=127.0.0.1;dbname=niceuml'
