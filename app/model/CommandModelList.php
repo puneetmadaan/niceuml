@@ -3,12 +3,15 @@
 namespace Model;
 
 
+/** Extensible interpreter */
 class CommandModelList implements ICommandModel
 {
 
-	protected $models;
+	/** @var array of ICommandModel */
+	protected $models = array();
 
 
+	/** @return void */
 	public function add(ICommandModel $model)
 	{
 		$this->models[] = $model;

@@ -9,16 +9,21 @@ use Model\ElementSource,
 	Nette\Utils\NeonException;
 
 
+/** Source code input and output form */
 class SourceControl extends BaseControl
 {
 
 	/** @var Model\Entity\Project */
 	protected $project;
-
+	/** @var FormFactory */
 	protected $formFactory;
+	/** @var ElementSource */
 	protected $elementSource;
+	/** @var RelationSource */
 	protected $relationSource;
+	/** @var DiagramSource */
 	protected $diagramSource;
+	/** @var Connection for transaction handling */
 	protected $db;
 
 
@@ -32,22 +37,25 @@ class SourceControl extends BaseControl
 	}
 
 
+	/** @return void */
 	public function setProject(Project $project)
 	{
 		$this->project = $project;
 	}
 
 
+	/** @return void */
 	protected function createComponentForm()
 	{
 		$form = $this->formFactory->create();
-		$form->addTextarea('source', 'Source', NULL, 10);
+		$form->addTextarea('source', 'Source', NULL, 15);
 		$form->addSubmit('send', 'Send');
 		$form->onSuccess[] = $this->formSucceeded;
 		return $form;
 	}
 
 
+	/** @return void */
 	public function formSucceeded($form)
 	{
 
@@ -101,6 +109,7 @@ class SourceControl extends BaseControl
 	}
 
 
+	/** @return void */
 	public function render()
 	{
 		if ($this->project === NULL)
@@ -120,6 +129,7 @@ class SourceControl extends BaseControl
 	}
 
 
+	/** @return void */
 	public function renderScripts()
 	{
 		$this->template->mode = 'scripts';

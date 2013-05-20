@@ -1,17 +1,22 @@
 <?php
 
 
-class SourceControlFactory {
+/** Creates source control form DI container */
+class SourceControlFactory
+{
 
 	private $container;
 
 
-	public function __construct(Nette\DI\Container $container) {
+	public function __construct(Nette\DI\Container $container)
+	{
 		$this->container = $container;
 	}
 
 
-	public function create() {
+	/** @return SourceControl */
+	public function create()
+	{
 		return $this->container->createSourceControl();
 	}
 

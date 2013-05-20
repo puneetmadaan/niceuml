@@ -4,22 +4,32 @@
 /**
  * Homepage presenter.
  */
-final class HomepagePresenter extends BasePresenter {
+final class HomepagePresenter extends BasePresenter
+{
 
+	/** @var Model\ProjectDAO */
 	protected $projectModel;
 
-	public function startup() {
+
+	/** @return void */
+	public function startup()
+	{
 		parent::startup();
 		if (!$this->user->isAllowed('usage'))
 			$this->forbidden();
 	}
 
-	public function injectProjectModel(Model\ProjectDAO $projectModel) {
+
+	/** @return void */
+	public function injectProjectModel(Model\ProjectDAO $projectModel)
+	{
 		$this->doInject('projectModel', $projectModel);
 	}
 
 
-	public function renderDefault() {
+	/** @return void */
+	public function renderDefault()
+	{
 		$projects = $this->projectModel->findByUserId($this->user->id);
 		$this->template->projects = $projects;
 	}

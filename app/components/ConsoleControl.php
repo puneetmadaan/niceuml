@@ -1,7 +1,9 @@
 <?php
 
 
-class ConsoleControl extends BaseControl {
+/** Command console control */
+class ConsoleControl extends BaseControl
+{
 
 	/** @var Model\Entity\Project */
 	protected $project;
@@ -20,12 +22,14 @@ class ConsoleControl extends BaseControl {
 	}
 
 
+	/** @return void */
 	public function setProject(Model\Entity\Project $project)
 	{
 		$this->project = $project;
 	}
 
 
+	/** @return Nette\Application\UI\Form */
 	protected function createComponentForm()
 	{
 		$form = $this->formFactory->create();
@@ -38,6 +42,7 @@ class ConsoleControl extends BaseControl {
 	}
 
 
+	/** @return void */
 	public function formSucceeded($form)
 	{
 		$command = $form['command']->value;
@@ -63,7 +68,9 @@ class ConsoleControl extends BaseControl {
 	}
 
 
-	public function render() {
+	/** @return void */
+	public function render()
+	{
 		$this['form']->render();
 	}
 

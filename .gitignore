@@ -8,4 +8,3 @@ libs/*
 !web.config
 !libs/NiceDAO
 app/config/config.local.neon
-app/config/UmaskedFileStorage.local.php

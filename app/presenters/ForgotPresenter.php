@@ -1,36 +1,50 @@
 <?php
 
 
-final class ForgotPresenter extends BasePresenter {
+/** Presenter for password resetting */
+final class ForgotPresenter extends BasePresenter
+{
 
+	/** @var MailFactory */
 	protected $mailFactory = NULL;
+	/** @var Model\UserDAO */
 	protected $users;
 
 
-	public function njectMailFactory(MailFactory $mailFactory) {
+	/** @return void */
+	public function injectMailFactory(MailFactory $mailFactory)
+	{
 		$this->mailFactory = $mailFactory;
 	}
 
 
-	public function injectUsers(Model\UserDAO $users) {
+	/** @return void */
+	public function injectUsers(Model\UserDAO $users)
+	{
 		$this->users = $users;
 	}
 
 
-	public function startup() {
+	/** @return void */
+	public function startup()
+	{
 		parent::startup();
 		if ($this->user->loggedIn)
 			$this->redirect(':Homepage:');
 	}
 
 
-	public function actionDefault($code = NULL) {
+	/** @return void */
+	public function actionDefault($code = NULL)
+	{
 		if ($code !== NULL)
 			$this->processCode($code);
 	}
 
 
-	protected function createComponentForgotForm() {
+	/** @return Nette\Application\UI\Form */
+	protected function createComponentForgotForm()
+	{
 		$form = $this->createForm();
 		$form->addText('login','E-mail')
 			->setRequired();
@@ -40,7 +54,9 @@ final class ForgotPresenter extends BasePresenter {
 	}
 
 
-	public function forgotFormSucceeded($form) {
+	/** @return void */
+	public function forgotFormSucceeded($form)
+	{
 		$user = $this->users->table()->where((array) $form->values)->fetch();
 		if (!$user) {
 			$form['login']->addError('No user with this e-mail exists.');
@@ -62,7 +78,9 @@ final class ForgotPresenter extends BasePresenter {
 	}
 
 
-	protected function createComponentForgotCodeForm() {
+	/** @return Nette\Application\UI\Form */
+	protected function createComponentForgotCodeForm()
+	{
 		$form = $this->createForm();
 		$form->addText('controlCode','Control code')
 			->setRequired();
@@ -72,12 +90,16 @@ final class ForgotPresenter extends BasePresenter {
 	}
 
 
-	public function forgotCodeFormSucceeded($form) {
+	/** @return void */
+	public function forgotCodeFormSucceeded($form)
+	{
 		$this->processCode($form['controlCode']->value);
 	}
 
 
-	protected function processCode($code) {
+	/** @return void */
+	protected function processCode($code)
+	{
 		$user = $this->users->table()->where('passwordNewCode', $code)->fetch();
 		if (!$user) {
 			$this['forgotCodeForm']['controlCode']->addError('No user with this code exist.');

@@ -3,6 +3,9 @@
 namespace Model;
 
 
+/**
+ * Command interpreter
+ */
 interface ICommandModel
 {
 

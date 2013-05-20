@@ -3,20 +3,32 @@
 use Nette\Security\User;
 use Nette\Utils\Arrays;
 
-class MenuControl extends BaseControl {
 
+/** Main menu */
+class MenuControl extends BaseControl
+{
+
+	/** @var array of (link => string, args => array, label => string) */
 	protected $links = array();
 
 	/** @var Nette\Security\User */
 	protected $user;
 
-	public function __construct(array $links, User $user) {
+
+	/**
+	 * @param array of (link => string, args => array, label => string)
+	 * @param User
+	 */
+	public function __construct(array $links, User $user)
+	{
 		$this->links = $links;
 		$this->user = $user;
 	}
-	
 
-	public function render() {
+
+	/** @return void */
+	public function render()
+	{
 		$links = array();
 		foreach ($this->links as $l) {
 			$link = array(
@@ -44,7 +56,5 @@ class MenuControl extends BaseControl {
 		$this->template->links = $links;
 		parent::render();
 	}
-
-
 
 }

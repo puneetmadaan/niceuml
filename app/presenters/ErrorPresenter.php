@@ -6,7 +6,8 @@ use Nette\Diagnostics\Debugger;
 /**
  * Error presenter.
  */
-final class ErrorPresenter extends BasePresenter {
+final class ErrorPresenter extends BasePresenter
+{
 
 
 	/**

@@ -1,9 +1,14 @@
 <?php
 
 
-abstract class ModellingPresenter extends BasePresenter {
+/** Common parent for presenters working with project model */
+abstract class ModellingPresenter extends BasePresenter
+{
 
-	/** @persistent */
+	/**
+	 * @var int
+	 * @persistent
+	 */
 	public $projectId;
 
 	/** @var Model\Entity\Project */
@@ -22,53 +27,69 @@ abstract class ModellingPresenter extends BasePresenter {
 	protected $consoleControlFactory;
 
 
-	public function injectProjectModel(Model\ProjectDAO $projectModel) {
+	/** @return void */
+	public function injectProjectModel(Model\ProjectDAO $projectModel)
+	{
 		$this->doInject('projectModel', $projectModel);
 	}
 
 
-	public function injectModellingFactories(ProjectTreeControlFactory $tree, SourceControlFactory $source, ConsoleControlFactory $console) {
+	/** @return void */
+	public function injectModellingFactories(ProjectTreeControlFactory $tree, SourceControlFactory $source, ConsoleControlFactory $console)
+	{
 		$this->doInject('projectTreeControlFactory', $tree);
 		$this->doInject('sourceControlFactory', $source);
 		$this->doInject('consoleControlFactory', $console);
 	}
 
 
-	protected function startup() {
+	/** @return void */
+	protected function startup()
+	{
 		parent::startup();
 		$this->project = $this->checkProject($this->projectId);
 	}
 
 
-	protected function beforeRender() {
+	/** @return void */
+	protected function beforeRender()
+	{
 		parent::beforeRender();
 		$this->layout = 'modelling';
 		$this->template->project = $this->project;
 	}
 
 
-	protected function createComponentProjectTreeControl() {
+	/** @return ProjectTreeControl */
+	protected function createComponentProjectTreeControl()
+	{
 		$control = $this->projectTreeControlFactory->create();
 		$control->setProject($this->project);
 		return $control;
 	}
 
 
-	protected function createComponentSourceControl() {
+	/** @return SourceControl */
+	protected function createComponentSourceControl()
+	{
 		$control = $this->sourceControlFactory->create();
 		$control->setProject($this->project);
 		return $control;
 	}
 
 
-	protected function createComponentConsoleControl() {
+	/** @return ConsoleControl */
+	protected function createComponentConsoleControl()
+	{
 		$control = $this->consoleControlFactory->create();
 		$control->setProject($this->project);
 		return $control;
 	}
 
 
-	protected function checkProject($id) {
+	/** @return Model\Entity\Project */
+	protected function checkProject($id)
+	{
 		if ($id === NULL)
 			$this->redirect(':Homepage:');
 		$project = $this->projectModel->get((int) $id);

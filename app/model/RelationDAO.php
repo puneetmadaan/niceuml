@@ -3,10 +3,16 @@
 namespace Model;
 
 
+/** Relation data access object */
 class RelationDAO extends BaseDAO
 {
 
 
+	/**
+	 * @param  Entity\Project
+	 * @param  mixed    types to filter by
+	 * @return Database\Selection
+	 */
 	public function findByProject(Entity\Project $project, $types = NULL)
 	{
 		$table = $this->table()->where('start.project_id', $project->id);
@@ -16,6 +22,11 @@ class RelationDAO extends BaseDAO
 	}
 
 
+	/**
+	 * @param  array|Traversable
+	 * @param  mixed    types to filter by
+	 * @return Database\Selection
+	 */
 	public function findByElements($elements, $types = NULL)
 	{
 		$ids = array();
@@ -32,6 +43,7 @@ class RelationDAO extends BaseDAO
 	}
 
 
+	/** @return Database\Selection */
 	public function findByElement(Entity\Element $element)
 	{
 		return $this->table()->where('start_id = ? OR end_id = ?', $element->id, $element->id);

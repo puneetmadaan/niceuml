@@ -6,11 +6,16 @@ use Nette\Config\Compiler,
 	Nette\Config\CompilerExtension;
 
 
-class EntityExtension extends CompilerExtension {
+/** Config extension for adding entity types */
+class EntityExtension extends CompilerExtension
+{
 
 	const DEFAULT_KEY = 'default';
 
-	public function loadConfiguration() {
+
+	/** @return void */
+	public function loadConfiguration()
+	{
 		$container = $this->getContainerBuilder();
 		$config = $this->getConfig();
 

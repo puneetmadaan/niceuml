@@ -3,7 +3,8 @@
 namespace Model\Entity;
 
 
-abstract class BaseChild extends BaseEntity {
+abstract class BaseChild extends BaseEntity
+{
 
 	/** @var Base */
 	protected $parent;

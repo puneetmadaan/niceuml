@@ -4,7 +4,8 @@
 /**
  * Base presenter for all application presenters.
  */
-abstract class BasePresenter extends Nette\Application\UI\Presenter {
+abstract class BasePresenter extends Nette\Application\UI\Presenter
+{
 
 	/** @var FormFactory */
 	protected $formFactory;
@@ -13,30 +14,40 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
 	protected $menuControlFactory;
 
 
-	public function injectBaseFactories(FormFactory $form, MenuControlFactory $menu) {
+	/** @return void */
+	public function injectBaseFactories(FormFactory $form, MenuControlFactory $menu)
+	{
 		$this->doInject('formFactory', $form);
 		$this->doInject('menuControlFactory', $menu);
 	}
 
 
-	public function createForm() {
+	/** @return Nette\Application\UI\Form */
+	public function createForm()
+	{
 		return $this->formFactory->create();
 	}
 
 
-	protected function createComponentMenuControl() {
+	/** @return MenuControl */
+	protected function createComponentMenuControl()
+	{
 		return $this->menuControlFactory->create();
 	}
 
 
-	protected function doInject($name, $dependency) {
+	/** @return void */
+	protected function doInject($name, $dependency)
+	{
 		if ($this->$name !== NULL)
 			throw new Nette\InvalidStateException("Dependency '$name' has already been set.");
 		$this->$name = $dependency;
 	}
 
 
-	public function forbidden($msg = NULL) {
+	/** @return void */
+	public function forbidden($msg = NULL)
+	{
 		if (!$this->user->loggedIn) {
 			$request = $this->storeRequest();
 			$this->flashMessage('You need to be logged in to visit that page');

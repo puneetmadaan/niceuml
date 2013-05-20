@@ -7,13 +7,16 @@ use SourceException,
 	Nette\Utils\Strings;
 
 
+/** Element source handler */
 class ElementSource extends Nette\Object
 {
 
+	/** @var ElementDAO */
 	protected $dao;
+	/** @var ElementType */
 	protected $types;
-
-	protected $models = array(); // type => ISourceModel
+	/** @var array of type => ISourceModel */
+	protected $models = array();
 
 
 	public function __construct(ElementDAO $dao, ElementType $types)
@@ -23,6 +26,10 @@ class ElementSource extends Nette\Object
 	}
 
 
+	/**
+	 * @param string
+	 * @return self provides a fluent interface
+	 */
 	public function addType($name, ISourceModel $model)
 	{
 		if (isset($this->models[$name]))
@@ -32,6 +39,11 @@ class ElementSource extends Nette\Object
 	}
 
 
+	/**
+	 * @param  array          source to load
+	 * @param  Entity\Project project to load to
+	 * @return array          of name => element
+	 */
 	public function load(array $source, Entity\Project $project)
 	{
 		$table = $this->dao->findByProject($project, $this->types->get());
@@ -97,6 +109,10 @@ class ElementSource extends Nette\Object
 	}
 
 
+	/**
+	 * @param  Entity\Project
+	 * @return array
+	 */
 	public function dump(Entity\Project $project)
 	{
 		$result = array();

@@ -1,7 +1,9 @@
 <?php
 
 
-interface IRouterFactory {
+/** Router factory */
+interface IRouterFactory
+{
 
 	/** @return Nette\Application\IRouter */
 	public function createRouter();

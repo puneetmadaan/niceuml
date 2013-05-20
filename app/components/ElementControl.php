@@ -1,6 +1,7 @@
 <?php
 
 
+/** Basic element form */
 class ElementControl extends BaseControl implements IElementControl
 {
 
@@ -16,24 +17,29 @@ class ElementControl extends BaseControl implements IElementControl
 	/** @var Model\Entity\Element */
 	protected $element;
 
+	/** @var string element type */
 	protected $type;
 
 	/** @var Model\Entity\Project */
 	protected $project;
 
-	public function __construct(Model\BaseDAO $model, Model\ElementType $types, FormFactory $formFactory) {
+
+	public function __construct(Model\BaseDAO $model, Model\ElementType $types, FormFactory $formFactory)
+	{
 		$this->model = $model;
 		$this->types = $types;
 		$this->formFactory = $formFactory;
 	}
 
 
+	/** @return void */
 	public function setElement(Model\Entity\Element $element)
 	{
 		$this->element = $element;
 	}
 
 
+	/** @return void */
 	public function setType($type)
 	{
 		if (!$this->types->has($type))
@@ -42,18 +48,23 @@ class ElementControl extends BaseControl implements IElementControl
 	}
 
 
+	/** @return void */
 	public function setProject(Model\Entity\Project $project)
 	{
 		$this->project = $project;
 	}
 
 
-	public function render() {
+	/** @return void */
+	public function render()
+	{
 		$this['form']->render();
 	}
 
 
-	protected function createComponentForm() {
+	/** @return Nette\Application\UI\Form */
+	protected function createComponentForm()
+	{
 		$form = $this->formFactory->create();
 
 		$form->addText('name', 'Name')
@@ -71,12 +82,15 @@ class ElementControl extends BaseControl implements IElementControl
 	}
 
 
+	/** @return void */
 	protected function addFormControls($form)
 	{
 	}
 
 
-	public function checkUniqueName($input) {
+	/** @return bool */
+	public function checkUniqueName($input)
+	{
 		$table = $this->project->related('element')->where('name', $input->value);
 		if ($this->element)
 			$table->where('id != ?', $this->element->id);
@@ -84,7 +98,9 @@ class ElementControl extends BaseControl implements IElementControl
 	}
 
 
-	public function formSucceeded($form) {
+	/** @return void */
+	public function formSucceeded($form)
+	{
 		$values = $form->values;
 		if (!$this->element) {
 			$values->project = $this->project;

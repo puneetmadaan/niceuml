@@ -5,15 +5,23 @@ namespace Model;
 use Nette;
 
 
+/** Relation types manager */
 class RelationType extends Nette\Object
 {
 
 	const ALL = NULL;
 
+	/** @var array of type => label */
 	protected $types = array();    // type => label
-	protected $elements = array(); // type => from => to
+	/** @var array of type => from => to */
+	protected $elements = array();
 
 
+	/**
+	 * @param string
+	 * @param string
+	 * @return void
+	 */
 	public function add($type, $label, array $allowedElements = NULL)
 	{
 		if ($this->has($type))
@@ -27,6 +35,11 @@ class RelationType extends Nette\Object
 	}
 
 
+	/**
+	 * @param string
+	 * @param string|NULL
+	 * @return bool
+	 */
 	public function has($type, $elementType = self::ALL)
 	{
 		if (!array_key_exists($type, $this->types))
@@ -35,6 +48,10 @@ class RelationType extends Nette\Object
 	}
 
 
+	/**
+	 * @param string|NULL
+	 * @return array
+	 */
 	public function get($elementType = self::ALL)
 	{
 		if ($elementType === self::ALL)
@@ -48,6 +65,10 @@ class RelationType extends Nette\Object
 	}
 
 
+	/**
+	 * @param string|NULL
+	 * @return array
+	 */
 	public function getLabels($elementType = self::ALL)
 	{
 		if ($elementType === self::ALL)
@@ -62,6 +83,11 @@ class RelationType extends Nette\Object
 	}
 
 
+	/**
+	 * @param string
+	 * @param string
+	 * @return array|NULL
+	 */
 	public function getElementTypes($type, $startType)
 	{
 		if (!$this->has($type, $startType))

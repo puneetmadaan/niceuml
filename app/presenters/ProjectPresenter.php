@@ -1,7 +1,9 @@
 <?php
 
 
-final class ProjectPresenter extends BasePresenter {
+/** Presenter for project administration */
+final class ProjectPresenter extends BasePresenter
+{
 
 	/** @var Model\Project */
 	protected $projectModel;
@@ -13,27 +15,35 @@ final class ProjectPresenter extends BasePresenter {
 	protected $project;
 
 
-	public function injectModels(Model\ProjectDAO $projectModel, Model\UserDAO $userModel) {
+	/** @return void */
+	public function injectModels(Model\ProjectDAO $projectModel, Model\UserDAO $userModel)
+	{
 		$this->doInject('projectModel', $projectModel);
 		$this->doInject('userModel', $userModel);
 	}
 
 
-	public function startup() {
+	/** @return void */
+	public function startup()
+	{
 		parent::startup();
 		if (!$this->user->isAllowed('project'))
 			$this->forbidden();
 	}
 
 
-	public function renderDefault() {
+	/** @return void */
+	public function renderDefault()
+	{
 		$this->template->projects = $this->user->isInRole('admin') ?
 			$this->projectModel->table() :
 			$this->projectModel->findByUserId($this->user->id);
 	}
 
 
-	public function actionEdit($id) {
+	/** @return void */
+	public function actionEdit($id)
+	{
 		$project = $this->projectModel->get($id);
 
 		if (!$project)
@@ -45,18 +55,24 @@ final class ProjectPresenter extends BasePresenter {
 	}
 
 
-	public function actionNew() {
+	/** @return void */
+	public function actionNew()
+	{
 		$this->view = 'edit';
 	}
 
 
-	public function renderEdit() {
+	/** @return void */
+	public function renderEdit()
+	{
 		$this->template->new = $this->project === NULL;
 		$this->template->project = $this->project;
 	}
 
 
-	public function handleDelete() {
+	/** @return void */
+	public function handleDelete()
+	{
 		if (!$this->project)
 			$this->error();
 		if (!$this->user->isAllowed($this->project, 'delete'))
@@ -67,7 +83,9 @@ final class ProjectPresenter extends BasePresenter {
 	}
 
 
-	protected function createComponentProjectForm() {
+	/** @return Nette\Application\UI\Form */
+	protected function createComponentProjectForm()
+	{
 		$form = $this->createForm();
 
 		$form->addText('name', 'Project name', NULL, 30)
@@ -83,7 +101,9 @@ final class ProjectPresenter extends BasePresenter {
 	}
 
 
-	public function projectFormSucceeded($form) {
+	/** @return void */
+	public function projectFormSucceeded($form)
+	{
 		$values = $form->values;
 
 		$project = $this->projectModel->save($this->project, $values);
@@ -95,17 +115,18 @@ final class ProjectPresenter extends BasePresenter {
 	}
 
 
-	public function handleRemoveUser($user) {
+	/** @return void */
+	public function handleRemoveUser($user)
+	{
 		$this->project->removeUser($user);
 		$this->presenter->flashMessage('User removed', 'success');
 		$this->redirect('this');
 	}
 
 
-	/**
-	 * @return \Nette\Application\UI\Form
-	 */
-	protected function createComponentAddUserForm() {
+	/** @return Nette\Application\UI\Form */
+	protected function createComponentAddUserForm()
+	{
 		$form = $this->formFactory->create();
 
 		$current = $this->project->related('user_project')->collect('user_id');
@@ -124,9 +145,12 @@ final class ProjectPresenter extends BasePresenter {
 	}
 
 
-	public function addUserFormSucceeded($form) {
+	/** @return void */
+	public function addUserFormSucceeded($form)
+	{
 		$this->project->addUser($form['user_id']->value);
 		$this->presenter->flashMessage('User added', 'success');
 		$this->redirect('this');
 	}
+
 }

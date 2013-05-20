@@ -1,18 +1,26 @@
 <?php
 
 
-final class UserPresenter extends BasePresenter {
+/** Presenter for user registration and settings */
+final class UserPresenter extends BasePresenter
+{
 
+	/** @return Model\UserDAO */
 	protected $users;
+	/** @var Model\Entity\User */
 	protected $userDetail;
 
 
-	public function injectUsers(Model\UserDAO $users) {
+	/** @return void */
+	public function injectUsers(Model\UserDAO $users)
+	{
 		$this->users = $users;
 	}
 
 
-	public function actionDefault() {
+	/** @return void*/
+	public function actionDefault()
+	{
 		if ($this->user->loggedIn) {
 			$user = $this->users->get($this->user->id);
 			if (!$user)
@@ -21,8 +29,9 @@ final class UserPresenter extends BasePresenter {
 		}
 	}
 
-
-	protected function createComponentUserForm() {
+	/** @return Nette\Application\UI\Form */
+	protected function createComponentUserForm()
+	{
 		$form = $this->createForm();
 		$users = $this->users;
 		if (!$this->user->loggedIn) {
@@ -53,7 +62,7 @@ final class UserPresenter extends BasePresenter {
 			$form->addPassword('passwordConfirm', 'New password again')
 				->addConditionOn($form['password'], $form::FILLED)
 				->addRule($form::FILLED)
-				->addRule($form::EQUAL, NULL, $form['password']);
+				->addRule($form::EQUAL, 'Passwords do not match.', $form['password']);
 			$old->addConditionOn($form['password'], $form::FILLED)
 				->addRule($form::FILLED)
 				->addRule(function ($input) use ($user) {
@@ -71,7 +80,9 @@ final class UserPresenter extends BasePresenter {
 	}
 
 
-	public function userFormSucceeded($form) {
+	/** @return void*/
+	public function userFormSucceeded($form)
+	{
 		$values = $form->values;
 		unset($values->passwordConfirm, $values->passwordOld);
 		if (!$values->password)

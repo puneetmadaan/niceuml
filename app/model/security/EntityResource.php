@@ -7,8 +7,11 @@ use Model\Entity\BaseEntity,
 	Nette\Security;
 
 
-class EntityResource extends Nette\Object implements Security\IResource {
+/** Authorizator resource for entities */
+class EntityResource extends Nette\Object implements Security\IResource
+{
 
+	/** @var BaseEntity */
 	protected $entity;
 
 
@@ -17,11 +20,13 @@ class EntityResource extends Nette\Object implements Security\IResource {
 	}
 
 
+	/** @return BaseEntity */
 	public function getEntity() {
 		return $this->entity;
 	}
 
 
+	/** @return string */
 	public function getResourceId() {
 		$name = $this->entity->table->name;
 		$pos = strpos($name, '_');

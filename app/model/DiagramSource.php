@@ -8,11 +8,15 @@ use SourceException,
 	Nette\Utils\Strings;
 
 
+/** Diagram souce code handler */
 class DiagramSource extends Nette\Object
 {
 
+	/** @var DiagramDAO */
 	protected $dao;
+	/** @var DiagramType */
 	protected $types;
+
 
 	public function __construct(DiagramDAO $dao, DiagramType $types)
 	{
@@ -21,6 +25,12 @@ class DiagramSource extends Nette\Object
 	}
 
 
+	/**
+	 * @param  array          source to load
+	 * @param  Entity\Project project to load to
+	 * @param  array          elements to use
+	 * @return array          of name => diagram
+	 */
 	public function load(array $source, Entity\Project $project, $elements)
 	{
 		$table = $this->dao->findByProject($project, $this->types->get());
@@ -113,6 +123,10 @@ class DiagramSource extends Nette\Object
 	}
 
 
+	/**
+	 * @param  Entity\Project
+	 * @return array
+	 */
 	public function dump(Entity\Project $project)
 	{
 		$result = array();

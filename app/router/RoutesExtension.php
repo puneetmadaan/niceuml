@@ -7,7 +7,9 @@ use Nette\Application\Routers\Route,
 	Nette\Utils\Validators;
 
 
-class RoutesExtension extends CompilerExtension {
+/** Config extension for creating routes */
+class RoutesExtension extends CompilerExtension
+{
 
 	public $routeDefaults = array(
 		'mask' => NULL,
@@ -17,7 +19,10 @@ class RoutesExtension extends CompilerExtension {
 		'caseSensitive' => FALSE,
 	);
 
-	public function loadConfiguration() {
+
+	/** @return void */
+	public function loadConfiguration()
+	{
 		$container = $this->getContainerBuilder();
 		$config = $this->getConfig();
 

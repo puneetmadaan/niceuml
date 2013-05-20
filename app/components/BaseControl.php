@@ -1,7 +1,9 @@
 <?php
 
 
-class BaseControl extends \Nette\Application\UI\Control {
+/** Parent class for all controls */
+class BaseControl extends Nette\Application\UI\Control
+{
 
 
 	/**
@@ -18,10 +20,11 @@ class BaseControl extends \Nette\Application\UI\Control {
 	}
 
 
-	public function render() {
+	/** @return void */
+	public function render()
+	{
 		$this->template->setFile($this->getTemplateFilePath());
 		$this->template->render();
 	}
-
 
 }

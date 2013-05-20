@@ -7,9 +7,11 @@ use Model\UserDAO,
 	Nette\Security\IAuthenticator;
 
 
+/** Authentication against database*/
 class Authenticator extends Nette\Object implements IAuthenticator
 {
 
+	/** @var UserDAO */
 	protected $users;
 
 

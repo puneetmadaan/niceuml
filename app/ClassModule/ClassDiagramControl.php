@@ -9,27 +9,37 @@ use IDiagramControl,
 	Model\Entity\Diagram;
 
 
-class ClassDiagramControl extends BaseControl implements IDiagramControl {
+/**
+ * Class diagram renderer
+ */
+class ClassDiagramControl extends BaseControl implements IDiagramControl
+{
 
+	/** @var Diagram */
 	protected $diagram;
+	/** @var ElementDAO */
 	protected $elementModel;
+	/** @var RelationDAO */
 	protected $relationModel;
-	protected $formFactory;
-
+	/** @var bool */
 	protected $rendered = FALSE;
 
-	public function __construct(ElementDAO $elementModel, RelationDAO $relationModel) {
+
+	public function __construct(ElementDAO $elementModel, RelationDAO $relationModel)
+	{
 		$this->elementModel = $elementModel;
 		$this->relationModel = $relationModel;
 	}
 
 
+	/** @return void */
 	public function setDiagram(Diagram $diagram)
 	{
 		$this->diagram = $diagram;
 	}
 
 
+	/** @return void */
 	protected function beforeRender()
 	{
 		if ($this->rendered) return;
@@ -51,6 +61,7 @@ class ClassDiagramControl extends BaseControl implements IDiagramControl {
 	}
 
 
+	/** @return void */
 	public function render()
 	{
 		$this->beforeRender();
@@ -59,6 +70,7 @@ class ClassDiagramControl extends BaseControl implements IDiagramControl {
 	}
 
 
+	/** @return void */
 	public function renderScripts()
 	{
 		$this->beforeRender();

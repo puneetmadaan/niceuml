@@ -1,11 +1,15 @@
 <?php
 
 
-final class SignPresenter extends BasePresenter {
+/** Login presenter */
+final class SignPresenter extends BasePresenter
+{
 
+	/** @var string */
 	protected $backlink;
 
 
+	/** @return void */
 	public function actionOut()
 	{
 		if ($this->user->loggedIn) {
@@ -16,6 +20,7 @@ final class SignPresenter extends BasePresenter {
 	}
 
 
+	/** @return void */
 	public function actionIn($backlink = NULL)
 	{
 		if ($this->user->loggedIn) {
@@ -27,6 +32,7 @@ final class SignPresenter extends BasePresenter {
 	}
 
 
+	/** @return Nette\Application\UI\Form */
 	protected function createComponentLoginForm()
 	{
 		$form = $this->formFactory->create();
@@ -40,6 +46,7 @@ final class SignPresenter extends BasePresenter {
 	}
 
 
+	/** @return void */
 	public function loginFormSucceeded($form)
 	{
 		$values = $form->getValues();

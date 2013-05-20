@@ -10,7 +10,12 @@ use FormFactory,
 	ClassModule\Model\AssociationDAO;
 
 
-class AssociationControl extends RelationControl {
+/**
+ * Association form
+ */
+class AssociationControl extends RelationControl
+{
+
 
 	public function __construct(AssociationDAO $model, RelationType $types, ElementDAO $elementModel, FormFactory $formFactory)
 	{
@@ -18,13 +23,16 @@ class AssociationControl extends RelationControl {
 	}
 
 
+	/** @return void */
 	public function setRelation(Relation $relation)
 	{
 		$this->relation = $this->model->getByParent($relation);
 	}
 
 
-	protected function addFormControls($form) {
+	/** @return void */
+	protected function addFormControls($form)
+	{
 		$directions = array('none' => 'None', 'uni' => 'Unidirectional', 'bi' => 'Bidirectional');
 		$form->addSelect('direction', 'Direction', $directions);
 		$form->addText('sourceRole', 'Source role', NULL, 50);
@@ -34,6 +42,5 @@ class AssociationControl extends RelationControl {
 		if ($this->relation)
 			$form->setDefaults($this->relation->parent);
 	}
-
 
 }

@@ -1,7 +1,9 @@
 <?php
 
 
-final class DiagramPresenter extends ModellingPresenter {
+/** Presenter for creating, editting and rendering diagrams */
+final class DiagramPresenter extends ModellingPresenter
+{
 
 	/** @var Model\DiagramDAO */
 	protected $model;
@@ -25,13 +27,16 @@ final class DiagramPresenter extends ModellingPresenter {
 	protected $placement;
 
 
-	public function inject(Model\DiagramDAO $model, Model\DiagramType $types, DiagramControlFactory $ctrlFactory) {
+	/** @return void */
+	public function inject(Model\DiagramDAO $model, Model\DiagramType $types, DiagramControlFactory $ctrlFactory)
+	{
 		$this->doInject('model', $model);
 		$this->doInject('types', $types);
 		$this->doInject('controlFactory', $ctrlFactory);
 	}
 
 
+	/** @return void */
 	public function injectElements(Model\ElementDAO $elementModel, Model\PlacementDAO $placementModel)
 	{
 		$this->doInject('elementModel', $elementModel);
@@ -39,30 +44,40 @@ final class DiagramPresenter extends ModellingPresenter {
 	}
 
 
-	public function actionDefault() {
+	/** @return void */
+	public function actionDefault()
+	{
 	}
 
 
-	public function renderDefault() {
+	/** @return void */
+	public function renderDefault()
+	{
 		$this->template->diagrams = $this->model->table()->where('project_id', $this->project->id);
 	}
 
 
-	public function actionEdit($id, $placement = NULL) {
+	/** @return void */
+	public function actionEdit($id, $placement = NULL)
+	{
 		$this->diagram = $this->checkDiagram($id);
 		if ($placement !== NULL)
 			$this->placement = $this->checkPlacement($placement);
 	}
 
 
-	public function renderEdit() {
+	/** @return void */
+	public function renderEdit()
+	{
 		$this->template->diagram = $this->diagram;
 		$this->template->renderDiagram = $this->controlFactory->has($this->diagram->type);
 		$this->template->placements = $this->placementModel->table()->where('diagram_id', $this->diagram->id);
 	}
 
 
-	public function handleDelete($diagram = NULL) {
+	/** @return void */
+	public function handleDelete($diagram = NULL)
+	{
 		if (empty($this->diagram) === empty($diagram))
 			$this->error();
 		$diagram = $this->diagram ?: $this->checkDiagram($diagram);
@@ -75,7 +90,9 @@ final class DiagramPresenter extends ModellingPresenter {
 	}
 
 
-	public function handleDeletePlacement() {
+	/** @return void */
+	public function handleDeletePlacement()
+	{
 		if (empty($this->placement))
 			$this->error();
 		$this->placement->delete();
@@ -84,7 +101,9 @@ final class DiagramPresenter extends ModellingPresenter {
 	}
 
 
-	protected function createComponentForm() {
+	/** @return Nette\Application\UI\Form */
+	protected function createComponentForm()
+	{
 		$form = $this->formFactory->create();
 
 		if (!$this->diagram)
@@ -105,7 +124,9 @@ final class DiagramPresenter extends ModellingPresenter {
 	}
 
 
-	public function checkUniqueName($input) {
+	/** @return bool */
+	public function checkUniqueName($input)
+	{
 		$table = $this->model->findByProject($this->project)->where('name', $input->value);
 		if ($this->diagram)
 			$table->where('id != ?', $this->diagram->id);
@@ -113,7 +134,9 @@ final class DiagramPresenter extends ModellingPresenter {
 	}
 
 
-	public function formSucceeded($form) {
+	/** @return void */
+	public function formSucceeded($form)
+	{
 		$values = $form->values;
 		if (!$this->diagram)
 			$values->project = $this->project;
@@ -123,7 +146,9 @@ final class DiagramPresenter extends ModellingPresenter {
 	}
 
 
-	protected function createComponentPlacementForm() {
+	/** @return Nette\Application\UI\Form */
+	protected function createComponentPlacementForm()
+	{
 		if (!$this->diagram)
 			$this->error();
 
@@ -157,7 +182,9 @@ final class DiagramPresenter extends ModellingPresenter {
 	}
 
 
-	public function placementSucceeded($form) {
+	/** @return void */
+	public function placementSucceeded($form)
+	{
 		$values = $form->values;
 		if (!$this->placement)
 			$values->diagram_id = $this->diagram->id;
@@ -167,7 +194,9 @@ final class DiagramPresenter extends ModellingPresenter {
 	}
 
 
-	protected function createComponentDiagramControl() {
+	/** @return IDiagramControl */
+	protected function createComponentDiagramControl()
+	{
 		if (!$this->diagram)
 			$this->error();
 		$control = $this->controlFactory->create($this->diagram->type);
@@ -178,7 +207,9 @@ final class DiagramPresenter extends ModellingPresenter {
 	}
 
 
-	protected function checkDiagram($id) {
+	/** @return Model\Entity\Diagram */
+	protected function checkDiagram($id)
+	{
 		if ($id === NULL)
 			$this->error();
 		$diagram = $this->model->get((int) $id);
@@ -190,7 +221,9 @@ final class DiagramPresenter extends ModellingPresenter {
 	}
 
 
-	protected function checkPlacement($id) {
+	/** @return Model\Entity\Placement */
+	protected function checkPlacement($id)
+	{
 		if (!$this->diagram || $id === NULL)
 			$this->error();
 		$placement = $this->placementModel->get(array($this->diagram->id, (int) $id));

@@ -1,6 +1,7 @@
 <?php
 
 
+/** Basic relation form */
 class RelationControl extends BaseControl implements IRelationControl
 {
 
@@ -70,7 +71,8 @@ class RelationControl extends BaseControl implements IRelationControl
 	}
 
 
-	public function formSucceeded($form) {
+	public function formSucceeded($form)
+	{
 		$values = $form->values;
 		if (!$this->relation) {
 			$values->start = $this->element;
@@ -82,7 +84,8 @@ class RelationControl extends BaseControl implements IRelationControl
 	}
 
 
-	public function render() {
+	public function render()
+	{
 		$this['form']->render();
 	}
 

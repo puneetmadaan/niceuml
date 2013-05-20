@@ -7,13 +7,16 @@ use SourceException,
 	Nette\Utils\Strings;
 
 
+/** Relation source handler */
 class RelationSource extends Nette\Object
 {
 
+	/** @var RelationDAO */
 	protected $dao;
+	/** @var RelationType */
 	protected $types;
-
-	protected $models = array(); // type => ISourceModel
+	/** @var array of type => ISourceModel */
+	protected $models = array();
 
 
 	public function __construct(RelationDAO $dao, RelationType $types)
@@ -23,6 +26,10 @@ class RelationSource extends Nette\Object
 	}
 
 
+	/**
+	 * @param  string
+	 * @return self provides a fluent interface
+	 */
 	public function addType($name, ISourceModel $model)
 	{
 		if (isset($this->models[$name]))
@@ -32,6 +39,12 @@ class RelationSource extends Nette\Object
 	}
 
 
+	/**
+	 * @param  array          source to load
+	 * @param  Entity\Project project to load to
+	 * @param  array          elements to use
+	 * @return array          of relations
+	 */
 	public function load(array $source, Entity\Project $project, array $elements)
 	{
 		$result = array();
@@ -86,6 +99,10 @@ class RelationSource extends Nette\Object
 	}
 
 
+	/**
+	 * @param  Entity\Project
+	 * @return array
+	 */
 	public function dump(Entity\Project $project)
 	{
 		$result = array();

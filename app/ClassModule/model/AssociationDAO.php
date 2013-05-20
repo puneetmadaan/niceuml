@@ -5,15 +5,25 @@ namespace ClassModule\Model;
 use SourceException,
 	Model\BaseChildDAO,
 	Model\ISourceModel,
-	Model\Entity\relation,
+	Model\Entity\Relation,
 	Model\Entity\Project,
 	Nette;
 
 
+/**
+ * Associations data access object
+ */
 class AssociationDAO extends BaseChildDAO implements ISourceModel
 {
 
 
+	/**
+	 * Load one association ($source) into $project
+	 * @param  array
+	 * @param  Project
+	 * @param  Relation|NULL
+	 * @return Relation
+	 */
 	public function load(array $source, Project $project, $original = NULL)
 	{
 
@@ -27,10 +37,26 @@ class AssociationDAO extends BaseChildDAO implements ISourceModel
 			if (array_key_exists($key, $source))
 				$data[$key] = $source[$key];
 
-		return $this->save($original, $data);
+		if ($original !== NULL) {
+			if (!$original instanceof Relation)
+				throw new Nette\InvalidArgumentException;
+			$original = $this->getByParent($original);
+		}
+		if ($original === NULL) {
+			if (!isset($data['type']))
+				throw new SourceException("Missing type.");
+		}
+		else unset($data['type']);
+
+		return $this->save($original, $data)->getParent();
 	}
 
 
+	/**
+	 * Dump one association into source
+	 * @param Relation
+	 * @return array
+	 */
 	public function dump($item)
 	{
 		if (!$item instanceof Relation)

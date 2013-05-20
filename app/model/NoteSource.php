@@ -10,9 +10,11 @@ use SourceException,
 	Nette;
 
 
+/** Notes source handler */
 class NoteSource extends Nette\Object implements ISourceModel
 {
 
+	/** @var BaseChildDAO */
 	protected $dao;
 
 
@@ -22,6 +24,13 @@ class NoteSource extends Nette\Object implements ISourceModel
 	}
 
 
+	/**
+	 * Load one note ($source) into $project
+	 * @param  array
+	 * @param  Project
+	 * @param  Element|NULL
+	 * @return Element
+	 */
 	function load(array $source, Project $project, $original = NULL)
 	{
 		$known = array('name', 'type');
@@ -51,6 +60,11 @@ class NoteSource extends Nette\Object implements ISourceModel
 	}
 
 
+	/**
+	 * Dump one note into source
+	 * @param  Element
+	 * @return array
+	 */
 	function dump($item)
 	{
 		if (!$item instanceof Element)

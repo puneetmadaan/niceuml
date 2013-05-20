@@ -9,7 +9,12 @@ use ElementControl,
 	ClassModule\Model\ClassDAO;
 
 
-class ClassControl extends ElementControl {
+/**
+ * Class form
+ */
+class ClassControl extends ElementControl
+{
+
 
 	public function __construct(ClassDAO $model, ElementType $types, FormFactory $formFactory)
 	{
@@ -17,13 +22,16 @@ class ClassControl extends ElementControl {
 	}
 
 
+	/** @return void */
 	public function setElement(Element $element)
 	{
 		$this->element = $this->model->getByParent($element);
 	}
 
 
-	protected function addFormControls($form) {
+	/** @return void */
+	protected function addFormControls($form)
+	{
 		$form->addCheckbox('abstract', 'Abstract');
 		$form->addCheckbox('static', 'Static');
 		if ($this->element)

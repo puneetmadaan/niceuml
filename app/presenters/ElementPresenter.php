@@ -1,7 +1,9 @@
 <?php
 
 
-final class ElementPresenter extends ModellingPresenter {
+/** Presenter for creating and editting elements and relations */
+final class ElementPresenter extends ModellingPresenter
+{
 
 	/** @var Model\ElementDAO */
 	protected $elementModel;
@@ -27,30 +29,40 @@ final class ElementPresenter extends ModellingPresenter {
 	/** @var Model\Entity\Relation */
 	protected $relation;
 
+	/** @var string */
 	protected $newElementType;
+	/** @var string */
 	protected $newRelationType;
 
 
-	public function injectElements(Model\ElementDAO $model, Model\ElementType $type, ElementControlFactory $ctrlFactory) {
+	/** @return void */
+	public function injectElements(Model\ElementDAO $model, Model\ElementType $type, ElementControlFactory $ctrlFactory)
+	{
 		$this->doInject('elementModel', $model);
 		$this->doInject('elementType', $type);
 		$this->doInject('elementControlFactory', $ctrlFactory);
 	}
 
 
-	public function injectRelations(Model\RelationDAO $model, Model\RelationType $type, RelationControlFactory $ctrlFactory) {
+	/** @return void */
+	public function injectRelations(Model\RelationDAO $model, Model\RelationType $type, RelationControlFactory $ctrlFactory)
+	{
 		$this->doInject('relationModel', $model);
 		$this->doInject('relationType', $type);
 		$this->doInject('relationControlFactory', $ctrlFactory);
 	}
 
 
-	public function renderDefault() {
+	/** @return void */
+	public function renderDefault()
+	{
 		$this->template->elements = $this->elementModel->table()->where('project_id', $this->project->id);
 	}
 
 
-	public function actionNew($type = NULL) {
+	/** @return void */
+	public function actionNew($type = NULL)
+	{
 		if ($type !== NULL) {
 			if (!$this->elementType->has($type))
 				$this->error();
@@ -59,7 +71,9 @@ final class ElementPresenter extends ModellingPresenter {
 	}
 
 
-	public function actionEdit($id, $relation = NULL, $relationType = NULL) {
+	/** @return void */
+	public function actionEdit($id, $relation = NULL, $relationType = NULL)
+	{
 		$this->element = $this->checkElement($id);
 		if ($relation !== NULL)
 			$this->relation = $this->checkRelation($relation);
@@ -71,14 +85,18 @@ final class ElementPresenter extends ModellingPresenter {
 	}
 
 
-	public function renderEdit() {
+	/** @return void */
+	public function renderEdit()
+	{
 		$this->template->element = $this->element;
 		$this->template->relation = $this->relation;
 		$this->template->relations = $this->relationModel->findByElement($this->element);
 	}
 
 
-	public function handleDelete($element = NULL) {
+	/** @return void */
+	public function handleDelete($element = NULL)
+	{
 		if (empty($this->element) === empty($element))
 			$this->error();
 		$element = $this->element ?: $this->checkElement($element);
@@ -91,7 +109,9 @@ final class ElementPresenter extends ModellingPresenter {
 	}
 
 
-	public function handleDeleteRelation() {
+	/** @return void */
+	public function handleDeleteRelation()
+	{
 		if (empty($this->relation))
 			$this->error();
 
@@ -103,6 +123,7 @@ final class ElementPresenter extends ModellingPresenter {
 	}
 
 
+	/** @return IElementControl|Nette\Application\UI\Form */
 	protected function createComponentElementControl()
 	{
 		if ($this->element || $this->newElementType) {
@@ -124,12 +145,14 @@ final class ElementPresenter extends ModellingPresenter {
 	}
 
 
+	/** @return void */
 	public function elementTypeFormSucceeded($form)
 	{
 		$this->redirect('new', $form['type']->value);
 	}
 
 
+	/** @return Model\Entity\Element */
 	protected function checkElement($id)
 	{
 		if ($id === NULL)
@@ -143,7 +166,9 @@ final class ElementPresenter extends ModellingPresenter {
 	}
 
 
-	protected function createComponentRelationControl() {
+	/** @return IRelationControl|Nette\Application\UI\Form */
+	protected function createComponentRelationControl()
+	{
 		if (!$this->element)
 			$this->error();
 
@@ -166,6 +191,7 @@ final class ElementPresenter extends ModellingPresenter {
 	}
 
 
+	/** @return void */
 	public function relationTypeFormSucceeded($form)
 	{
 		$this->redirect('edit', array(
@@ -175,6 +201,7 @@ final class ElementPresenter extends ModellingPresenter {
 	}
 
 
+	/** @return Model\Entity\Relation */
 	protected function checkRelation($id)
 	{
 		if ($id === NULL)

@@ -12,16 +12,24 @@ use CommandException,
 	Nette\Utils\Strings;
 
 
+/**
+ * Class for command interpreting
+ */
 class CommandModel extends Nette\Object implements ICommandModel
 {
 
+	/** @var ElementDAO */
 	protected $elements;
+	/** @var ClassDAO */
 	protected $classes;
+	/** @var DiagramDAO */
 	protected $diagrams;
+	/** @var PlacementDAO */
 	protected $placements;
 
 
-	public function __construct(ElementDAO $elements, ClassDAO $classes, DiagramDAO $diagrams, PlacementDAO $placements) {
+	public function __construct(ElementDAO $elements, ClassDAO $classes, DiagramDAO $diagrams, PlacementDAO $placements)
+	{
 		$this->elements = $elements;
 		$this->classes = $classes;
 		$this->diagrams = $diagrams;
@@ -29,7 +37,14 @@ class CommandModel extends Nette\Object implements ICommandModel
 	}
 
 
-	public function execute($command, Project $project) {
+	/**
+	 * Parses and executes command from console.
+	 * @param  string  command to execute
+	 * @param  Project project to execute on
+	 * @return bool    was the command accepted?
+	 */
+	public function execute($command, Project $project)
+	{
 		$command = Strings::trim($command);
 		$command = Strings::replace($command, '/\\s+/', ' ');
 
@@ -79,6 +94,7 @@ class CommandModel extends Nette\Object implements ICommandModel
 
 		return FALSE;
 	}
+
 
 	private function getClass(Project $project, $name)
 	{

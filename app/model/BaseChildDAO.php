@@ -6,17 +6,25 @@ use Model\Database\IEntityFactory,
 	Nette\Database\Connection;
 
 
-class BaseChildDAO extends BaseDAO {
+/** Base data access object for child tables */
+class BaseChildDAO extends BaseDAO
+{
 
+	/** @var BaseDAO */
 	protected $parentModel;
 
-	public function __construct($tableName, Connection $connection, IEntityFactory $entityFactory, BaseDAO $parent) {
+
+	/** @param string */
+	public function __construct($tableName, Connection $connection, IEntityFactory $entityFactory, BaseDAO $parent)
+	{
 		parent::__construct($tableName, $connection, $entityFactory);
 		$this->parentModel = $parent;
 	}
 
 
-	public function getByParent(Entity\BaseEntity $parent) {
+	/** @return Entity\BaseEntity|NULL */
+	public function getByParent(Entity\BaseEntity $parent)
+	{
 		$row = $parent->ref($this->tableName, 'id');
 		if ($row)
 			$row->setParent($parent);
@@ -24,7 +32,12 @@ class BaseChildDAO extends BaseDAO {
 	}
 
 
-	public function create($data = NULL) {
+	/**
+	 * @param array|\Traversable|NULL
+	 * @return Entity\BaseEntity
+	 */
+	public function create($data = NULL)
+	{
 		$entity = parent::create();
 		if ($entity instanceof Entity\BaseChild)
 			$entity->setParent($this->parentModel->create());
@@ -36,7 +49,13 @@ class BaseChildDAO extends BaseDAO {
 	}
 
 
-	public function save(Entity\BaseEntity $entity = NULL, $data = NULL) {
+	/**
+	 * @param Entity\BaseEntity
+	 * @param array|\Traversable|NULL
+	 * @return Entity\BaseEntity
+	 */
+	public function save(Entity\BaseEntity $entity = NULL, $data = NULL)
+	{
 		if ($entity === NULL)
 			$entity = $this->create();
 

@@ -8,7 +8,9 @@ use Database\IEntityFactory,
 	Nette\Database\Connection;
 
 
-class BaseDAO extends Nette\Object {
+/** Base data access object */
+class BaseDAO extends Nette\Object
+{
 
 	/** @var string */
 	protected $tableName;
@@ -23,6 +25,7 @@ class BaseDAO extends Nette\Object {
 	protected $newEntityTable;
 
 
+	/** @param string */
 	public function __construct($tableName, Connection $connection, Database\IEntityFactory $entityFactory)
 	{
 		$this->tableName = $tableName;
@@ -45,6 +48,10 @@ class BaseDAO extends Nette\Object {
 	}
 
 
+	/**
+	 * @param array|\Traversable|NULL
+	 * @return Entity\BaseEntity
+	 */
 	public function create($data = NULL)
 	{
 		$entity = $this->getNewEntityTable()->create();
@@ -56,12 +63,21 @@ class BaseDAO extends Nette\Object {
 	}
 
 
+	/**
+	 * @param mixed primary key
+	 * @return Entity\BaseEntity|NULL
+	 */
 	public function get($id)
 	{
 		return $this->table()->get($id);
 	}
 
 
+	/**
+	 * @param Entity\BaseEntity
+	 * @param array|\Traversable|NULL
+	 * @return Entity\BaseEntity
+	 */
 	public function save(BaseEntity $entity = NULL, $data = NULL)
 	{
 		if ($entity === NULL)
@@ -80,12 +96,17 @@ class BaseDAO extends Nette\Object {
 	}
 
 
+	/**
+	 * @param Entity\BaseEntity
+	 * @return int
+	 */
 	public function delete(BaseEntity $entity)
 	{
 		return $entity->delete();
 	}
 
 
+	/** @return bool */
 	protected function isNew(BaseEntity $entity)
 	{
 		return $entity->getPrimary(FALSE) === NULL;

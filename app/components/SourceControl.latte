@@ -11,7 +11,7 @@
 		var textarea = $("#"+{$control['form']->elementPrototype->id}+" textarea").first().hide();
 		var editorElement = $('<div></div>').text(textarea.val()).insertAfter(textarea).css({
 			width: '100%',
-			minHeight: '200px'
+			minHeight: '300px'
 		});
 		var editor = ace.edit(editorElement.get(0));
 		editor.setTheme("ace/theme/monokai");
@@ -21,26 +21,6 @@
 		textarea.closest('form').submit(function(){
 			textarea.val(editor.getSession().getValue());
 		});
-
-		var heightUpdateFunction = function() {
-			// http://stackoverflow.com/questions/11584061/
-			var newHeight = editor.getSession().getScreenLength()
-				* editor.renderer.lineHeight
-				+ editor.renderer.scrollBar.getWidth();
-			if (newHeight < 200) newHeight = 200;
-			editorElement.height(newHeight.toString() + "px");
-
-			// This call is required for the editor to fix all of
-			// its inner structure for adapting to a change in size
-			editor.resize();
-		};
-
-		// Set initial size to match initial content
-		heightUpdateFunction();
-
-		// Whenever a change happens inside the ACE editor, update
-		// the size again
-		editor.getSession().on('change', heightUpdateFunction);
 	});
 </script>
 {/if}
