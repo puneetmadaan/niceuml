@@ -62,8 +62,8 @@ class DiagramSource extends Nette\Object
 			else {
 				if (!isset($d['type']))
 					throw new SourceException("Missing type in diagram '$name'.");
-				if ($this->types->has($d['type']))
-					throw new SourceException("Invalid type '{$d['type']}'' in diagram '$name'.");
+				if (!$this->types->has($d['type']))
+					throw new SourceException("Invalid type '{$d['type']}' in diagram '$name'.");
 				$old = NULL;
 				$d['project'] = $project;
 			}

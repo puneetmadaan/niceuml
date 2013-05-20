@@ -25,21 +25,21 @@ CREATE TABLE `core_element` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 
-DROP TABLE IF EXISTS `core_element_keyword`;
-CREATE TABLE `core_element_keyword` (
-	`element_id` INT UNSIGNED NOT NULL,
-	`keyword_id` INT UNSIGNED NOT NULL,
-	PRIMARY KEY (`element_id`, `keyword_id`),
-	FOREIGN KEY (`element_id`) REFERENCES `core_element` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (`keyword_id`) REFERENCES `core_keyword` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
+-- DROP TABLE IF EXISTS `core_element_keyword`;
+-- CREATE TABLE `core_element_keyword` (
+-- 	`element_id` INT UNSIGNED NOT NULL,
+-- 	`keyword_id` INT UNSIGNED NOT NULL,
+-- 	PRIMARY KEY (`element_id`, `keyword_id`),
+-- 	FOREIGN KEY (`element_id`) REFERENCES `core_element` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+-- 	FOREIGN KEY (`keyword_id`) REFERENCES `core_keyword` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 
-DROP TABLE IF EXISTS `core_keyword`;
-CREATE TABLE `core_keyword` (
-	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	`name` VARCHAR (50) NOT NULL UNIQUE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
+-- DROP TABLE IF EXISTS `core_keyword`;
+-- CREATE TABLE `core_keyword` (
+-- 	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+-- 	`name` VARCHAR (50) NOT NULL UNIQUE
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 
 DROP TABLE IF EXISTS `core_placement`;
@@ -75,14 +75,14 @@ CREATE TABLE `core_relation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 
-DROP TABLE IF EXISTS `core_relation_keyword`;
-CREATE TABLE `core_relation_keyword` (
-	`relation_id` INT UNSIGNED NOT NULL,
-	`keyword_id` INT UNSIGNED NOT NULL,
-	PRIMARY KEY (`relation_id`, `keyword_id`),
-	FOREIGN KEY (`relation_id`) REFERENCES `core_relation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (`keyword_id`) REFERENCES `core_keyword` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
+-- DROP TABLE IF EXISTS `core_relation_keyword`;
+-- CREATE TABLE `core_relation_keyword` (
+-- 	`relation_id` INT UNSIGNED NOT NULL,
+-- 	`keyword_id` INT UNSIGNED NOT NULL,
+-- 	PRIMARY KEY (`relation_id`, `keyword_id`),
+-- 	FOREIGN KEY (`relation_id`) REFERENCES `core_relation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+-- 	FOREIGN KEY (`keyword_id`) REFERENCES `core_keyword` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 
 DROP TABLE IF EXISTS `core_note`;

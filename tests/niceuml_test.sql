@@ -29,23 +29,6 @@ CREATE TABLE `core_element` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 
-DROP TABLE IF EXISTS `core_element_keyword`;
-CREATE TABLE `core_element_keyword` (
-	`element_id` INT UNSIGNED NOT NULL,
-	`keyword_id` INT UNSIGNED NOT NULL,
-	PRIMARY KEY (`element_id`, `keyword_id`),
-	FOREIGN KEY (`element_id`) REFERENCES `core_element` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (`keyword_id`) REFERENCES `core_keyword` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
-
-
-DROP TABLE IF EXISTS `core_keyword`;
-CREATE TABLE `core_keyword` (
-	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	`name` VARCHAR (50) NOT NULL UNIQUE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
-
-
 DROP TABLE IF EXISTS `core_placement`;
 CREATE TABLE `core_placement` (
 	`diagram_id` INT UNSIGNED NOT NULL,
@@ -76,16 +59,6 @@ CREATE TABLE `core_relation` (
 	FOREIGN KEY (`start_id`) REFERENCES `core_element` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (`end_id`) REFERENCES `core_element` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 	-- start.project_id == end.project_id
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
-
-
-DROP TABLE IF EXISTS `core_relation_keyword`;
-CREATE TABLE `core_relation_keyword` (
-	`relation_id` INT UNSIGNED NOT NULL,
-	`keyword_id` INT UNSIGNED NOT NULL,
-	PRIMARY KEY (`relation_id`, `keyword_id`),
-	FOREIGN KEY (`relation_id`) REFERENCES `core_relation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (`keyword_id`) REFERENCES `core_keyword` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 
@@ -153,47 +126,6 @@ CREATE TABLE `class_association` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
 
 
-DROP TABLE IF EXISTS `class_attribute`;
-CREATE TABLE `class_attribute` (
-	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	`class_id` INT UNSIGNED NOT NULL,
-	`visibility` ENUM ('public', 'protected', 'private', 'package') NOT NULL,
-	`name` VARCHAR (50) NOT NULL,
-	`type` VARCHAR (50) NOT NULL,
-	`multiplicity` VARCHAR(10) NOT NULL,
-	`defaultValue` TEXT NOT NULL,
-	`derived` BOOLEAN NOT NULL,
-	`static` BOOLEAN NOT NULL,
-	FOREIGN KEY (`class_id`) REFERENCES `class_class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
-
-
-DROP TABLE IF EXISTS `class_operation`;
-CREATE TABLE `class_operation` (
-	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	`class_id` INT UNSIGNED NOT NULL,
-	`visibility` ENUM ('public', 'protected', 'private', 'package') NOT NULL,
-	`name` VARCHAR (50) NOT NULL,
-	`returnType` VARCHAR (50) NOT NULL,
-	`abstract` BOOLEAN NOT NULL,
-	`static` BOOLEAN NOT NULL,
-	FOREIGN KEY (`class_id`) REFERENCES `class_class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
-
-
-DROP TABLE IF EXISTS `class_operationParameter`;
-CREATE TABLE `class_operationParameter` (
-	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	`operation_id` INT UNSIGNED NOT NULL,
-	`name` VARCHAR (50) NOT NULL,
-	`type` VARCHAR (50) NOT NULL,
-	`multiplicity` VARCHAR(10) NOT NULL,
-	`defaultValue` TEXT NOT NULL,
-	`direction` ENUM ('in', 'out', 'inout') NOT NULL DEFAULT 'in',
-	FOREIGN KEY (`operation_id`) REFERENCES `class_operation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
-
-
 SET FOREIGN_KEY_CHECKS = @OLD_CHECKS;
 
 
@@ -249,14 +181,3 @@ INSERT INTO `class_attribute` (`id`, `class_id`, `visibility`, `name`, `type`, `
 	(2, 2, 'protected', 'getFoo', 'Foo', '', '""', 1, 0),
 	(3, 2, 'private', 'food', '', '', '', 0, 1),
 	(4, 2, 'package', 'drink', '', '', '', 1, 1);
-
-
-INSERT INTO `class_operation` (`id`, `class_id`, `visibility`, `name`, `returnType`, `abstract`, `static`) VALUES
-	(1, 1, 'public', 'setFoo', '', 0, 0),
-	(2, 1, 'protected', 'getFoo', 'Foo', 1, 0),
-	(3, 1, 'private', 'food', '', 0, 1),
-	(4, 1, 'package', 'drink', '', 1, 1);
-
-INSERT INTO `class_operationParameter` (`id`, `operation_id`, `name`, `type`, `multiplicity`, `defaultValue`, `direction`) VALUES
-	(1, 3, 'what', 'foo', '0..1', 'null', 'inout'),
-	(2, 1, 'bar', 'string', '', '""', 'in');
